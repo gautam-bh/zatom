@@ -1,0 +1,64 @@
+# @package _global_
+
+# LoRA fine-tuning for band gap conditional crystal generation.
+# Uses matbench_mp_gap (~106k MP structures with DFT band gaps).
+#
+# Usage:
+#   python zatom/train_fm.py experiment=lora_bandgap ckpt_path=<pretrained_checkpoint>
+#
+# To target a different model size, override /model/architecture:
+#   ... experiment=lora_bandgap model/architecture=tft_80M
+
+defaults:
+  - override /data: joint
+  - override /model: zatom
+  - override /model/architecture: tft_160M
+  - override /callbacks: lora_bandgap
+  - override /logger: wandb
+  - override /strategy: optimized_ddp
+  - override /trainer: ddp
+
+name: "lora_bandgap_arch-${hydra:runtime.choices.model/architecture}"
+task_name: finetune_fm
+
+data:
+  datamodule:
+    datasets:
+      mp20:
+        proportion: 0.0
+      qm9:
+        proportion: 0.0
+        global_property: null
+      qmof150:
+        proportion: 0.0
+      omol25:
+        proportion: 0.0
+        global_energy: null
+      geom:
+        proportion: 0.0
+      mptrj:
+        proportion: 0.0
+        global_energy: null
+      matbench:
+        proportion: 1.0
+        global_property: matbench_mp_gap
+
+model:
+  architecture:
+    lora_rank: 8
+    lora_alpha: 8.0
+    lora_target_modules: [q_proj, k_proj, v_proj, o_proj]
+    band_gap_embedder:
+      _target_: zatom.models.architectures.transformer.band_gap_embedder.BandGapEmbedder
+      hidden_size: ${model.architecture.hidden_size}
+      dropout_prob: 0.1
+  augmentations:
+    frac_coords: false
+  sampling:
+    n_jobs: 1
+    num_samples: 10
+    batch_size: 10
+
+trainer:
+  max_epochs: 200
+  max_time: "05:00:00:00"

@@ -94,6 +94,10 @@ class TFT(nn.Module):
         gen_loss_weight: float = 1.0,
         force_loss_weight: float = 5.0,
         test_so3_equivariance: bool = False,
+        band_gap_embedder: nn.Module | None = None,
+        lora_rank: int = 0,
+        lora_alpha: float = 8.0,
+        lora_target_modules: list | None = None,
         **kwargs,
     ):
         super().__init__()
@@ -147,8 +151,23 @@ class TFT(nn.Module):
             aux_mlip_hidden_dim=aux_mlip_hidden_size,
             dataset_embedder=dataset_embedder,
             spacegroup_embedder=spacegroup_embedder,
+            band_gap_embedder=band_gap_embedder,
             **kwargs,
         )
+
+        self.lora_rank = lora_rank
+        self.lora_target_modules = list(lora_target_modules) if lora_target_modules else []
+
+        # Inject LoRA adapters into target attention projection layers
+        if lora_rank > 0:
+            from zatom.models.architectures.transformer.lora import inject_lora
+
+            _target_modules = set(lora_target_modules) if lora_target_modules else None
+            inject_lora(self.model, rank=lora_rank, alpha=lora_alpha, target_modules=_target_modules)
+            log.info(
+                f"Injected LoRA adapters (rank={lora_rank}, alpha={lora_alpha}) "
+                f"into modules: {_target_modules or 'all nn.Linear'}"
+            )
 
         assert hasattr(
             self.model, "context_length"
@@ -350,6 +369,22 @@ class TFT(nn.Module):
             if use_cfg
             else self.model.forward
         )
+        _feats = {
+            "dataset_idx": x_1["dataset_idx"],
+            "spacegroup": x_1["spacegroup"],
+            "charge": x_1["charge"],
+            "spin": x_1["spin"],
+            "ref_pos": x_1["ref_pos"],
+            "ref_space_uid": x_1["ref_space_uid"],
+            "atom_to_token": x_1["atom_to_token"],
+            "atom_to_token_idx": x_1["atom_to_token_idx"],
+            "max_num_tokens": x_1["max_num_tokens"],
+            "token_index": x_1["token_index"],
+            "token_is_periodic": x_1["token_is_periodic"],
+        }
+        if "band_gap" in x_1.keys():
+            _feats["band_gap"] = x_1["band_gap"]
+
         (
             atom_types,
             pos,
@@ -371,19 +406,7 @@ class TFT(nn.Module):
                 t["lengths_scaled"],
                 t["angles_radians"],
             ),
-            feats={
-                "dataset_idx": x_1["dataset_idx"],
-                "spacegroup": x_1["spacegroup"],
-                "charge": x_1["charge"],
-                "spin": x_1["spin"],
-                "ref_pos": x_1["ref_pos"],
-                "ref_space_uid": x_1["ref_space_uid"],
-                "atom_to_token": x_1["atom_to_token"],
-                "atom_to_token_idx": x_1["atom_to_token_idx"],
-                "max_num_tokens": x_1["max_num_tokens"],
-                "token_index": x_1["token_index"],
-                "token_is_periodic": x_1["token_is_periodic"],
-            },
+            feats=_feats,
             padding_mask=x_t["padding_mask"],
             sdpa_backends=sdpa_backends,
         )
@@ -789,6 +812,14 @@ class TFT(nn.Module):
             if use_cfg
             else x_1["spacegroup"]
         )
+
+        if "band_gap" in batch.keys() and use_cfg:
+            x_1["band_gap"] = batch["band_gap"]
+            half_band_gap = x_1["band_gap"][: len(x_1["band_gap"]) // 2]
+            nan_half = torch.full_like(half_band_gap, float("nan"))
+            x_1["band_gap"] = torch.cat([half_band_gap, nan_half], dim=0)
+        elif "band_gap" in batch.keys():
+            x_1["band_gap"] = batch["band_gap"]
 
         T = TensorDict(
             {

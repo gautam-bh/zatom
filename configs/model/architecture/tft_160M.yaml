@@ -149,3 +149,9 @@ time_distribution: beta # NOTE: must be one of (`uniform`, `beta`, `histogram`)
 force_loss_choice: mse # NOTE: must be one of (`mse`, `mae`, `huber`)
 time_alpha_factor: 1.8
 test_so3_equivariance: false
+
+# LoRA fine-tuning parameters (disabled by default)
+lora_rank: 0          # 0 = disabled; set > 0 to enable LoRA adapters
+lora_alpha: 8.0
+lora_target_modules: []  # e.g. [q_proj, k_proj, v_proj, o_proj]
+band_gap_embedder: null  # set via lora_bandgap experiment config

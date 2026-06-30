@@ -91,6 +91,7 @@ class TransformerModule(nn.Module):
         custom_weight_init: Optional[
             Literal["none", "xavier", "kaiming", "orthogonal", "uniform", "eye", "normal"]
         ] = None,
+        band_gap_embedder: Optional[nn.Module] = None,
         **kwargs,
     ):
         super().__init__()
@@ -124,6 +125,7 @@ class TransformerModule(nn.Module):
 
         self.dataset_embedder = dataset_embedder
         self.spacegroup_embedder = spacegroup_embedder
+        self.band_gap_embedder = band_gap_embedder
 
         self.atom_type_embed = nn.Embedding(atom_dim, hidden_dim)
         self.pos_embed = nn.Linear(spatial_dim, hidden_dim, bias=False)
@@ -439,9 +441,12 @@ class TransformerModule(nn.Module):
         )  # (B, C), average over modalities
         embed_dataset = self.dataset_embedder(dataset_idx, self.training)  # (B, C)
         embed_spacegroup = self.spacegroup_embedder(spacegroup, self.training)  # (B, C)
-        embed_conditions = (embed_time + embed_dataset + embed_spacegroup).unsqueeze(
-            -2
-        )  # (B, 1, C)
+        embed_cond_sum = embed_time + embed_dataset + embed_spacegroup
+        if self.band_gap_embedder is not None and "band_gap" in feats:
+            embed_cond_sum = embed_cond_sum + self.band_gap_embedder(
+                feats["band_gap"], self.training
+            )
+        embed_conditions = embed_cond_sum.unsqueeze(-2)  # (B, 1, C)
 
         assert all(
             embed.shape == (batch_size, seq_len, self.hidden_dim)

@@ -529,6 +529,14 @@ class Zatom(LightningModule):
         if is_qm9_property_training or is_matbench_property_training:
             dense_batch["global_property"] = batch.y
 
+        if is_matbench_property_training:
+            from zatom.data.components.matbench_dataset import Matbench
+
+            band_gap_idx = Matbench.avail_tasks["matbench_mp_gap"]
+            # batch.y is (B, num_tasks) for graph-level property datasets;
+            # index 4 = matbench_mp_gap, NaN for non-matbench samples in mixed batches
+            dense_batch["band_gap"] = batch.y[:, band_gap_idx].float()
+
         if is_omol25_energy_training or is_mptrj_energy_training:
             global_energy, _ = to_dense_batch(
                 batch.y[:, 0:1],
@@ -1190,6 +1198,7 @@ class Zatom(LightningModule):
         dataset_index: int = 0,
         dataset_idx: int = 0,
         steps: int = 100,
+        band_gap: torch.Tensor | None = None,
     ) -> Tuple[Dict[str, torch.Tensor], Dict[str, torch.Tensor]]:
         """Sample and decode a batch of crystal structures.
 
@@ -1312,6 +1321,9 @@ class Zatom(LightningModule):
             batch_size=batch_size,
             device=self.device,
         )
+
+        if band_gap is not None:
+            dense_batch["band_gap"] = band_gap.to(device=self.device, dtype=torch.float32)
 
         # Sample modalities
         sampled_x_1, _ = self.model.sample(
@@ -1476,3 +1488,25 @@ class Zatom(LightningModule):
 
             for state in heads_to_finetune:
                 del checkpoint["state_dict"][state]
+
+        # Remap base model keys → LoRA-wrapped keys when loading a non-LoRA checkpoint.
+        # LoRALinear moves {name}.weight → {name}.linear.weight; without this remap,
+        # pretrained weights silently fail to load when LoRA is enabled.
+        lora_rank = getattr(self.model, "lora_rank", 0)
+        if lora_rank > 0:
+            target_modules = getattr(
+                self.model, "lora_target_modules", ["q_proj", "k_proj", "v_proj", "o_proj"]
+            )
+            state_dict = checkpoint.get("state_dict", {})
+            remapped = {}
+            for key, val in state_dict.items():
+                new_key = key
+                for target in target_modules:
+                    if f"{target}.weight" in key and f"{target}.linear.weight" not in key:
+                        new_key = key.replace(f"{target}.weight", f"{target}.linear.weight")
+                        break
+                    if f"{target}.bias" in key and f"{target}.linear.bias" not in key:
+                        new_key = key.replace(f"{target}.bias", f"{target}.linear.bias")
+                        break
+                remapped[new_key] = val
+            checkpoint["state_dict"] = remapped

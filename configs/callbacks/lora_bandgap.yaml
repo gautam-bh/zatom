@@ -1,0 +1,24 @@
+defaults:
+  - last_model_checkpoint
+  - learning_rate_monitor
+  - model_checkpoint
+  - model_summary
+  - _self_
+
+lora_bandgap_finetuning:
+  _target_: zatom.callbacks.lora_finetuning.LoRABandGapFinetuning
+
+last_model_checkpoint:
+  dirpath: ${paths.output_dir}/checkpoints
+  verbose: True
+  every_n_train_steps: 5000
+
+model_checkpoint:
+  dirpath: ${paths.output_dir}/checkpoints
+  filename: "lora-bandgap-epoch@{epoch}-step@{step}"
+  monitor: "val_matbench/aux_global_property_loss"
+  mode: "min"
+  save_last: True
+
+model_summary:
+  max_depth: -1

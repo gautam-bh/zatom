@@ -441,24 +441,29 @@ class JointDataModule(LightningDataModule):
 
         # GEOM-Drugs dataset
         # Create train, val, test splits
-        self.geom_train_dataset = GEOM(
-            root=self.hparams.datasets.geom.root,
-            transform=global_property_custom_transform_fn,
-            load=self.hparams.datasets.geom.proportion > 0.0,
-            split="train",
-        )  # .shuffle()
-        self.geom_val_dataset = GEOM(
-            root=self.hparams.datasets.geom.root,
-            transform=global_property_custom_transform_fn,
-            load=self.hparams.datasets.geom.proportion > 0.0,
-            split="val",
-        )
-        self.geom_test_dataset = GEOM(
-            root=self.hparams.datasets.geom.root,
-            transform=global_property_custom_transform_fn,
-            load=self.hparams.datasets.geom.proportion > 0.0,
-            split="test",
-        )
+        if self.hparams.datasets.geom.proportion > 0.0:
+            self.geom_train_dataset = GEOM(
+                root=self.hparams.datasets.geom.root,
+                transform=global_property_custom_transform_fn,
+                load=True,
+                split="train",
+            )  # .shuffle()
+            self.geom_val_dataset = GEOM(
+                root=self.hparams.datasets.geom.root,
+                transform=global_property_custom_transform_fn,
+                load=True,
+                split="val",
+            )
+            self.geom_test_dataset = GEOM(
+                root=self.hparams.datasets.geom.root,
+                transform=global_property_custom_transform_fn,
+                load=True,
+                split="test",
+            )
+        else:
+            self.geom_train_dataset = []
+            self.geom_val_dataset = []
+            self.geom_test_dataset = []
         # # Save `num_nodes` histogram and SMILES strings for sampling from generative models
         # num_nodes = torch.cat(
         #     [
@@ -499,21 +504,26 @@ class JointDataModule(LightningDataModule):
 
         # MPtrj dataset
         # Create train, val, test splits
-        self.mptrj_train_dataset = MPtrj(
-            root=self.hparams.datasets.mptrj.root,
-            load=self.hparams.datasets.mptrj.proportion > 0.0,
-            split="train",
-        )  # .shuffle()
-        self.mptrj_val_dataset = MPtrj(
-            root=self.hparams.datasets.mptrj.root,
-            load=self.hparams.datasets.mptrj.proportion > 0.0,
-            split="val",
-        )
-        self.mptrj_test_dataset = MPtrj(
-            root=self.hparams.datasets.mptrj.root,
-            load=self.hparams.datasets.mptrj.proportion > 0.0,
-            split="test",
-        )
+        if self.hparams.datasets.mptrj.proportion > 0.0:
+            self.mptrj_train_dataset = MPtrj(
+                root=self.hparams.datasets.mptrj.root,
+                load=True,
+                split="train",
+            )  # .shuffle()
+            self.mptrj_val_dataset = MPtrj(
+                root=self.hparams.datasets.mptrj.root,
+                load=True,
+                split="val",
+            )
+            self.mptrj_test_dataset = MPtrj(
+                root=self.hparams.datasets.mptrj.root,
+                load=True,
+                split="test",
+            )
+        else:
+            self.mptrj_train_dataset = []
+            self.mptrj_val_dataset = []
+            self.mptrj_test_dataset = []
         # # Save num_nodes histogram for sampling from generative models
         # num_nodes = torch.tensor(
         #     [

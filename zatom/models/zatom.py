@@ -1225,7 +1225,10 @@ class Zatom(LightningModule):
 
         # Create dataset_idx tensor
         # NOTE 0 -> null class within model, while 0 -> MP20 elsewhere, so increment by 1 (for classifier-free guidance or CFG)
-        use_cfg = self.model.class_dropout_prob > 0
+        use_cfg = (
+            self.model.class_dropout_prob > 0
+            or getattr(getattr(self.model, "band_gap_embedder", None), "dropout_prob", 0) > 0
+        )
         dataset_idx = torch.full(
             (batch_size,),
             dataset_idx + int(use_cfg),

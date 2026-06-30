@@ -8,6 +8,9 @@ defaults:
 lora_bandgap_finetuning:
   _target_: zatom.callbacks.lora_finetuning.LoRABandGapFinetuning
 
+epoch_progress:
+  _target_: zatom.callbacks.epoch_progress.EpochProgressLogger
+
 last_model_checkpoint:
   dirpath: ${paths.output_dir}/checkpoints
   verbose: True

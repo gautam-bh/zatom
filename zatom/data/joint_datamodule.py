@@ -360,13 +360,20 @@ class JointDataModule(LightningDataModule):
 
         # OMol25 dataset
         # Create train, val, test splits
-        self.omol25_train_dataset = OMol25(
-            root=self.hparams.datasets.omol25.root,
-            split="train",
-            subset=self.hparams.datasets.omol25.subset,
-        )  # .shuffle()
-        self.omol25_val_dataset = OMol25(root=self.hparams.datasets.omol25.root, split="val")
-        self.omol25_test_dataset = OMol25(root=self.hparams.datasets.omol25.root, split="test")
+        if self.hparams.datasets.omol25.proportion > 0.0:
+            self.omol25_train_dataset = OMol25(
+                root=self.hparams.datasets.omol25.root,
+                split="train",
+                subset=self.hparams.datasets.omol25.subset,
+            )  # .shuffle()
+            self.omol25_val_dataset = OMol25(root=self.hparams.datasets.omol25.root, split="val")
+            self.omol25_test_dataset = OMol25(
+                root=self.hparams.datasets.omol25.root, split="test"
+            )
+        else:
+            self.omol25_train_dataset = []
+            self.omol25_val_dataset = []
+            self.omol25_test_dataset = []
         # # Save `num_nodes` histogram and SMILES strings for sampling from generative models
         # num_nodes = torch.tensor(
         #     [

@@ -106,7 +106,11 @@ def main():
                     if processed:
                         entry = processed[0]
                         corrected = True
-                e_hull = float(ppd.get_e_above_hull(entry, on_error="raise"))
+                # allow_negative: ML energies can land below the DFT hull; a negative
+                # e_above_hull is a (very) stable candidate, not an error
+                e_hull = float(
+                    ppd.get_e_above_hull(entry, allow_negative=True, on_error="raise")
+                )
             except Exception as e:  # noqa: BLE001 - chemsys may be missing from the hull
                 print(f"e_above_hull failed for {row['id']}: {e}")
         e_hull_col.append(e_hull)

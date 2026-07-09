@@ -165,7 +165,7 @@ def main():
                 if structures[sid] is rep:
                     unique_flag[sid] = True
                     break
-    manifest["unique"] = manifest["id"].map(unique_flag).fillna(False).astype(bool)
+    manifest["unique"] = manifest["id"].isin({sid for sid, ok in unique_flag.items() if ok})
 
     # --- Novelty vs training data ------------------------------------------------------
     unique_ids = manifest.loc[manifest["unique"], "id"].tolist()
@@ -180,7 +180,7 @@ def main():
     else:
         print("WARNING: no --reference given, skipping novelty (novel=True for all unique)")
         novel_flag = {sid: True for sid in unique_ids}
-    manifest["novel"] = manifest["id"].map(novel_flag).fillna(False).astype(bool)
+    manifest["novel"] = manifest["id"].isin({sid for sid, ok in novel_flag.items() if ok})
 
     # --- Outputs ------------------------------------------------------------------------
     manifest.to_csv(out_dir / "manifest_filtered.csv", index=False)

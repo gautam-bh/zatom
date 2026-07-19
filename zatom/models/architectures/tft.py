@@ -777,7 +777,10 @@ class TFT(nn.Module):
             A tuple containing the final sampled TensorDict and a list of intermediate trajectories (if requested).
         """
         trajectories = []
-        batch = batch.repeat_interleave(2, dim=0) if use_cfg else batch
+        # Duplicate as [cond block | uncond block] — forward_with_cfg and the
+        # half-slicing below assume the first half is conditional, so an
+        # interleaved repeat would pair guidance across different structures
+        batch = torch.cat([batch, batch], dim=0) if use_cfg else batch
 
         x_t = self._sample_noise_like_batch(batch)
         x_1 = TensorDict(

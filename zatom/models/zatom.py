@@ -535,7 +535,15 @@ class Zatom(LightningModule):
             band_gap_idx = Matbench.avail_tasks["matbench_mp_gap"]
             # batch.y is (B, num_tasks) for graph-level property datasets;
             # index 4 = matbench_mp_gap, NaN for non-matbench samples in mixed batches
-            dense_batch["band_gap"] = batch.y[:, band_gap_idx].float()
+            band_gap = batch.y[:, band_gap_idx].float()
+            # Matbench.get() z-scores targets with training-set stats; condition on
+            # raw eV instead so inference (which passes eV) matches training
+            mb_train_dataset = self.trainer.datamodule.matbench_train_dataset
+            if mb_train_dataset.shift is not None and mb_train_dataset.scale is not None:
+                band_gap_scale = mb_train_dataset.scale[0, band_gap_idx].nan_to_num(1.0)
+                band_gap_shift = mb_train_dataset.shift[0, band_gap_idx].nan_to_num(0.0)
+                band_gap = band_gap * band_gap_scale.to(band_gap) + band_gap_shift.to(band_gap)
+            dense_batch["band_gap"] = band_gap
 
         if is_omol25_energy_training or is_mptrj_energy_training:
             global_energy, _ = to_dense_batch(

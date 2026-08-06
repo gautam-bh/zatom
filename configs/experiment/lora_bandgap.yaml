@@ -15,8 +15,8 @@ defaults:
   - override /model/architecture: tft_160M
   - override /callbacks: lora_bandgap
   - override /logger: wandb
-  - override /strategy: default
-  - override /trainer: gpu
+  - override /strategy: optimized_ddp
+  - override /trainer: ddp
 
 name: "lora_bandgap_arch-${hydra:runtime.choices.model/architecture}"
 task_name: finetune_fm
@@ -61,5 +61,7 @@ model:
     cfg_scale: 3.0  # guidance scale; 1.0 = no guidance, higher = stronger band gap adherence
 
 trainer:
+  devices: 4
+  num_nodes: 1
   max_epochs: 200
   max_time: "05:00:00:00"

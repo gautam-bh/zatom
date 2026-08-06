@@ -65,3 +65,9 @@ trainer:
   num_nodes: 1
   max_epochs: 200
   max_time: "05:00:00:00"
+  # The default trainer config validates every 50 epochs, which an 11-hour run never
+  # reaches -- so `model_checkpoint` (monitoring `val_matbench/aux_global_property_loss`)
+  # would never fire and W&B would log no validation metrics at all.
+  check_val_every_n_epoch: 1
+  # Surface validation-loop errors in the first minute instead of after a full epoch.
+  num_sanity_val_steps: 2

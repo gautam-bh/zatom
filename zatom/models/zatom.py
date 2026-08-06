@@ -1475,6 +1475,14 @@ class Zatom(LightningModule):
             del checkpoint["loops"]
             checkpoint["optimizer_states"] = []
 
+            # Drop the pretraining run's callback state. `ModelCheckpoint` stores
+            # `best_model_path` in here, so without this the finetuning run inherits a
+            # path from the pretraining author's filesystem and `trainer.test()` dies
+            # with `FileNotFoundError` after training has already completed.
+            # NOTE: only safe because `init_run` is False when genuinely resuming this
+            # run's own checkpoint after preemption, where callback state must persist.
+            checkpoint.pop("callbacks", None)
+
             aux_tasks = set()
             if (
                 "qm9" in self.hparams.datasets

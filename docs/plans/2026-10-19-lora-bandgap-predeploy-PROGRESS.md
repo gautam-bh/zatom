@@ -76,3 +76,55 @@ local tests to run before deploying to Perlmutter GPU nodes. Deliverable = plan 
   Perlmutter doesn't sync to the local machine. T0/T1 tests should run in a plain local env
   (no Shifter); T2 stays on Perlmutter GPU.
 - Implementation is still not approved: the user reviews the plan locally first.
+
+## Implementation ledger (session 3, 2026-10-20, local Mac)
+User approved implementing the whole plan (§4 order), running what can run locally, and building
+(not running) the GPU / heavy tests for Perlmutter. Branch: `bandgap-conditioning`.
+- Local env: conda env `zatom` (py3.10, `pip install -e .`), CPU only. Run tests with
+  `~/miniconda3/envs/zatom/bin/python -m pytest tests/predeploy`.
+- Ruling: worked directly on `bandgap-conditioning` (no worktree) — it is already a feature
+  branch and the user develops here — cost if wrong: none (nothing touches `main`).
+- Ruling: the plan has no per-task briefs, so §4's numbered order is the task list and this
+  section is the ledger — cost if wrong: none.
+- New finding I-13: matbench "val" set = the full train split. `joint_datamodule.py` builds
+  val from `split="train"` and keeps `max(train_subset_size, 0.1*N)` = all 106k rows at
+  proportion 1.0. Val loss is training loss; best-ckpt selection can't detect overfitting.
+- New finding (refines I-3): `forward` pads every batch to the dataset max
+  (`max_num_nodes = len(num_nodes_bincount)-1`, 444 for matbench) via `to_dense_batch`, so in the
+  current code attention memory per step depends on B_eff only. Caveat: job 56547853's OOM asked
+  for 1.30 GiB, which fits L=206 at bs=128, not L=444 -- that run may have had a different
+  `num_nodes.pt`. T1-6 checks the padding; T2-1 measures the real peak.
+- Ruling (I-1): new hparam `model.finetune_loss` = `aux_only` (default, unchanged upstream
+  behavior) | `generative` | `generative+aux` (+ `finetune_aux_loss_weight`, default 0.1);
+  `lora_bandgap.yaml` sets `generative`. `task_name` stays `finetune_fm` (on_load_checkpoint
+  needs it) and `find_unused_parameters` stays false — cost if wrong: none for other finetunes.
+- Ruling (I-6): `model_checkpoint.monitor = val_matbench/loss` (conditional flow-matching loss
+  on val batches, mode min). The eval-pipeline gap MAE can't run inside the val loop (external
+  MEGNet). Caveat I-13: val batches are training data — cost if wrong: best ckpt ≈ latest ckpt.
+- Ruling (I-2): `save_on_exception: False` for `last_model_checkpoint` in lora_bandgap. Verified in
+  Lightning 2.6 source that `on_exception` uses `format_checkpoint_name`, i.e. the crash ckpt is
+  indistinguishable from a periodic `{epoch}-{step}.ckpt`. SLURM requeue covers preemption.
+- Ruling (I-4): `strategy.timeout = 10 min` (timedelta) in lora_bandgap. Risk: any collective that
+  legitimately waits >10 min (e.g. rank 0 processing matbench from scratch while others wait)
+  would now abort; matbench is already processed on Perlmutter — cost if wrong: one failed job.
+- Ruling (I-5): `on_load_checkpoint` raises if an init run's checkpoint lacks any non-LoRA,
+  non-embedder weight of the LoRA model (only when lora_rank > 0). Unexpected keys aren't
+  checked there (a remap miss already shows up as missing) — T1-1 checks both on the real ckpt.
+- Ruling (I-8): `Zatom.setup()` caches the band gap (shift, scale) from the datamodule;
+  `forward` uses it (falls back to `trainer.datamodule`) and no longer touches `self.trainer`
+  when none is attached. Other datasets' aux paths still read the datamodule (untouched).
+- Ruling (I-9): not changed. Re-initializing the matbench `global_property` head would hand the
+  LoRA run a random frozen head, and could change upstream matbench property finetunes that use
+  the pretrained head — cost if wrong: none for the LoRA run (`generative` ignores the aux head).
+- Ruling (I-10/11/12): stale smoke/diag text fixed; prod launcher now copies top-k + last.ckpt
+  to `${CFS_CKPT_DIR:-/global/cfs/cdirs/m5008/$USER/zatom_checkpoints/...}` (non-fatal; path is a
+  guess — override if m5008 CFS isn't writable), logs code commit + image, and exits with the
+  training status (it used to always exit 0).
+- Ruling (gate): `scripts/perlmutter/predeploy.sh` (not a Makefile; the repo has none) runs
+  tests/predeploy and writes `.predeploy_ok` = HEAD on a clean tree; both launchers refuse to start
+  unless it matches HEAD (`SKIP_PREDEPLOY=1` overrides). The stamp is gitignored, so it must be
+  produced on Perlmutter (login node, via shifter) after `git pull`.
+- Ruling (tests): conftest stubs `fairchem` and `jvp_flash_attention` when absent (macOS: no
+  GitHub access for fairchem here; no triton). Neither is used by the LoRA matbench path.
+- Env note: `mendeleev` is imported by `zatom/utils/data_utils.py` but missing from
+  pyproject.toml; installed by hand locally. Not changed in pyproject (container already has it).

@@ -34,16 +34,38 @@ mkdir -p "$WANDB_ARTIFACT_DIR"
 
 export PYTHONUNBUFFERED=1  # flush stdout promptly so the progress bar appears in the SLURM .out log
 
+# Reduce allocator fragmentation. The training step allocates in bursts right after the
+# generation-heavy validation loop, which leaves the cache fragmented; without this the
+# run can OOM on a 1-3 GiB allocation while several GiB sit reserved-but-unallocated.
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+
 # W&B auth: batch jobs have no TTY for `wandb login`, so a key must come from the
-# environment or ~/.netrc; otherwise fall back to offline logging so wandb.init()
-# doesn't kill the job (upload later with `wandb sync <run_dir>`).
+# environment or ~/.netrc.
 # NOTE: configs/logger/wandb.yaml hardcodes `mode: "online"`, which overrides the
 # WANDB_MODE env var — so the mode is also passed as a Hydra override below.
+#
+# Offline mode is NOT a safe fallback and must not be used as one: the validation loop
+# logs a `wandb.Table`, and serializing it calls `_get_artifact_entry_ref_url()` ->
+# `max_cli_version()`, which queries api.wandb.ai/graphql *regardless of WANDB_MODE*.
+# Job 56395971 was already offline and still died on a 401 two minutes into training.
+# So missing credentials are a hard failure here, not a downgrade.
 export WANDB_MODE=${WANDB_MODE:-online}
 if [ -z "${WANDB_API_KEY:-}" ] && ! grep -qs "api.wandb.ai" "$HOME/.netrc"; then
-    echo "WARNING: No W&B credentials found (WANDB_API_KEY unset and no api.wandb.ai entry in ~/.netrc)."
-    echo "         Falling back to WANDB_MODE=offline. Run 'wandb login' once on a login node to fix."
-    export WANDB_MODE=offline
+    echo "ERROR: No W&B credentials found (WANDB_API_KEY unset and no api.wandb.ai entry in ~/.netrc)."
+    echo "       Run 'wandb login' once on a login node, then resubmit."
+    echo "       (Offline mode is not a workaround — see the note above this check.)"
+    exit 1
+fi
+
+# Pre-flight auth check: one authenticated round trip before the 11-hour run starts, so
+# an expired/revoked key fails in ~15 s instead of after startup has already burned time.
+if [ "$WANDB_MODE" != "offline" ]; then
+    echo "Pre-flight: verifying W&B authentication from inside the container..."
+    if ! timeout 180 shifter python -c "import wandb; print('W&B auth OK, user =', wandb.Api().viewer.username)"; then
+        echo "ERROR: W&B pre-flight authentication check failed. Aborting before training starts."
+        echo "       Re-run 'wandb login' on a login node and resubmit."
+        exit 1
+    fi
 fi
 
 # Define run details
@@ -57,9 +79,20 @@ RUN_DATE=${3:-$DEFAULT_RUN_DATE}
 ARCHITECTURE=${4:-$DEFAULT_ARCHITECTURE}
 
 TASK_NAME="finetune_fm"
-RUN_NAME="lora_bandgap_arch-${ARCHITECTURE}_${RUN_DATE}"
+# NOTE: do NOT append $RUN_DATE here. Hydra's run dir is `${name}_${date}` (see
+# configs/hydra/default.yaml), so a dated `name` produced `..._<date>_<date>` run dirs
+# while CKPT_PATH pointed at the undated `..._<date>` path — a directory Hydra never
+# wrote to. Every resubmission therefore found it empty, logged "No checkpoint files
+# found ... Using provided pretrained checkpoint path", and silently restarted training
+# from scratch. That is what created the paired stray dirs under logs/finetune_fm/runs/.
+RUN_NAME="lora_bandgap_arch-${ARCHITECTURE}"
+RUN_DIR_NAME="${RUN_NAME}_${RUN_DATE}"  # must match Hydra's `${name}_${date}` run dir
 
-CKPT_PATH="logs/$TASK_NAME/runs/${RUN_NAME}/checkpoints/"  # path at which to find/save checkpoints for this run (also used to resume after preemption)
+# Checkpoints go to scratch, not $HOME. Each checkpoint is ~645 MB and
+# `last_model_checkpoint` keeps every one it writes (save_top_k=-1, every 5000 steps),
+# on top of `model_checkpoint`'s top-3 + last.ckpt. $HOME is at 24.7/40 GiB, so an
+# 11-hour run would blow the quota mid-training; pscratch is at 0.3% of 20 TiB.
+CKPT_PATH="/pscratch/sd/${USER:0:1}/$USER/zatom_checkpoints/$TASK_NAME/${RUN_DIR_NAME}/checkpoints"  # path at which to find/save checkpoints for this run (also used to resume after preemption)
 mkdir -p "$CKPT_PATH"
 
 # Inform user of job details
@@ -68,7 +101,10 @@ echo -e "Job details:\n=========================================================
 echo "Run name: $RUN_NAME"
 echo "Run ID: $RUN_ID"
 echo "Run start time: $RUN_DATE"
+echo "Run directory: logs/$TASK_NAME/runs/$RUN_DIR_NAME"
+echo "Checkpoint directory: $CKPT_PATH"
 echo "Pretrained checkpoint: $PRETRAINED_CKPT_PATH"
+echo "W&B mode: $WANDB_MODE"
 
 echo -e "\nSLURM job name: $SLURM_JOB_NAME"
 echo "SLURM job ID: $SLURM_JOB_ID"
@@ -87,13 +123,34 @@ echo -e "\nExecuting script train_fm.py:\n======================================
 # Run script
 # NOTE: `trainer.max_time` is set to ~11 hours (well under the `#SBATCH --time` ceiling above)
 # so Lightning stops gracefully (saves a final checkpoint) instead of being hard-killed by SLURM.
+#
+# NOTE: the batch size / grad-accumulation overrides below are required, not cosmetic.
+# `configs/experiment/lora_bandgap.yaml` overrides `/data: joint` but never overrides the
+# batch size, so it inherited the joint *pretraining* default of 128 per rank. Job 56547853
+# reached the first training step and immediately OOM'd (79 GiB A100, 73.8 GiB live). LoRA
+# does not reduce activation memory -- gradients still flow through every frozen layer.
+# 32 + accumulate_grad_batches=4 is the repo's own proven matbench recipe (see
+# scripts/perlmutter/interactive/finetune_ddp_tft_matbench.sh), and the LR resolver already
+# rescales by sqrt(world_size / base_world_size) for the 4-GPU topology used here.
+#
+# 32 was still not enough: `model.augmentations.multiplicity=8` replicates the batch inside
+# `training_step`, so attention saw 32 x 8 = 256 graphs per A100 and OOM'd (job 56750303).
+# 8 x 16 keeps the same effective batch of 4096 and the same 8 rotations per structure,
+# while cutting what any single forward pass has to hold to 64 graphs. Verified by
+# smoke_lora_bandgap.sh before this script is worth 18 hours.
 bash -c "
     unset NCCL_CROSS_NIC \
     && HYDRA_FULL_ERROR=1 WANDB_RESUME=allow WANDB_RUN_ID=$RUN_ID WANDB_MODE=$WANDB_MODE PYTHONUNBUFFERED=1 TORCH_HOME=$TORCH_HOME HF_HOME=$HF_HOME WANDB_CACHE_DIR=$WANDB_CACHE_DIR WANDB_ARTIFACT_DIR=$WANDB_ARTIFACT_DIR \
     srun --kill-on-bad-exit=1 shifter python zatom/train_fm.py \
     experiment=lora_bandgap \
+    data.datamodule.batch_size.train=8 \
+    data.datamodule.batch_size.val=8 \
+    data.datamodule.batch_size.test=8 \
+    trainer.accumulate_grad_batches=16 \
     pretrained_ckpt_path=$PRETRAINED_CKPT_PATH \
     ckpt_path=$CKPT_PATH \
+    callbacks.model_checkpoint.dirpath=$CKPT_PATH \
+    callbacks.last_model_checkpoint.dirpath=$CKPT_PATH \
     model/architecture=$ARCHITECTURE \
     date=$RUN_DATE \
     name=$RUN_NAME \

@@ -54,6 +54,37 @@ model:
       dropout_prob: 0.1
   augmentations:
     frac_coords: false
+    # Left at the pretraining default of 8 deliberately -- see the OOM analysis below before
+    # changing it. `training_step` replicates the batch `multiplicity` times per GPU BEFORE
+    # the forward pass and gives each copy its own random rotation, so what attention
+    # actually sees is
+    #
+    #   B_eff = batch_size x multiplicity
+    #
+    # and the two factors are interchangeable as far as memory is concerned. The dense
+    # attention path materializes a [B_eff, H, L, L] fp32 score matrix -- `attention.py`
+    # passes an explicit `attn_mask` to `scaled_dot_product_attention`, which disqualifies
+    # the flash backend -- and autograd keeps it for the backward pass in all 16 layers:
+    #
+    #   32 x 8 = 256 graphs; 256 x 8 heads x 446^2 x 4 B = 1.52 GiB per layer
+    #                                               (== the block the OOM asked for)
+    #   x 16 layers x 2 (scores + softmax) ~= 48.6 GiB, before weights/grads/optimizer
+    #
+    # That is what OOM'd jobs 56547853, 56548543 and 56750303 on the first training batch.
+    # The fix is to shrink `batch_size` rather than `multiplicity`: batch_size=8 with
+    # multiplicity=8 gives the same B_eff=64 (~12 GiB) as batch_size=32 with multiplicity=2,
+    # but keeps all 8 orientations per structure per step, which is the entire point of the
+    # setting -- it buys SO(3) gradient-variance reduction, not data diversity. Raising
+    # `accumulate_grad_batches` 4 -> 16 alongside it restores the original effective batch
+    # of 4096, so optimizer-step semantics are unchanged.
+    #
+    # NOTE: cutting `batch_size` 128 -> 32 between jobs 56547853 and 56750303 appeared to do
+    # nothing, which is what made this look like a batch-size-insensitive failure. It was a
+    # confounded comparison of two single runs: L (the largest structure in the batch) landed
+    # at 206 in the first and 446 in the second, and 446^2/206^2 ~= 4.7 cancelled the 4x cut.
+    # Batch size is in fact the better lever, since smaller batches draw fewer samples from
+    # the tail of the structure-size distribution and so lower E[L] as well as B_eff.
+    multiplicity: 8
   sampling:
     n_jobs: 1
     num_samples: 10
@@ -69,5 +100,16 @@ trainer:
   # reaches -- so `model_checkpoint` (monitoring `val_matbench/aux_global_property_loss`)
   # would never fire and W&B would log no validation metrics at all.
   check_val_every_n_epoch: 1
-  # Surface validation-loop errors in the first minute instead of after a full epoch.
-  num_sanity_val_steps: 2
+  # Was 2, to surface validation-loop errors in the first minute instead of after a full
+  # epoch. Reverted to the repo default of 0 because the sanity check is scientifically
+  # meaningless at step 0: `BandGapEmbedder` is randomly initialized, so it injects untrained
+  # conditioning into the pretrained backbone and every sample comes back invalid. The val
+  # loop here is also not a cheap loss pass but a full `CrystalGenerationEvaluator` sampling
+  # run, so it is not free. `smoke_lora_bandgap.sh` covers the early-warning role: with
+  # `limit_train_batches=16` it reaches the real val loop within ~2 minutes.
+  #
+  # NOTE: an earlier version of this comment blamed the sanity check for the OOMs in jobs
+  # 56547853 / 56548543. That was wrong -- the tracebacks in all three failed smoke tests
+  # (56547853, 56548543, 56750303) terminate in `training_step` -> `attention.py`, i.e. the
+  # validation loop never ran. See `augmentations.multiplicity` below for the real cause.
+  num_sanity_val_steps: 0

@@ -163,3 +163,6 @@ configs/local/default.yaml
 
 # NFS files
 .nfs*
+
+# Pre-deploy suite stamp (scripts/perlmutter/predeploy.sh)
+.predeploy_ok

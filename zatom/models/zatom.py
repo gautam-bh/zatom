@@ -21,6 +21,7 @@ from tqdm import tqdm
 
 from zatom.data.components.matbench_dataset import (
     MATBENCH_QM9_TARGET_NAME_TO_LITERATURE_SCALE,
+    Matbench,
 )
 from zatom.data.components.preprocessing_utils import lattice_params_to_matrix_torch
 from zatom.data.joint_datamodule import (
@@ -40,6 +41,17 @@ log = pylogger.RankedLogger(__name__)
 
 
 TASK_NAMES = Literal["train_fm", "finetune_fm", "eval_fm", "overfit_fm", "debug_fm"]
+FINETUNE_LOSSES = Literal["aux_only", "generative", "generative+aux"]
+
+# Flow-matching (generative) loss terms, as returned by the architecture's loss dict
+GENERATIVE_LOSS_KEYS = (
+    "atom_types_loss",
+    "pos_loss",
+    "frac_coords_loss",
+    "lengths_scaled_loss",
+    "angles_radians_loss",
+    "dists_loss",
+)
 
 
 class Zatom(LightningModule):
@@ -86,6 +98,8 @@ class Zatom(LightningModule):
         compile: bool,
         log_grads_every_n_steps: int | None,
         task_name: TASK_NAMES,
+        finetune_loss: FINETUNE_LOSSES = "aux_only",
+        finetune_aux_loss_weight: float = 0.1,
     ) -> None:
         super().__init__()
 
@@ -371,6 +385,9 @@ class Zatom(LightningModule):
         # Model configuration state
         self.model_configured = False
 
+        # (shift, scale) of Matbench's band gap z-scoring, set by `setup` (see `forward`)
+        self.band_gap_norm: Tuple[float, float] | None = None
+
         # Constants
         self.register_buffer(
             "periodic_datasets",
@@ -394,7 +411,7 @@ class Zatom(LightningModule):
             A dictionary of loss values.
         """
         # Subset distributions when overfitting (one-time only)
-        overfitting = self.trainer.overfit_batches == 1
+        overfitting = self._trainer is not None and self.trainer.overfit_batches == 1
         if overfitting and self.trainer.global_step == 0:
             batch_num_nodes = torch.bincount(batch.batch)
             for dataset_index in batch.dataset_idx.unique_consecutive():
@@ -530,19 +547,16 @@ class Zatom(LightningModule):
             dense_batch["global_property"] = batch.y
 
         if is_matbench_property_training:
-            from zatom.data.components.matbench_dataset import Matbench
-
             band_gap_idx = Matbench.avail_tasks["matbench_mp_gap"]
             # batch.y is (B, num_tasks) for graph-level property datasets;
             # index 4 = matbench_mp_gap, NaN for non-matbench samples in mixed batches
             band_gap = batch.y[:, band_gap_idx].float()
             # Matbench.get() z-scores targets with training-set stats; condition on
             # raw eV instead so inference (which passes eV) matches training
-            mb_train_dataset = self.trainer.datamodule.matbench_train_dataset
-            if mb_train_dataset.shift is not None and mb_train_dataset.scale is not None:
-                band_gap_scale = mb_train_dataset.scale[0, band_gap_idx].nan_to_num(1.0)
-                band_gap_shift = mb_train_dataset.shift[0, band_gap_idx].nan_to_num(0.0)
-                band_gap = band_gap * band_gap_scale.to(band_gap) + band_gap_shift.to(band_gap)
+            band_gap_norm = self._get_band_gap_norm()
+            if band_gap_norm is not None:
+                band_gap_shift, band_gap_scale = band_gap_norm
+                band_gap = band_gap * band_gap_scale + band_gap_shift
             dense_batch["band_gap"] = band_gap
 
         if is_omol25_energy_training or is_mptrj_energy_training:
@@ -570,7 +584,7 @@ class Zatom(LightningModule):
 
         # Recompute loss when finetuning
         if self.hparams.task_name == "finetune_fm":
-            loss_dict["loss"] = sum(v for k, v in loss_dict.items() if k.startswith("aux_"))
+            loss_dict["loss"] = self._finetune_objective(loss_dict)
 
         # Split global property metrics for logging
         pred_aux_global_property = loss_dict.pop("pred_aux_global_property")
@@ -693,6 +707,63 @@ class Zatom(LightningModule):
             loss_dict["aux_atomic_forces_loss_scaled"] = aux_force_loss_value
 
         return loss_dict
+
+    def _finetune_objective(self, loss_dict: Dict[str, torch.Tensor]) -> torch.Tensor:
+        """Select the losses optimized when finetuning, according to `finetune_loss`.
+
+        - `aux_only`: auxiliary heads only (property-prediction finetuning).
+        - `generative`: flow-matching losses only (conditional generation, e.g. LoRA band gap).
+        - `generative+aux`: flow-matching losses plus `finetune_aux_loss_weight` x auxiliary losses.
+
+        Args:
+            loss_dict: The loss dictionary returned by the architecture.
+
+        Returns:
+            The scalar loss to optimize.
+        """
+        aux_loss = sum(v for k, v in loss_dict.items() if k.startswith("aux_"))
+        if self.hparams.finetune_loss == "aux_only":
+            return aux_loss
+        gen_loss = sum(loss_dict[k] for k in GENERATIVE_LOSS_KEYS if k in loss_dict)
+        if self.hparams.finetune_loss == "generative":
+            return gen_loss
+        return gen_loss + self.hparams.finetune_aux_loss_weight * aux_loss
+
+    def set_band_gap_normalization(
+        self, shift: torch.Tensor | None, scale: torch.Tensor | None
+    ) -> None:
+        """Record how Matbench z-scores the band gap target, so `forward` can undo it.
+
+        Args:
+            shift: The Matbench training dataset's `(1, num_tasks)` target shift, or None.
+            scale: The Matbench training dataset's `(1, num_tasks)` target scale, or None.
+        """
+        if shift is None or scale is None:
+            self.band_gap_norm = None
+            return
+        idx = Matbench.avail_tasks["matbench_mp_gap"]
+        self.band_gap_norm = (
+            float(shift[0, idx].nan_to_num(0.0)),
+            float(scale[0, idx].nan_to_num(1.0)),
+        )
+
+    def _get_band_gap_norm(self) -> Tuple[float, float] | None:
+        """Band gap (shift, scale), falling back to the attached datamodule if `setup` didn't run."""
+        if self.band_gap_norm is None and self._trainer is not None:
+            mb_train_dataset = getattr(self.trainer.datamodule, "matbench_train_dataset", None)
+            if mb_train_dataset is not None:
+                self.set_band_gap_normalization(mb_train_dataset.shift, mb_train_dataset.scale)
+        return self.band_gap_norm
+
+    def setup(self, stage: str) -> None:
+        """Lightning hook that is called after the datamodule's `setup`.
+
+        Args:
+            stage: The stage being set up (e.g. `fit`, `validate`, `test`).
+        """
+        mb_train_dataset = getattr(self.trainer.datamodule, "matbench_train_dataset", None)
+        if mb_train_dataset is not None:
+            self.set_band_gap_normalization(mb_train_dataset.shift, mb_train_dataset.scale)
 
     #####################################################################################################
 
@@ -1469,6 +1540,7 @@ class Zatom(LightningModule):
             and Path(self.trainer.ckpt_path).samefile(Path(self.trainer.pretrained_ckpt_path))
         )
 
+        heads_to_finetune = set()
         if finetuning and init_run:
             # Reinitialize loop, optimizer, and relevant task
             # weights when beginning a new finetuning run
@@ -1499,7 +1571,6 @@ class Zatom(LightningModule):
                 aux_tasks.add("global_energy")
                 aux_tasks.add("atomic_forces")
 
-            heads_to_finetune = set()
             for aux_task in aux_tasks:
                 for state in checkpoint["state_dict"]:
                     if f"{aux_task}_head" in state:
@@ -1529,3 +1600,20 @@ class Zatom(LightningModule):
                         break
                 remapped[new_key] = val
             checkpoint["state_dict"] = remapped
+
+            # `train_fm.py` loads with `strict_loading=False`, so a base weight the remap above
+            # missed would silently stay randomly initialized. Refuse such a checkpoint instead.
+            if init_run:
+                newly_added = (".lora_A.", ".lora_B.", "band_gap_embedder.")
+                missing = [
+                    key
+                    for key in self.state_dict()
+                    if key not in remapped
+                    and key not in heads_to_finetune
+                    and not any(s in key for s in newly_added)
+                ]
+                if missing:
+                    raise RuntimeError(
+                        f"Pretrained checkpoint is missing {len(missing)} base weights of the "
+                        f"LoRA model (e.g. {missing[:5]}); they would stay randomly initialized."
+                    )

@@ -21,6 +21,16 @@
 PROJECT_DIR="/global/u1/g/gautama/projects/zatom"                                 # existing repo checkout (no pscratch clone set up)
 cd "$PROJECT_DIR" || exit
 
+# Pre-deploy gate: refuse to start unless `scripts/perlmutter/predeploy.sh` passed on this
+# exact commit. Every failed job so far (see docs/plans/2026-10-19-lora-bandgap-predeploy-tests.md)
+# would have been caught by that suite in minutes instead of after a queue wait.
+# Set SKIP_PREDEPLOY=1 to override.
+if [ "${SKIP_PREDEPLOY:-0}" != "1" ] && [ "$(cat .predeploy_ok 2>/dev/null)" != "$(git rev-parse HEAD)" ]; then
+    echo "ERROR: the pre-deploy suite has not passed on commit $(git rev-parse --short HEAD)."
+    echo "       Run 'bash scripts/perlmutter/predeploy.sh' on a login node, then resubmit."
+    exit 1
+fi
+
 # Establish environment variables
 export TORCH_HOME="/pscratch/sd/${USER:0:1}/$USER/torch_cache"                    # high-performance storage scratch drive with an 8-week purge policy
 export HF_HOME="/pscratch/sd/${USER:0:1}/$USER/hf_cache"                          # high-performance storage scratch drive with an 8-week purge policy
@@ -105,6 +115,9 @@ echo "Run directory: logs/$TASK_NAME/runs/$RUN_DIR_NAME"
 echo "Checkpoint directory: $CKPT_PATH"
 echo "Pretrained checkpoint: $PRETRAINED_CKPT_PATH"
 echo "W&B mode: $WANDB_MODE"
+# Code is bind-run from $PROJECT_DIR against a fixed image tag, so record both
+echo "Code commit: $(git rev-parse HEAD)$(git diff --quiet HEAD || echo ' (with uncommitted changes)')"
+echo "Container image: $(grep -m1 '^#SBATCH --image=' "$0" | cut -d= -f2 | awk '{print $1}')"
 
 echo -e "\nSLURM job name: $SLURM_JOB_NAME"
 echo "SLURM job ID: $SLURM_JOB_ID"
@@ -160,6 +173,22 @@ bash -c "
     trainer.devices=$SLURM_NTASKS_PER_NODE \
     trainer.max_time='00:11:00:00'
 "
+TRAIN_STATUS=$?
+
+# pscratch has an 8-week purge policy. Copy the checkpoints worth keeping (model_checkpoint's
+# top-k + last.ckpt, not every periodic step checkpoint) to CFS. Non-fatal: the run's
+# result stands even if the copy fails, but say so loudly.
+CFS_CKPT_DIR=${CFS_CKPT_DIR:-/global/cfs/cdirs/m5008/$USER/zatom_checkpoints/$TASK_NAME/$RUN_DIR_NAME}
+if ls "$CKPT_PATH"/lora-bandgap-epoch@*.ckpt "$CKPT_PATH"/last.ckpt >/dev/null 2>&1; then
+    if mkdir -p "$CFS_CKPT_DIR" && cp -p "$CKPT_PATH"/lora-bandgap-epoch@*.ckpt "$CKPT_PATH"/last.ckpt "$CFS_CKPT_DIR"/ 2>/dev/null; then
+        echo "Copied best/last checkpoints to $CFS_CKPT_DIR"
+    else
+        echo "WARNING: could not copy checkpoints to $CFS_CKPT_DIR; they exist only on pscratch ($CKPT_PATH), which is purged after 8 weeks."
+    fi
+fi
 
 # Inform user of run completion
-echo "Run completed for SLURM job $SLURM_JOB_NAME with ID $SLURM_JOB_ID"
+echo "Run completed for SLURM job $SLURM_JOB_NAME with ID $SLURM_JOB_ID (training exit status $TRAIN_STATUS)"
+# Without this the script's status is the last `echo`, so `sacct` reports COMPLETED for a
+# run that crashed (the same masking smoke_lora_bandgap.sh already guards against).
+exit "$TRAIN_STATUS"

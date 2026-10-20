@@ -42,6 +42,16 @@
 PROJECT_DIR="/global/u1/g/gautama/projects/zatom"
 cd "$PROJECT_DIR" || exit
 
+# Pre-deploy gate: refuse to start unless `scripts/perlmutter/predeploy.sh` passed on this
+# exact commit. Every failed job so far (see docs/plans/2026-10-19-lora-bandgap-predeploy-tests.md)
+# would have been caught by that suite in minutes instead of after a queue wait.
+# Set SKIP_PREDEPLOY=1 to override.
+if [ "${SKIP_PREDEPLOY:-0}" != "1" ] && [ "$(cat .predeploy_ok 2>/dev/null)" != "$(git rev-parse HEAD)" ]; then
+    echo "ERROR: the pre-deploy suite has not passed on commit $(git rev-parse --short HEAD)."
+    echo "       Run 'bash scripts/perlmutter/predeploy.sh' on a login node, then resubmit."
+    exit 1
+fi
+
 export TORCH_HOME="/pscratch/sd/${USER:0:1}/$USER/torch_cache"
 export HF_HOME="/pscratch/sd/${USER:0:1}/$USER/hf_cache"
 export WANDB_CACHE_DIR="/pscratch/sd/${USER:0:1}/$USER/wandb_cache"
@@ -92,7 +102,7 @@ mkdir -p "$CKPT_PATH"
 # emits this key, the real run's best-checkpoint selection silently never fires and
 # `trainer.test()` has no `best_model_path` to load -- 18 hours for nothing. That is the
 # single most important thing this smoke test exists to prove, so assert on it by name.
-MONITOR_METRIC="val_matbench/aux_global_property_loss"
+MONITOR_METRIC="val_matbench/loss"
 
 OUT_LOG="scripts/perlmutter/regular/logs/lora_bandgap_smoke_${SLURM_JOB_ID}.out"
 ERR_LOG="scripts/perlmutter/regular/logs/lora_bandgap_smoke_${SLURM_JOB_ID}.err"
@@ -158,9 +168,9 @@ kill $SAMPLER_PID 2>/dev/null
 echo -e "\n========================================================================"
 echo "Smoke test finished for SLURM job $SLURM_JOB_ID at $(date)"
 
-# Peak memory is reported on every outcome, not just failures. `multiplicity` was cut 8 -> 2
-# to make this run fit at all; the numbers here are what decide whether that headroom is
-# real or whether the real run is one unlucky batch (large L) away from the same OOM.
+# Peak memory is reported on every outcome, not just failures: a pass with no headroom is
+# not a pass worth promoting to an 18-hour job. Every batch is padded to the dataset's
+# largest structure (444 atoms), so this peak is the run's steady-state peak.
 PEAK_LINE="$(sort -t' ' -k2 -rn "$MEMLOG" 2>/dev/null | head -1)"
 echo "Peak GPU memory observed (index used_MiB pairs, sampled every 5 s): ${PEAK_LINE:-<no samples>}"
 cp "$MEMLOG" "$PROJECT_DIR/scripts/perlmutter/regular/logs/smoke_${SLURM_JOB_ID}_gpumem.csv" 2>/dev/null
@@ -182,8 +192,8 @@ if [ "$TRAIN_STATUS" -ne 0 ]; then
         echo "  Attention is [B_eff, heads, L, L] fp32 and B_eff = batch_size x augmentations.multiplicity,"
         echo "  so the two factors are interchangeable for memory. Preferred lever: halve TRAIN_BATCH_SIZE"
         echo "  (currently $TRAIN_BATCH_SIZE) and double ACCUM_GRAD_BATCHES (currently $ACCUM_GRAD_BATCHES) to hold the"
-        echo "  effective batch fixed. That also lowers L -- the largest structure in the batch -- and cost"
-        echo "  goes as B_eff x L^2, so it wins on both terms while keeping all 8 rotations per structure."
+        echo "  effective batch fixed while keeping all 8 rotations per structure. L is fixed at the"
+        echo "  dataset's largest structure (every batch is padded to it), so B_eff is the only lever."
         echo "  Only drop model.augmentations.multiplicity (currently 8) if batch size is already at 1;"
         echo "  it trades away SO(3) gradient-variance reduction, which is the reason the setting exists."
         exit "$TRAIN_STATUS"
@@ -219,7 +229,7 @@ if ! ls "$CKPT_PATH"/lora-bandgap-epoch@*.ckpt >/dev/null 2>&1; then
 fi
 
 echo "RESULT: PASS"
-echo "  - training completed 16 batches / 4 optimizer steps without OOM"
+echo "  - training completed $LIMIT_TRAIN_BATCHES batches / 4 optimizer steps without OOM"
 echo "  - '$MONITOR_METRIC' was emitted by the validation loop"
 echo "  - model_checkpoint wrote lora-bandgap-epoch@*.ckpt to scratch"
 echo "  - trainer.test() ran to completion"

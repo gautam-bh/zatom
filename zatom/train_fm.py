@@ -48,6 +48,32 @@ from zatom.utils import (
 
 log = RankedLogger(__name__, rank_zero_only=True)
 
+# `epoch={epoch}-step={step}.ckpt` (w/ logger) or `{epoch}-{step}.ckpt` (w/o logger)
+STEP_CKPT_PATTERN = re.compile(r"^(?:epoch=(\d+)-step=(\d+)|(\d+)-(\d+))\.ckpt$")
+
+
+def find_latest_step_checkpoint(ckpt_dir: str) -> str | None:
+    """Return the path of the latest (max epoch, then step) step checkpoint in `ckpt_dir`.
+
+    Only files named like `STEP_CKPT_PATTERN` count, so best-model (`lora-bandgap-epoch@...`),
+    `last.ckpt` and versioned (`0-1-v1.ckpt`) files are never picked.
+
+    Args:
+        ckpt_dir: Directory to search.
+
+    Returns:
+        The checkpoint path, or None if the directory holds no step checkpoints.
+    """
+    candidates = []
+    for f in os.listdir(ckpt_dir):
+        m = STEP_CKPT_PATTERN.match(f)
+        if m is not None:
+            epoch, step = int(m.group(1) or m.group(3)), int(m.group(2) or m.group(4))
+            candidates.append(((epoch, step), f))
+    if not candidates:
+        return None
+    return os.path.join(ckpt_dir, max(candidates)[1])
+
 
 @task_wrapper
 def train(cfg: DictConfig) -> Tuple[Dict[str, Any], Dict[str, Any]]:
@@ -168,29 +194,9 @@ def train(cfg: DictConfig) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         # Override pretrained checkpoint path if a regular checkpoint path is given
         if cfg.get("ckpt_path") and os.path.exists(cfg.get("ckpt_path")):
             if cfg.resume_from_last_step_dir and os.path.isdir(cfg.get("ckpt_path")):
-                # Enforce `epoch={epoch}-step={step}.ckpt` (w/ logger) or `{epoch}-{step}.ckpt` (w/o logger) format
-                last_ckpt_cb_files = [
-                    f
-                    for f in os.listdir(cfg.get("ckpt_path"))
-                    if re.match(r"^(?:epoch=\d+-step=\d+|\d+-\d+)\.ckpt$", f) is not None
-                ]
-                if last_ckpt_cb_files:
-                    # Extract latest (i.e., maximum) checkpoint epoch and step numbers using string splitting
-                    latest_ckpt = max(
-                        last_ckpt_cb_files,
-                        key=lambda x: [
-                            int(n)
-                            for n in re.sub(
-                                r"^(?:epoch=(\d+)-step=(\d+)|(\d+)-(\d+))\.ckpt$",
-                                lambda m: f"{m.group(1) or m.group(3)}-{m.group(2) or m.group(4)}",
-                                x,
-                            ).split("-")
-                        ],
-                    )
-                    ckpt_path = os.path.join(cfg.get("ckpt_path"), latest_ckpt)
-                    assert os.path.exists(
-                        ckpt_path
-                    ), f"Failed to resume from the last step. Checkpoint path does not exist: {ckpt_path}."
+                latest_ckpt = find_latest_step_checkpoint(cfg.get("ckpt_path"))
+                if latest_ckpt is not None:
+                    ckpt_path = latest_ckpt
                 elif ckpt_path:
                     # No checkpoint files found in the given directory but pretrained checkpoint path exists
                     log.warning(

@@ -15,11 +15,18 @@ last_model_checkpoint:
   dirpath: ${paths.output_dir}/checkpoints
   verbose: True
   every_n_train_steps: 5000
+  # A crash checkpoint is named like a periodic one (`{epoch}-{step}.ckpt`), so `train_fm.py`
+  # would resume the next submission from the crash state (job 56923536 wrote `0-1.ckpt`).
+  # Preemption is handled by SLURM requeue, not by exception checkpoints.
+  save_on_exception: False
 
 model_checkpoint:
   dirpath: ${paths.output_dir}/checkpoints
   filename: "lora-bandgap-epoch@{epoch}-step@{step}"
-  monitor: "val_matbench/aux_global_property_loss"
+  # Conditional flow-matching loss on the validation batches. Not the aux band gap
+  # *prediction* loss: band gap is also fed in as conditioning, so that loss can fall for
+  # trivial reasons and says nothing about generation quality.
+  monitor: "val_matbench/loss"
   mode: "min"
   save_last: True
 

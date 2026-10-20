@@ -3,6 +3,11 @@
 ######################### Batch Headers #########################
 # Memory-isolation diagnostic for the lora_bandgap OOM (jobs 56547853, 56548543).
 #
+# HISTORICAL: this diagnosis is concluded (B_eff = batch_size x multiplicity; the fix is
+# batch_size=8 with accumulate_grad_batches=16, see configs/experiment/lora_bandgap.yaml).
+# The analysis below is for the batch-32 runs. For a deterministic peak-memory measurement
+# at the current settings use tests/predeploy/gpu/t2_1_peak_memory.py (T2-1) instead.
+#
 # Both prior smoke tests OOM'd on the FIRST training step with ~74-77 GiB of live tensors,
 # and cutting the batch size 128 -> 32 barely moved that number. That insensitivity is the
 # whole puzzle: if the training batch dominated memory, a 4x cut would have shown up.
@@ -57,6 +62,7 @@ MEMLOG="/tmp/memdiag_${SLURM_JOB_ID}.csv"
     sleep 5
   done ) > "$MEMLOG" 2>/dev/null &
 SAMPLER_PID=$!
+trap 'kill $SAMPLER_PID 2>/dev/null' EXIT
 
 run_phase () {
     local phase_name="$1"; shift

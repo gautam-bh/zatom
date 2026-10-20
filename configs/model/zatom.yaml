@@ -53,3 +53,9 @@ log_grads_every_n_steps: 1000
 
 # Name of the task being performed (e.g., `train_fm`, `finetune_fm`, `eval_fm`)
 task_name: ${task_name}
+
+# Which losses to optimize when `task_name` is `finetune_fm`. NOTE: must be one of
+# (`aux_only`, `generative`, `generative+aux`). `aux_only` is property-prediction finetuning;
+# conditional-generation finetunes (e.g. LoRA band gap) need `generative`.
+finetune_loss: aux_only
+finetune_aux_loss_weight: 0.1 # weight on the auxiliary losses under `generative+aux`

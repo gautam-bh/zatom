@@ -19,6 +19,7 @@ import pytest
 from lightning import Trainer
 
 from tests.predeploy.conftest import REPO_ROOT, build_model, compose_cfg
+from zatom.train_fm import best_checkpoint_path
 from zatom.utils import instantiate_callbacks
 
 DDP_SCRIPT = Path(__file__).with_name("ddp_cpu_run.py")
@@ -34,6 +35,7 @@ def test_t1_10_monitor_metric_is_logged(datamodule, tmp_path):
             "model.sampling.batch_size=2",
             "model.sampling.steps=2",
             "~callbacks.epoch_progress",
+            "~callbacks.learning_rate_monitor",  # needs a logger; checkpointing doesn't
         ]
     )
     model = build_model(cfg)
@@ -46,7 +48,7 @@ def test_t1_10_monitor_metric_is_logged(datamodule, tmp_path):
         limit_val_batches=1,
         num_sanity_val_steps=0,
         logger=False,
-        callbacks=instantiate_callbacks(cfg.callbacks, using_logger=False),
+        callbacks=instantiate_callbacks(cfg.callbacks, using_logger=True),
         default_root_dir=str(tmp_path),
         enable_progress_bar=False,
     )
@@ -55,7 +57,9 @@ def test_t1_10_monitor_metric_is_logged(datamodule, tmp_path):
     monitor = cfg.callbacks.model_checkpoint.monitor
     assert monitor in trainer.callback_metrics, sorted(trainer.callback_metrics)
     assert list(tmp_path.glob("lora-bandgap-epoch@*.ckpt")), list(tmp_path.iterdir())
-    assert trainer.checkpoint_callback.best_model_path
+    # `trainer.test()` must load model_checkpoint's best, not last_model_checkpoint's latest step
+    best = best_checkpoint_path(trainer, monitor)
+    assert Path(best).name.startswith("lora-bandgap-epoch@"), best
 
 
 def _run_ddp(tmp_path, **env):

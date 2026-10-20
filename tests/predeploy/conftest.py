@@ -146,8 +146,10 @@ def ensure_matbench_metadata(datamodule) -> None:
         datamodule.matbench_val_dataset,
         datamodule.matbench_test_dataset,
     ]
-    num_nodes = torch.cat([ds._data.num_nodes.view(-1) for ds in datasets])
-    spacegroups = torch.cat([ds._data.spacegroup.view(-1) for ds in datasets])
+    # Per-structure atom counts from the collated storage's slices (no per-item `get`)
+    idx = [torch.as_tensor(list(ds.indices()), dtype=torch.long) for ds in datasets]
+    num_nodes = torch.cat([ds.slices["atom_types"].diff()[i] for ds, i in zip(datasets, idx)])
+    spacegroups = torch.cat([ds._data.spacegroup.view(-1)[i] for ds, i in zip(datasets, idx)])
     torch.save(num_nodes, root / "num_nodes.pt")
     torch.save(torch.bincount(spacegroups), root / "spacegroups_bincount.pt")
 

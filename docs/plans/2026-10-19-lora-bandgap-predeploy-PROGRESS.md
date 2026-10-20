@@ -128,3 +128,32 @@ User approved implementing the whole plan (§4 order), running what can run loca
   GitHub access for fairchem here; no triton). Neither is used by the LoRA matbench path.
 - Env note: `mendeleev` is imported by `zatom/utils/data_utils.py` but missing from
   pyproject.toml; installed by hand locally. Not changed in pyproject (container already has it).
+- New finding I-14 (fixed): `train_fm.py` tested `trainer.checkpoint_callback.best_model_path`,
+  but `checkpoint_callback` is the *first* ModelCheckpoint = `last_model_checkpoint` (monitors
+  `global_step`) in every callbacks config in the repo, so `trainer.test()` loaded the latest
+  periodic ckpt, not the monitored best. Found by T1-10. Fix: `best_checkpoint_path()` picks the
+  callback whose monitor == `callbacks.model_checkpoint.monitor`, else the old behavior.
+  Ruling: applies to all runs, not just LoRA (it is what the `train` docstring promises) —
+  cost if wrong: other experiments' test metrics now come from their best ckpt, not their latest.
+- Evidence I-1 (local, tiny model, real matbench batch): with `finetune_loss=aux_only` (= old
+  code) loss == aux loss (0.9614) and 80/100 trainable tensors get no grad, all in the 5
+  `*_cross_attention` decoder blocks — same pattern as job 56923536. With `generative`: T1-2 green.
+- Local data note: `JointDataModule.setup` downloads/processes MP20, QM9, QMOF even at
+  proportion 0.0 (only OMol25/GEOM/MPtrj are skipped). First local run: ~18 min, 2.5 GB in data/.
+  Not changed (out of plan scope).
+
+### Status / handoff (end of session 3)
+- Local (macOS, CPU): `pytest tests/predeploy tests/test_cfg_band_gap.py` -> 43 passed, 3 skipped
+  (T0-4 no W&B creds; T0-7 and T1-1-real need PRETRAINED_CKPT_PATH), 3m46s. T1-6: matbench
+  num_atoms p99=144, pad=444, B_eff=64 -> attention lower bound 19.6 GiB. T1-8 DDP (gloo, 2 ranks)
+  trains clean; with rank 0 killed and a 30 s timeout the job exits in ~100 s.
+- Final review: self-review only (no reviewer subagent was spawned; user didn't ask for one).
+- To do on Perlmutter (needs GPU or the real checkpoint), in order:
+  1. `git pull`; `PRETRAINED_CKPT_PATH=<base.ckpt> bash scripts/perlmutter/predeploy.sh`
+     (runs T0-4 W&B, T0-7 and T1-1 on the real ckpt in the job image; writes `.predeploy_ok`).
+  2. T2-1: `salloc -q interactive -C "gpu&hbm80g" -N 1 -G 1 -t 30 -A m5008`, then
+     `shifter --image=registry.nersc.gov/dasrepo/acmwhb/zatom:0.0.1 --env=PROJECT_ROOT=$PWD python tests/predeploy/gpu/t2_1_peak_memory.py`
+     (peak must be <= 70 GiB; generative loss now backprops through the decoder blocks).
+  3. T2-2: `sbatch scripts/perlmutter/regular/smoke_lora_bandgap.sh <base.ckpt>`.
+  4. T2-3: `bash tests/predeploy/gpu/t2_3_resume_smoke.sh <base.ckpt> <smoke job id>`.
+  5. Only then the 18 h job. Decide I-13 (val = train split) before relying on best-ckpt selection.

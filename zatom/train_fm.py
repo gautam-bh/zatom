@@ -11,7 +11,7 @@ from lightning import Callback, LightningDataModule, LightningModule, Trainer
 from lightning.fabric.plugins.environments.cluster_environment import ClusterEnvironment
 from lightning.pytorch.loggers import Logger
 from lightning.pytorch.strategies.strategy import Strategy
-from omegaconf import DictConfig, open_dict
+from omegaconf import DictConfig, OmegaConf, open_dict
 
 rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 # ------------------------------------------------------------------------------------ #
@@ -73,6 +73,26 @@ def find_latest_step_checkpoint(ckpt_dir: str) -> str | None:
     if not candidates:
         return None
     return os.path.join(ckpt_dir, max(candidates)[1])
+
+
+def best_checkpoint_path(trainer: Trainer, monitor: str | None) -> str:
+    """Return the best checkpoint path of the `ModelCheckpoint` that monitors `monitor`.
+
+    `trainer.checkpoint_callback` is merely the first `ModelCheckpoint`, which in this repo's
+    callback configs is `last_model_checkpoint` (monitoring `global_step`), so its
+    `best_model_path` is the latest periodic checkpoint rather than the best one.
+
+    Args:
+        trainer: The trainer after fitting.
+        monitor: The metric `callbacks.model_checkpoint` monitors, if any.
+
+    Returns:
+        The checkpoint path, or "" if none was saved.
+    """
+    for callback in trainer.checkpoint_callbacks:
+        if monitor is not None and callback.monitor == monitor:
+            return callback.best_model_path
+    return trainer.checkpoint_callback.best_model_path
 
 
 @task_wrapper
@@ -235,7 +255,9 @@ def train(cfg: DictConfig) -> Tuple[Dict[str, Any], Dict[str, Any]]:
 
     if cfg.get("test"):
         log.info("Starting testing!")
-        ckpt_path = trainer.checkpoint_callback.best_model_path
+        ckpt_path = best_checkpoint_path(
+            trainer, OmegaConf.select(cfg, "callbacks.model_checkpoint.monitor")
+        )
         if ckpt_path == "":
             log.warning("Best ckpt not found! Using current weights for testing...")
             ckpt_path = None

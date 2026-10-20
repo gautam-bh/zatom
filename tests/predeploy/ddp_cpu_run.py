@@ -45,11 +45,12 @@ def main():
             "model.sampling.batch_size=2",
             "model.sampling.steps=2",
             "~callbacks.epoch_progress",
+            "~callbacks.learning_rate_monitor",  # needs a logger; checkpointing doesn't
         ]
     )
     datamodule = hydra.utils.instantiate(cfg.data.datamodule, _recursive_=False)
     model = build_model(cfg)
-    callbacks = instantiate_callbacks(cfg.callbacks, using_logger=False)
+    callbacks = instantiate_callbacks(cfg.callbacks, using_logger=True)
     if os.environ.get("DDP_CRASH_RANK0") == "1":
         callbacks.append(CrashRank0())
 

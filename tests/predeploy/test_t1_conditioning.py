@@ -16,7 +16,7 @@ def _capture_embedder_inputs(model):
         band_gap = args[0] if args else kwargs["band_gap"]
         seen.append(band_gap.detach().clone())
 
-    handle = model.model.band_gap_embedder.register_forward_pre_hook(hook, with_kwargs=True)
+    handle = model.model.model.band_gap_embedder.register_forward_pre_hook(hook, with_kwargs=True)
     return seen, handle
 
 
@@ -47,35 +47,37 @@ def test_different_band_gaps_change_the_prediction(tiny_model, matbench_batch):
     batch = prepare_batch(tiny_model, matbench_batch)
 
     outputs = {}
-    for gap in (0.0, 4.0, float("nan")):
+    for name, gap in (("0 eV", 0.0), ("4 eV", 4.0), ("NaN", float("nan"))):
         captured = {}
 
         def hook(_module, _args, out):
             captured["out"] = out.detach().clone()
 
-        handle = tiny_model.model.band_gap_embedder.register_forward_hook(hook)
+        handle = tiny_model.model.model.band_gap_embedder.register_forward_hook(hook)
         torch.manual_seed(0)
-        original = tiny_model.model.band_gap_embedder.forward
+        original = tiny_model.model.model.band_gap_embedder.forward
 
         def fixed_gap(band_gap, *a, _gap=gap, **kw):
             return original(torch.full_like(band_gap, _gap), *a, **kw)
 
-        tiny_model.model.band_gap_embedder.forward = fixed_gap
+        tiny_model.model.model.band_gap_embedder.forward = fixed_gap
         try:
             with torch.no_grad():
                 loss = tiny_model.forward(batch)["loss"]
         finally:
             handle.remove()
-            tiny_model.model.band_gap_embedder.forward = original
-        outputs[gap] = (loss.item(), captured["out"])
+            tiny_model.model.model.band_gap_embedder.forward = original
+        outputs[name] = (loss.item(), captured["out"])
 
-    assert outputs[0.0][0] != outputs[4.0][0], "band gap does not affect the model output"
+    assert outputs["0 eV"][0] != outputs["4 eV"][0], "band gap does not affect the model output"
     # NaN means "unconditional": zero embedding, identical to force_uncond
-    assert torch.all(outputs[float("nan")][1] == 0)
+    assert torch.all(outputs["NaN"][1] == 0)
 
 
-def test_cfg_sampling_doubles_batch_as_cond_then_uncond(tiny_model):
+def test_cfg_sampling_doubles_batch_as_cond_then_uncond(tiny_model, matbench_batch):
     tiny_model.eval()
+    with torch.no_grad():  # sets `max_num_nodes`, as the val loop's forward does before sampling
+        tiny_model.forward(prepare_batch(tiny_model, matbench_batch))
     seen, handle = _capture_embedder_inputs(tiny_model)
     target = torch.tensor([1.0, 2.5, 4.0])
     try:

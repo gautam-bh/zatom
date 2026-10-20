@@ -22,7 +22,7 @@ GENERATIVE_LOSS_KEYS = (
 
 @pytest.mark.parametrize("cfg_dropout_prob", [0.0, 1.0])
 def test_every_trainable_param_gets_grad(tiny_model, matbench_batch, cfg_dropout_prob):
-    tiny_model.model.band_gap_embedder.dropout_prob = cfg_dropout_prob
+    tiny_model.model.model.band_gap_embedder.dropout_prob = cfg_dropout_prob
     tiny_model.train()
     loss_dict = tiny_model.forward(prepare_batch(tiny_model, matbench_batch))
     loss_dict["loss"].backward()

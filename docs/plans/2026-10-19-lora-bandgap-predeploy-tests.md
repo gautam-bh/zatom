@@ -186,7 +186,16 @@ Wire `predeploy` into the launcher as a refuse-to-start check: the `sbatch` scri
 
 ---
 
-## 4. Proposed order of work (awaiting review — nothing below is implemented)
+## 4. Order of work
+
+**Status 2026-10-20:** steps 1–6 implemented on `bandgap-conditioning` (code in `tests/predeploy/`,
+`scripts/perlmutter/predeploy.sh`, fixes in `zatom/models/zatom.py`, `zatom/train_fm.py`, configs and
+launchers). T0 + T1 run locally; T0-4/T0-7/T1-1 need W&B creds / the real checkpoint, and T2 needs a
+GPU. Two issues found while implementing: I-13 (matbench val set = the train split, open) and I-14
+(`trainer.test()` used the latest periodic checkpoint instead of the best one, fixed). Rulings,
+evidence and the Perlmutter handoff steps are in `2026-10-19-lora-bandgap-predeploy-PROGRESS.md`.
+
+Original order:
 
 1. **Write T1-2 first** and confirm it fails on today's code (80 no-grad; loss = aux only).
 2. **Fix I-1** with a separate loss-selection flag (keep `task_name`). T1-2 goes green.

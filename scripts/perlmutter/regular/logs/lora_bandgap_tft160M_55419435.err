@@ -1,0 +1,100 @@
+  File "scripts/generate_id.py", line 7
+    def generate_id(length: int = 8) -> str:
+                          ^
+SyntaxError: invalid syntax
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[rank: 3] Seed set to 11397699
+[rank: 1] Seed set to 82838579
+[rank: 2] Seed set to 88472402
+[rank: 0] Seed set to 72477154
+Trainer already configured with model summary callbacks: [<class 'lightning.pytorch.callbacks.rich_model_summary.RichModelSummary'>]. Skipping setting a default `ModelSummary` callback.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+`Trainer(val_check_interval=1.0)` was configured so validation will run at the end of the training epoch..
+Error executing job with overrides: ['experiment=lora_bandgap', 'pretrained_ckpt_path=checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt', 'ckpt_path=logs/finetune_fm/runs/lora_bandgap_arch-tft_160M_2026-07-05_10-00-33/checkpoints/', 'model/architecture=tft_160M', 'date=2026-07-05_10-00-33', 'name=lora_bandgap_arch-tft_160M_2026-07-05_10-00-33', 'task_name=finetune_fm', 'trainer.num_nodes=1', 'trainer.devices=4', 'trainer.max_time=00:11:00:00']
+Traceback (most recent call last):
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300, in <module>
+    main()
+  File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+    raise ex
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+    _ = ret.return_value
+  File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+    raise self._return_value
+  File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283, in main
+    metric_dict, _ = train(cfg)
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 82, in wrap
+    raise ex
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 151, in train
+    log_hyperparameters(object_dict)
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/logging_utils.py", line 67, in log_hyperparameters
+    logger.log_hyperparams(hparams)
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loggers/wandb.py", line 435, in log_hyperparams
+    self.experiment.config.update(params, allow_val_change=True)
+  File "/opt/conda/lib/python3.10/site-packages/lightning/fabric/loggers/logger.py", line 118, in experiment
+    return fn(self)
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loggers/wandb.py", line 410, in experiment
+    self._experiment = wandb.init(**self._wandb_init)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 1270, in init
+    wandb._sentry.reraise(e)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/analytics/sentry.py", line 161, in reraise
+    raise exc.with_traceback(sys.exc_info()[2])
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 1255, in init
+    wi.setup(kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 193, in setup
+    self._wl = wandb_setup.setup(settings=setup_settings)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_setup.py", line 386, in setup
+    ret = _setup(settings=settings)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_setup.py", line 326, in _setup
+    wl = _WandbSetup(settings=settings)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_setup.py", line 304, in __init__
+    _WandbSetup._instance = _WandbSetup__WandbSetup(settings=settings, pid=pid)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_setup.py", line 109, in __init__
+    self._settings = self._settings_setup(settings, self._early_logger)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_setup.py", line 125, in _settings_setup
+    s._apply_env_vars(self._environ, _logger=early_logger)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_settings.py", line 1732, in _apply_env_vars
+    self.update(env, source=Source.ENV)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_settings.py", line 1548, in update
+    self.__dict__[key].update(settings.pop(key), source=source)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_settings.py", line 615, in update
+    self._value = self._validate(self._preprocess(value))
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_settings.py", line 588, in _validate
+    raise SettingsValidationError(
+wandb.sdk.wandb_settings.SettingsValidationError: Invalid value for property run_id: .
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/4
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/4
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/4
+[W705 17:01:02.982440902 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [nid008257-hsn0]:24435 (errno: 97 - Address family not supported by protocol).
+[W705 17:01:02.983627793 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [nid008257-hsn0]:24435 (errno: 97 - Address family not supported by protocol).
+[W705 17:01:02.989161378 socket.cpp:755] [c10d] The client socket cannot be initialized to connect to [nid008257-hsn0]:24435 (errno: 97 - Address family not supported by protocol).
+srun: error: nid008257: task 0: Exited with exit code 1
+srun: Terminating StepId=55419435.0
+[2026-07-05T17:01:05.922] error: *** STEP 55419435.0 ON nid008257 CANCELLED AT 2026-07-05T17:01:05 DUE TO TASK FAILURE ***
+srun: error: nid008257: tasks 1-3: Terminated
+srun: Force Terminated StepId=55419435.0

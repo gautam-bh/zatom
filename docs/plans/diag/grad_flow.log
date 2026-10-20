@@ -1,0 +1,23 @@
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+Type checking is disabled.
+Debugging is disabled.
+trainable tensors: 212
+loss: 0.4408528506755829
+loss terms: {'loss': 0.4408528506755829, 'atom_types_loss': 1.263259768486023, 'pos_loss': 0.0, 'frac_coords_loss': 4.661523342132568, 'lengths_scaled_loss': 14.549027442932129, 'angles_radians_loss': 5.029492378234863, 'aux_global_property_loss': 0.4408528506755829, 'aux_global_energy_loss': 0.0, 'aux_atomic_forces_loss': 0.0}
+NO-GRAD params: 80
+   132 model.model.atom_types_cross_attention.self_attention.q_proj.lora_A.weight
+   133 model.model.atom_types_cross_attention.self_attention.q_proj.lora_B.weight
+   134 model.model.atom_types_cross_attention.self_attention.k_proj.lora_A.weight
+   135 model.model.atom_types_cross_attention.self_attention.k_proj.lora_B.weight
+   136 model.model.atom_types_cross_attention.self_attention.v_proj.lora_A.weight
+   137 model.model.atom_types_cross_attention.self_attention.v_proj.lora_B.weight
+   206 model.model.angles_radians_cross_attention.cross_attention.k_proj.lora_A.weight
+   207 model.model.angles_radians_cross_attention.cross_attention.k_proj.lora_B.weight
+   208 model.model.angles_radians_cross_attention.cross_attention.v_proj.lora_A.weight
+   209 model.model.angles_radians_cross_attention.cross_attention.v_proj.lora_B.weight
+   210 model.model.angles_radians_cross_attention.cross_attention.o_proj.lora_A.weight
+   211 model.model.angles_radians_cross_attention.cross_attention.o_proj.lora_B.weight
+NO-GRAD groups: Counter({'model.model.atom_types_cross_attention': 16, 'model.model.pos_cross_attention': 16, 'model.model.frac_coords_cross_attention': 16, 'model.model.lengths_scaled_cross_attention': 16, 'model.model.angles_radians_cross_attention': 16})
+ZERO-GRAD params (lora_A is expected here at init since lora_B=0): 64
+ZERO-GRAD groups: Counter({'model.model.transformer.layers.0': 4, 'model.model.transformer.layers.1': 4, 'model.model.transformer.layers.2': 4, 'model.model.transformer.layers.3': 4, 'model.model.transformer.layers.4': 4, 'model.model.transformer.layers.5': 4, 'model.model.transformer.layers.6': 4, 'model.model.transformer.layers.7': 4, 'model.model.transformer.layers.8': 4, 'model.model.transformer.layers.9': 4, 'model.model.transformer.layers.10': 4, 'model.model.transformer.layers.11': 4, 'model.model.transformer.layers.12': 4, 'model.model.transformer.layers.13': 4, 'model.model.transformer.layers.14': 4, 'model.model.transformer.layers.15': 4})

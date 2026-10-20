@@ -1,0 +1,1257 @@
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[rank: 2] Seed set to 24544632
+[rank: 1] Seed set to 2811495
+[rank: 3] Seed set to 30879094
+[rank: 0] Seed set to 6645969
+Trainer already configured with model summary callbacks: [<class 'lightning.pytorch.callbacks.rich_model_summary.RichModelSummary'>]. Skipping setting a default `ModelSummary` callback.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+`Trainer(val_check_interval=1.0)` was configured so validation will run at the end of the training epoch..
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: WARNING `resume` will be ignored since W&B syncing is set to `offline`. Starting a new run with run id cvg8od3p.
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/4
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/4
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/4
+wandb: - Waiting for wandb.init()...wandb: \ Waiting for wandb.init()...wandb: | Waiting for wandb.init()...wandb: Tracking run with wandb version 0.18.7
+wandb: W&B syncing is set to `offline` in this directory.  
+wandb: Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/4
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+Restoring states from the checkpoint path at checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+Restored all states from the checkpoint at checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt
+SLURM auto-requeueing enabled. Setting signal handlers.
+SLURM auto-requeueing enabled. Setting signal handlers.
+SLURM auto-requeueing enabled. Setting signal handlers.
+SLURM auto-requeueing enabled. Setting signal handlers.
+    Sampling:   0%|          | 0/1 [00:00<?, ?it/s]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.38s/it]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.38s/it]
+    Sampling:   0%|          | 0/1 [00:00<?, ?it/s]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.37s/it]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.38s/it]
+    Sampling:   0%|          | 0/1 [00:00<?, ?it/s]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.38s/it]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.38s/it]
+    Sampling:   0%|          | 0/1 [00:00<?, ?it/s]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.38s/it]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.38s/it]
+wandb:                                                                                
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /global/u1/g/gautama/projects/zatom/logs/finetune_fm/runs/lora_bandgap_arch-tft_160M_2026-08-07_12-22-28_2026-08-07_12-22-28/wandb/offline-run-20260807_192256-cvg8od3p
+wandb: Find logs at: ./logs/finetune_fm/runs/lora_bandgap_arch-tft_160M_2026-08-07_12-22-28_2026-08-07_12-22-28/wandb/offline-run-20260807_192256-cvg8od3p/logs
+Error executing job with overrides: ['experiment=lora_bandgap', 'pretrained_ckpt_path=checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt', 'ckpt_path=logs/finetune_fm/runs/lora_bandgap_arch-tft_160M_2026-08-07_12-22-28/checkpoints/', 'model/architecture=tft_160M', 'date=2026-08-07_12-22-28', 'name=lora_bandgap_arch-tft_160M_2026-08-07_12-22-28', 'task_name=finetune_fm', 'logger.wandb.mode=offline', 'trainer.num_nodes=1', 'trainer.devices=4', 'trainer.max_time=00:11:00:00']
+[rank0]: wandb: ERROR The API key you provided is either invalid or missing.  If the `WANDB_API_KEY` environment variable is set, make sure it is correct. Otherwise, to resolve this issue, you may try running the 'wandb login --relogin' command. If you are using a local server, make sure that you're using the correct hostname. If you're not sure, you can try logging in again using the 'wandb login --relogin --host [hostname]' command.(Error 401: Unauthorized)
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/retry.py", line 131, in __call__
+[rank0]:     result = self._call_fn(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 400, in execute
+[rank0]:     return self.client.execute(*args, **kwargs)  # type: ignore
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 52, in execute
+[rank0]:     result = self._get_result(document, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 60, in _get_result
+[rank0]:     return self.transport.execute(document, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/gql_request.py", line 59, in execute
+[rank0]:     request.raise_for_status()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/requests/models.py", line 1024, in raise_for_status
+[rank0]:     raise HTTPError(http_error_msg, response=self)
+[rank0]: requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://api.wandb.ai/graphql
+
+[rank0]: During handling of the above exception, another exception occurred:
+
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300, in <module>
+[rank0]:     main()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+[rank0]:     _run_hydra(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+[rank0]:     _run_app(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+[rank0]:     run_and_report(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+[rank0]:     raise ex
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+[rank0]:     return func()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+[rank0]:     lambda: hydra.run(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+[rank0]:     _ = ret.return_value
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+[rank0]:     raise self._return_value
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+[rank0]:     ret.return_value = task_function(task_cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283, in main
+[rank0]:     metric_dict, _ = train(cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 82, in wrap
+[rank0]:     raise ex
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72, in wrap
+[rank0]:     metric_dict, object_dict = task_func(cfg=cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 226, in train
+[rank0]:     trainer.fit(model=model, datamodule=datamodule, ckpt_path=ckpt_path, weights_only=False)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 584, in fit
+[rank0]:     call._call_and_handle_interrupt(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 48, in _call_and_handle_interrupt
+[rank0]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+[rank0]:     return function(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 630, in _fit_impl
+[rank0]:     self._run(model, ckpt_path=ckpt_path, weights_only=weights_only)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1079, in _run
+[rank0]:     results = self._run_stage()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1121, in _run_stage
+[rank0]:     self._run_sanity_check()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1150, in _run_sanity_check
+[rank0]:     val_loop.run()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/utilities.py", line 179, in _decorator
+[rank0]:     return loop_run(self, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 153, in run
+[rank0]:     return self.on_run_end()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 296, in on_run_end
+[rank0]:     self._on_evaluation_epoch_end()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 379, in _on_evaluation_epoch_end
+[rank0]:     call._call_lightning_module_hook(trainer, hook_name)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 177, in _call_lightning_module_hook
+[rank0]:     output = fn(*args, **kwargs)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 906, in on_validation_epoch_end
+[rank0]:     self.on_evaluation_epoch_end(stage="val")
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 1193, in on_evaluation_epoch_end
+[rank0]:     self.logger.experiment.log(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 451, in wrapper
+[rank0]:     return func(self, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 403, in wrapper_fn
+[rank0]:     return func(self, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 393, in wrapper
+[rank0]:     return func(self, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 1922, in log
+[rank0]:     self._log(data=data, step=step, commit=commit)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 1641, in _log
+[rank0]:     self._partial_history_callback(data, step, commit)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 1513, in _partial_history_callback
+[rank0]:     self._backend.interface.publish_partial_history(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/interface/interface.py", line 631, in publish_partial_history
+[rank0]:     data = history_dict_to_json(run, data, step=user_step, ignore_copy_err=True)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/utils.py", line 54, in history_dict_to_json
+[rank0]:     payload[key] = val_to_json(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/utils.py", line 168, in val_to_json
+[rank0]:     return val.to_json(run)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/table.py", line 590, in to_json
+[rank0]:     json_dict = super().to_json(run_or_artifact)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/base_types/media.py", line 235, in to_json
+[rank0]:     artifact_entry_url = self._get_artifact_entry_ref_url()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/base_types/wb_value.py", line 228, in _get_artifact_entry_ref_url
+[rank0]:     and _server_accepts_client_ids()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/base_types/wb_value.py", line 40, in _server_accepts_client_ids
+[rank0]:     max_cli_version = util._get_max_cli_version()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/util.py", line 1742, in _get_max_cli_version
+[rank0]:     max_cli_version = wandb.api.max_cli_version()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/apis/internal.py", line 82, in max_cli_version
+[rank0]:     return self.api.max_cli_version()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/apis/normalize.py", line 57, in wrapper
+[rank0]:     raise err
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/apis/normalize.py", line 25, in wrapper
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 930, in max_cli_version
+[rank0]:     query_types, server_info_types, _ = self.server_info_introspection()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/apis/normalize.py", line 57, in wrapper
+[rank0]:     raise err
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/apis/normalize.py", line 25, in wrapper
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 612, in server_info_introspection
+[rank0]:     res = self.gql(query)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 372, in gql
+[rank0]:     ret = self._retry_gql(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/retry.py", line 147, in __call__
+[rank0]:     retry_timedelta_triggered = check_retry_fn(e)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/util.py", line 917, in no_retry_auth
+[rank0]:     raise AuthenticationError(
+[rank0]: wandb.errors.errors.AuthenticationError: The API key you provided is either invalid or missing.  If the `WANDB_API_KEY` environment variable is set, make sure it is correct. Otherwise, to resolve this issue, you may try running the 'wandb login --relogin' command. If you are using a local server, make sure that you're using the correct hostname. If you're not sure, you can try logging in again using the 'wandb login --relogin --host [hostname]' command.(Error 401: Unauthorized)
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/retry.py", line 131, in __call__
+[rank0]:     result = self._call_fn(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 400, in execute
+[rank0]:     return self.client.execute(*args, **kwargs)  # type: ignore
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 52, in execute
+[rank0]:     result = self._get_result(document, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/vendor/gql-0.2.0/wandb_gql/client.py", line 60, in _get_result
+[rank0]:     return self.transport.execute(document, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/gql_request.py", line 59, in execute
+[rank0]:     request.raise_for_status()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/requests/models.py", line 1024, in raise_for_status
+[rank0]:     raise HTTPError(http_error_msg, response=self)
+[rank0]: requests.exceptions.HTTPError: 401 Client Error: Unauthorized for url: https://api.wandb.ai/graphql
+
+[rank0]: During handling of the above exception, another exception occurred:
+
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300, in <module>
+[rank0]:     main()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+[rank0]:     _run_hydra(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+[rank0]:     _run_app(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+[rank0]:     run_and_report(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+[rank0]:     raise ex
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+[rank0]:     return func()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+[rank0]:     lambda: hydra.run(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+[rank0]:     _ = ret.return_value
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+[rank0]:     raise self._return_value
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+[rank0]:     ret.return_value = task_function(task_cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283, in main
+[rank0]:     metric_dict, _ = train(cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 82, in wrap
+[rank0]:     raise ex
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72, in wrap
+[rank0]:     metric_dict, object_dict = task_func(cfg=cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 226, in train
+[rank0]:     trainer.fit(model=model, datamodule=datamodule, ckpt_path=ckpt_path, weights_only=False)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 584, in fit
+[rank0]:     call._call_and_handle_interrupt(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 48, in _call_and_handle_interrupt
+[rank0]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+[rank0]:     return function(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 630, in _fit_impl
+[rank0]:     self._run(model, ckpt_path=ckpt_path, weights_only=weights_only)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1079, in _run
+[rank0]:     results = self._run_stage()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1121, in _run_stage
+[rank0]:     self._run_sanity_check()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1150, in _run_sanity_check
+[rank0]:     val_loop.run()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/utilities.py", line 179, in _decorator
+[rank0]:     return loop_run(self, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 153, in run
+[rank0]:     return self.on_run_end()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 296, in on_run_end
+[rank0]:     self._on_evaluation_epoch_end()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 379, in _on_evaluation_epoch_end
+[rank0]:     call._call_lightning_module_hook(trainer, hook_name)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 177, in _call_lightning_module_hook
+[rank0]:     output = fn(*args, **kwargs)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 906, in on_validation_epoch_end
+[rank0]:     self.on_evaluation_epoch_end(stage="val")
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 1193, in on_evaluation_epoch_end
+[rank0]:     self.logger.experiment.log(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 451, in wrapper
+[rank0]:     return func(self, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 403, in wrapper_fn
+[rank0]:     return func(self, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 393, in wrapper
+[rank0]:     return func(self, *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 1922, in log
+[rank0]:     self._log(data=data, step=step, commit=commit)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 1641, in _log
+[rank0]:     self._partial_history_callback(data, step, commit)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_run.py", line 1513, in _partial_history_callback
+[rank0]:     self._backend.interface.publish_partial_history(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/interface/interface.py", line 631, in publish_partial_history
+[rank0]:     data = history_dict_to_json(run, data, step=user_step, ignore_copy_err=True)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/utils.py", line 54, in history_dict_to_json
+[rank0]:     payload[key] = val_to_json(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/utils.py", line 168, in val_to_json
+[rank0]:     return val.to_json(run)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/table.py", line 590, in to_json
+[rank0]:     json_dict = super().to_json(run_or_artifact)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/base_types/media.py", line 235, in to_json
+[rank0]:     artifact_entry_url = self._get_artifact_entry_ref_url()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/base_types/wb_value.py", line 228, in _get_artifact_entry_ref_url
+[rank0]:     and _server_accepts_client_ids()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/data_types/base_types/wb_value.py", line 40, in _server_accepts_client_ids
+[rank0]:     max_cli_version = util._get_max_cli_version()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/util.py", line 1742, in _get_max_cli_version
+[rank0]:     max_cli_version = wandb.api.max_cli_version()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/apis/internal.py", line 82, in max_cli_version
+[rank0]:     return self.api.max_cli_version()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/apis/normalize.py", line 57, in wrapper
+[rank0]:     raise err
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/apis/normalize.py", line 25, in wrapper
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 930, in max_cli_version
+[rank0]:     query_types, server_info_types, _ = self.server_info_introspection()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/apis/normalize.py", line 57, in wrapper
+[rank0]:     raise err
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/apis/normalize.py", line 25, in wrapper
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 612, in server_info_introspection
+[rank0]:     res = self.gql(query)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/internal/internal_api.py", line 372, in gql
+[rank0]:     ret = self._retry_gql(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/lib/retry.py", line 147, in __call__
+[rank0]:     retry_timedelta_triggered = check_retry_fn(e)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/wandb/util.py", line 917, in no_retry_auth
+[rank0]:     raise AuthenticationError(
+[rank0]: wandb.errors.errors.AuthenticationError: The API key you provided is either invalid or missing.  If the `WANDB_API_KEY` environment variable is set, make sure it is correct. Otherwise, to resolve this issue, you may try running the 'wandb login --relogin' command. If you are using a local server, make sure that you're using the correct hostname. If you're not sure, you can try logging in again using the 'wandb login --relogin --host [hostname]' command.(Error 401: Unauthorized)
+[rank3]:[E807 19:54:30.029907407 ProcessGroupNCCL.cpp:685] [Rank 3] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=48, OpType=ALLREDUCE, NumelIn=1, NumelOut=1, Timeout(ms)=1800000) ran for 1800072 milliseconds before timing out.
+[rank3]:[E807 19:54:30.047833431 ProcessGroupNCCL.cpp:2252] [PG ID 0 PG GUID 0(default_pg) Rank 3]  failure detected by watchdog at work sequence id: 48 PG status: last enqueued work: 48, last completed work: 47
+[rank3]:[E807 19:54:30.047851777 ProcessGroupNCCL.cpp:732] Stack trace of the failed collective not found, potentially because FlightRecorder is disabled. You can enable it by setting TORCH_NCCL_TRACE_BUFFER_SIZE to a non-zero value.
+[rank3]:[E807 19:54:30.047910099 ProcessGroupNCCL.cpp:2584] [PG ID 0 PG GUID 0(default_pg) Rank 3] First PG on this rank to signal dumping.
+[rank3]:[E807 19:54:30.503873829 ProcessGroupNCCL.cpp:1870] [PG ID 0 PG GUID 0(default_pg) Rank 3] Received a dump signal due to a collective timeout from this local rank and we will try our best to dump the debug info. Last enqueued NCCL work: 48, last completed NCCL work: 47.This is most likely caused by incorrect usages of collectives, e.g., wrong sizes used across ranks, the order of collectives is not same for all ranks or the scheduled collective, for some reason, didn't run. Additionally, this can be caused by GIL deadlock or other reasons such as network errors or bugs in the communications library (e.g. NCCL), etc. 
+[rank3]:[E807 19:54:30.504965978 ProcessGroupNCCL.cpp:1589] [PG ID 0 PG GUID 0(default_pg) Rank 3] ProcessGroupNCCL preparing to dump debug info. Include stack trace: 1
+[rank1]:[E807 19:54:30.551663161 ProcessGroupNCCL.cpp:1806] [PG ID 0 PG GUID 0(default_pg) Rank 1] Observed flight recorder dump signal from another rank via TCPStore.
+[rank1]:[E807 19:54:30.552205648 ProcessGroupNCCL.cpp:1870] [PG ID 0 PG GUID 0(default_pg) Rank 1] Received a dump signal due to a collective timeout from  rank 3 and we will try our best to dump the debug info. Last enqueued NCCL work: 48, last completed NCCL work: 47.This is most likely caused by incorrect usages of collectives, e.g., wrong sizes used across ranks, the order of collectives is not same for all ranks or the scheduled collective, for some reason, didn't run. Additionally, this can be caused by GIL deadlock or other reasons such as network errors or bugs in the communications library (e.g. NCCL), etc. 
+[rank1]:[E807 19:54:30.552423629 ProcessGroupNCCL.cpp:1589] [PG ID 0 PG GUID 0(default_pg) Rank 1] ProcessGroupNCCL preparing to dump debug info. Include stack trace: 1
+[rank2]:[E807 19:54:30.637590546 ProcessGroupNCCL.cpp:1806] [PG ID 0 PG GUID 0(default_pg) Rank 2] Observed flight recorder dump signal from another rank via TCPStore.
+[rank2]:[E807 19:54:30.637820640 ProcessGroupNCCL.cpp:1870] [PG ID 0 PG GUID 0(default_pg) Rank 2] Received a dump signal due to a collective timeout from  rank 3 and we will try our best to dump the debug info. Last enqueued NCCL work: 48, last completed NCCL work: 47.This is most likely caused by incorrect usages of collectives, e.g., wrong sizes used across ranks, the order of collectives is not same for all ranks or the scheduled collective, for some reason, didn't run. Additionally, this can be caused by GIL deadlock or other reasons such as network errors or bugs in the communications library (e.g. NCCL), etc. 
+[rank2]:[E807 19:54:30.638012039 ProcessGroupNCCL.cpp:1589] [PG ID 0 PG GUID 0(default_pg) Rank 2] ProcessGroupNCCL preparing to dump debug info. Include stack trace: 1
+[rank2]:[E807 19:54:32.826237634 ProcessGroupNCCL.cpp:685] [Rank 2] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=48, OpType=ALLREDUCE, NumelIn=1, NumelOut=1, Timeout(ms)=1800000) ran for 1800080 milliseconds before timing out.
+[rank2]:[E807 19:54:32.826702591 ProcessGroupNCCL.cpp:2252] [PG ID 0 PG GUID 0(default_pg) Rank 2]  failure detected by watchdog at work sequence id: 48 PG status: last enqueued work: 48, last completed work: 47
+[rank2]:[E807 19:54:32.826716709 ProcessGroupNCCL.cpp:732] Stack trace of the failed collective not found, potentially because FlightRecorder is disabled. You can enable it by setting TORCH_NCCL_TRACE_BUFFER_SIZE to a non-zero value.
+[rank1]:[E807 19:54:35.949659372 ProcessGroupNCCL.cpp:685] [Rank 1] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=48, OpType=ALLREDUCE, NumelIn=1, NumelOut=1, Timeout(ms)=1800000) ran for 1800043 milliseconds before timing out.
+[rank1]:[E807 19:54:35.950133758 ProcessGroupNCCL.cpp:2252] [PG ID 0 PG GUID 0(default_pg) Rank 1]  failure detected by watchdog at work sequence id: 48 PG status: last enqueued work: 48, last completed work: 47
+[rank1]:[E807 19:54:35.950143286 ProcessGroupNCCL.cpp:732] Stack trace of the failed collective not found, potentially because FlightRecorder is disabled. You can enable it by setting TORCH_NCCL_TRACE_BUFFER_SIZE to a non-zero value.
+[rank3]:[E807 19:55:30.048033653 ProcessGroupNCCL.cpp:746] [Rank 3] Some NCCL operations have failed or timed out. Due to the asynchronous nature of CUDA kernels, subsequent GPU operations might run on corrupted/incomplete data.
+[rank3]:[E807 19:55:30.048066246 ProcessGroupNCCL.cpp:760] [Rank 3] To avoid data inconsistency, we are taking the entire process down.
+[rank3]:[E807 19:55:30.051663320 ProcessGroupNCCL.cpp:2068] [PG ID 0 PG GUID 0(default_pg) Rank 3] Process group watchdog thread terminated with exception: [Rank 3] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=48, OpType=ALLREDUCE, NumelIn=1, NumelOut=1, Timeout(ms)=1800000) ran for 1800072 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:688 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7ff16b17eeb0 in /opt/conda/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x247 (0x7ff10e6a0147 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::Watchdog::runLoop() + 0x1591 (0x7ff10e6a3b61 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::Watchdog::run() + 0xd2 (0x7ff10e6a4ec2 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0xd3b75 (0x7ff0f2083b75 in /opt/conda/bin/../lib/libstdc++.so.6)
+frame #5: <unknown function> + 0x94ac3 (0x7ff16d17fac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x126850 (0x7ff16d211850 in /lib/x86_64-linux-gnu/libc.so.6)
+
+terminate called after throwing an instance of 'c10::DistBackendError'
+  what():  [PG ID 0 PG GUID 0(default_pg) Rank 3] Process group watchdog thread terminated with exception: [Rank 3] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=48, OpType=ALLREDUCE, NumelIn=1, NumelOut=1, Timeout(ms)=1800000) ran for 1800072 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:688 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7ff16b17eeb0 in /opt/conda/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x247 (0x7ff10e6a0147 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::Watchdog::runLoop() + 0x1591 (0x7ff10e6a3b61 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::Watchdog::run() + 0xd2 (0x7ff10e6a4ec2 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0xd3b75 (0x7ff0f2083b75 in /opt/conda/bin/../lib/libstdc++.so.6)
+frame #5: <unknown function> + 0x94ac3 (0x7ff16d17fac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x126850 (0x7ff16d211850 in /lib/x86_64-linux-gnu/libc.so.6)
+
+Exception raised from run at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:2074 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7ff16b17eeb0 in /opt/conda/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0xe1c1a1 (0x7ff10e67c1a1 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: <unknown function> + 0x9468e6 (0x7ff10e1a68e6 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: <unknown function> + 0xd3b75 (0x7ff0f2083b75 in /opt/conda/bin/../lib/libstdc++.so.6)
+frame #4: <unknown function> + 0x94ac3 (0x7ff16d17fac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #5: <unknown function> + 0x126850 (0x7ff16d211850 in /lib/x86_64-linux-gnu/libc.so.6)
+
+Fatal Python error: Aborted
+
+Thread 0x00007fef0cfe3640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 324 in wait
+  File "/opt/conda/lib/python3.10/threading.py", line 607 in wait
+  File "/opt/conda/lib/python3.10/site-packages/tqdm/_monitor.py", line 60 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef50fff640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef570c6640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef578c7640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef580c8640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef588c9640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef590ca640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef598cb640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5a0cc640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5a8cd640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5b0ce640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5b8cf640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5c8d1640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5d0d2640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5d8d3640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5e0d4640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5e8d5640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5f0d6640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5f8d7640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef608d9640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef610da640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef618db640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef620dc640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef630de640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef638df640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef640e0640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef648e1640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef650e2640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef658e3640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef600d8640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef507fe640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef5c0d0640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fef628dd640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007feeeb6ff640 (most recent call first):
+  File "/opt/conda/lib/python3.10/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 61 in _recv_msg
+  File "/opt/conda/lib/python3.10/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 195 in _read_thread
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007ff16d0e6740 (most recent call first):
+  File "/opt/conda/lib/python3.10/site-packages/torch/distributed/distributed_c10d.py", line 4811 in barrier
+  File "/opt/conda/lib/python3.10/site-packages/torch/distributed/c10d_logger.py", line 81 in wrapper
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/utilities/distributed.py", line 121 in gather_all_tensors
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/apply_func.py", line 72 in <dictcomp>
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/apply_func.py", line 72 in apply_to_collection
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 518 in _sync_dist
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 614 in sync
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 665 in sync_context
+  File "/opt/conda/lib/python3.10/contextlib.py", line 135 in __enter__
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 694 in wrapped_func
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 253 in compute
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 288 in wrapped_func
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 439 in _get_cache
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 475 in metrics
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/logger_connector.py", line 237 in metrics
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/logger_connector.py", line 198 in on_epoch_end
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 381 in _on_evaluation_epoch_end
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 296 in on_run_end
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 153 in run
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/utilities.py", line 179 in _decorator
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1150 in _run_sanity_check
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1121 in _run_stage
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1079 in _run
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 630 in _fit_impl
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105 in launch
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 48 in _call_and_handle_interrupt
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 584 in fit
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 226 in train
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72 in wrap
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283 in main
+  File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186 in run_job
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 119 in run
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458 in <lambda>
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220 in run_and_report
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457 in _run_app
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394 in _run_hydra
+  File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94 in decorated_main
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300 in <module>
+
+Extension modules: yaml._yaml, numpy._core._multiarray_umath, numpy.linalg._umath_linalg, torch._C, torch._C._dynamo.autograd_compiler, torch._C._dynamo.eval_frame, torch._C._dynamo.guards, torch._C._dynamo.utils, torch._C._fft, torch._C._linalg, torch._C._nested, torch._C._nn, torch._C._sparse, torch._C._special, scipy._lib._ccallback_c, scipy.signal._sigtools, scipy.linalg._fblas, scipy.linalg._flapack, scipy.linalg.cython_lapack, scipy.linalg._cythonized_array_utils, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._mt19937, numpy.random.mtrand, numpy.random._philox, numpy.random._pcg64, numpy.random._sfc64, numpy.random._generator, scipy.linalg._solve_toeplitz, scipy.linalg._decomp_lu_cython, scipy.linalg._matfuncs_sqrtm_triu, scipy.linalg.cython_blas, scipy.linalg._matfuncs_expm, scipy.linalg._decomp_update, scipy.sparse._sparsetools, _csparsetools, scipy.sparse._csparsetools, scipy.sparse.linalg._dsolve._superlu, scipy.sparse.linalg._eigen.arpack._arpack, scipy.sparse.linalg._propack._spropack, scipy.sparse.linalg._propack._dpropack, scipy.sparse.linalg._propack._cpropack, scipy.sparse.linalg._propack._zpropack, scipy.sparse.csgraph._tools, scipy.sparse.csgraph._shortest_path, scipy.sparse.csgraph._traversal, scipy.sparse.csgraph._min_spanning_tree, scipy.sparse.csgraph._flow, scipy.sparse.csgraph._matching, scipy.sparse.csgraph._reordering, scipy.special._ufuncs_cxx, scipy.special._cdflib, scipy.special._ufuncs, scipy.special._specfun, scipy.special._comb, scipy.special._ellip_harm_2, scipy._lib._uarray._uarray, scipy.signal._max_len_seq_inner, scipy.signal._upfirdn_apply, scipy.signal._spline, scipy.spatial._ckdtree, scipy._lib.messagestream, scipy.spatial._qhull, scipy.spatial._voronoi, scipy.spatial._distance_wrap, scipy.spatial._hausdorff, scipy.spatial.transform._rotation, scipy.interpolate._fitpack, scipy.interpolate.dfitpack, scipy.optimize._minpack2, scipy.optimize._group_columns, scipy.optimize._trlib._trlib, scipy.optimize._lbfgsb, _moduleTNC, scipy.optimize._moduleTNC, scipy.optimize._cobyla, scipy.optimize._slsqp, scipy.optimize._minpack, scipy.optimize._lsq.givens_elimination, scipy.optimize._zeros, scipy.optimize._highs.cython.src._highs_wrapper, scipy.optimize._highs._highs_wrapper, scipy.optimize._highs.cython.src._highs_constants, scipy.optimize._highs._highs_constants, scipy.linalg._interpolative, scipy.optimize._bglu_dense, scipy.optimize._lsap, scipy.optimize._direct, scipy.interpolate._bspl, scipy.interpolate._ppoly, scipy.interpolate.interpnd, scipy.interpolate._rbfinterp_pythran, scipy.interpolate._rgi_cython, scipy.ndimage._nd_image, _ni_label, scipy.ndimage._ni_label, scipy.signal._sosfilt, scipy.signal._spectral, scipy.integrate._odepack, scipy.integrate._quadpack, scipy.integrate._vode, scipy.integrate._dop, scipy.integrate._lsoda, scipy.special.cython_special, scipy.stats._stats, scipy.stats.beta_ufunc, scipy.stats._boost.beta_ufunc, scipy.stats.binom_ufunc, scipy.stats._boost.binom_ufunc, scipy.stats.nbinom_ufunc, scipy.stats._boost.nbinom_ufunc, scipy.stats.hypergeom_ufunc, scipy.stats._boost.hypergeom_ufunc, scipy.stats.ncf_ufunc, scipy.stats._boost.ncf_ufunc, scipy.stats.ncx2_ufunc, scipy.stats._boost.ncx2_ufunc, scipy.stats.nct_ufunc, scipy.stats._boost.nct_ufunc, scipy.stats.skewnorm_ufunc, scipy.stats._boost.skewnorm_ufunc, scipy.stats.invgauss_ufunc, scipy.stats._boost.invgauss_ufunc, scipy.stats._biasedurn, scipy.stats._levy_stable.levyst, scipy.stats._stats_pythran, scipy.stats._ansari_swilk_statistics, scipy.stats._sobol, scipy.stats._qmc_cy, scipy.stats._mvn, scipy.stats._rcont.rcont, scipy.stats._unuran.unuran_wrapper, scipy.signal._peak_finding_utils, PIL._imaging, kiwisolver._cext, PIL._imagingft, zstandard.backend_c, psutil._psutil_linux, backports._datetime_fromisoformat, markupsafe._speedups, work._ruamel_yaml, _ruamel_yaml, bson._cbson, msgpack._cmsgpack, pymatgen.util.coord_cython, scipy.cluster._vq, scipy.cluster._hierarchy, scipy.cluster._optimal_leaf_ordering, openbabel._openbabel, numba.core.typeconv._typeconv, numba._helperlib, numba._dynfunc, numba._dispatcher, numba.core.runtime._nrt_python, numba.np.ufunc._internal, numba.experimental.jitclass._box, rdkit.rdBase, rdkit.DataStructs.cDataStructs, rdkit.Chem.rdchem, rdkit.Geometry.rdGeometry, rdkit.Chem.rdinchi, rdkit.Chem.rdCIPLabeler, rdkit.Chem.rdmolfiles, rdkit.Chem.rdmolops, rdkit.Chem.rdMolInterchange, rdkit.Chem.rdCoordGen, pandas._libs.tslibs.ccalendar, pandas._libs.tslibs.np_datetime, pandas._libs.tslibs.dtypes, pandas._libs.tslibs.base, pandas._libs.tslibs.nattype, pandas._libs.tslibs.timezones, pandas._libs.tslibs.fields, pandas._libs.tslibs.timedeltas, pandas._libs.tslibs.tzconversion, pandas._libs.tslibs.timestamps, pandas._libs.properties, pandas._libs.tslibs.offsets, pandas._libs.tslibs.strptime, pandas._libs.tslibs.parsing, pandas._libs.tslibs.conversion, pandas._libs.tslibs.period, pandas._libs.tslibs.vectorized, pandas._libs.ops_dispatch, pandas._libs.missing, pandas._libs.hashtable, pandas._libs.algos, pandas._libs.interval, pandas._libs.lib, pandas._libs.ops, pandas._libs.hashing, pandas._libs.arrays, pandas._libs.tslib, pandas._libs.sparse, pandas._libs.internals, pandas._libs.indexing, pandas._libs.index, pandas._libs.writers, pandas._libs.join, pandas._libs.window.aggregations, pandas._libs.window.indexers, pandas._libs.reshape, pandas._libs.groupby, pandas._libs.json, pandas._libs.parsers, pandas._libs.testing, spglib._spglib, _brotli, sqlalchemy.cyextension.collections, sqlalchemy.cyextension.immutabledict, sqlalchemy.cyextension.processors, sqlalchemy.cyextension.resultproxy, sqlalchemy.cyextension.util, greenlet._greenlet, google._upb._message, uvloop.loop, ray._raylet, grpc._cython.cygrpc, cython.cimports.libc.math, pymatgen.optimization.linear_assignment, sklearn.__check_build._check_build, sklearn.utils._isfinite, sklearn.utils.sparsefuncs_fast, sklearn.utils.murmurhash, sklearn.utils._openmp_helpers, sklearn.metrics.cluster._expected_mutual_info_fast, sklearn.preprocessing._csr_polynomial_expansion, sklearn.preprocessing._target_encoder_fast, sklearn.metrics._dist_metrics, sklearn.metrics._pairwise_distances_reduction._datasets_pair, sklearn.utils._cython_blas, sklearn.metrics._pairwise_distances_reduction._base, sklearn.metrics._pairwise_distances_reduction._middle_term_computer, sklearn.utils._heap, sklearn.utils._sorting, sklearn.metrics._pairwise_distances_reduction._argkmin, sklearn.metrics._pairwise_distances_reduction._argkmin_classmode, sklearn.utils._vector_sentinel, sklearn.metrics._pairwise_distances_reduction._radius_neighbors, sklearn.metrics._pairwise_distances_reduction._radius_neighbors_classmode, sklearn.metrics._pairwise_fast, sklearn.neighbors._partition_nodes, sklearn.neighbors._ball_tree, sklearn.neighbors._kd_tree, sklearn.utils.arrayfuncs, sklearn.utils._random, sklearn.utils._seq_dataset, sklearn.linear_model._cd_fast, _loss, sklearn._loss._loss, sklearn.svm._liblinear, sklearn.svm._libsvm, sklearn.svm._libsvm_sparse, sklearn.linear_model._sag_fast, sklearn.utils._weight_vector, sklearn.linear_model._sgd_fast, sklearn.decomposition._online_lda_fast, sklearn.decomposition._cdnmf_fast, rdkit.Chem.rdDistGeom, rdkit.ForceField.rdForceField, rdkit.Chem.rdForceFieldHelpers, rdkit.Chem.MolStandardize.rdMolStandardize, rdkit.Chem.rdChemicalFeatures, rdkit.Chem.rdMolChemicalFeatures, rdkit.Chem.rdChemReactions, rdkit.Chem.rdDepictor, rdkit.Chem.rdFingerprintGenerator, rdkit.Chem.rdMolAlign, rdkit.Chem.rdMolDescriptors, rdkit.Chem.rdMolEnumerator, rdkit.Chem.rdMolTransforms, rdkit.Chem.rdPartialCharges, rdkit.Chem.rdqueries, rdkit.Chem.rdReducedGraphs, rdkit.Chem.rdShapeHelpers, rdkit.Chem.rdSLNParse, rdkit.Chem.Draw.rdMolDraw2D, cuda_utils, pymatgen.optimization.neighbors, _cffi_backend (total: 281)
+srun: error: nid008669: task 3: Aborted
+srun: Terminating StepId=56395971.0
+[rank2]:[E807 19:55:32.826904452 ProcessGroupNCCL.cpp:746] [Rank 2] Some NCCL operations have failed or timed out. Due to the asynchronous nature of CUDA kernels, subsequent GPU operations might run on corrupted/incomplete data.
+[rank2]:[E807 19:55:32.826949209 ProcessGroupNCCL.cpp:760] [Rank 2] To avoid data inconsistency, we are taking the entire process down.
+[rank2]:[E807 19:55:32.827840108 ProcessGroupNCCL.cpp:2068] [PG ID 0 PG GUID 0(default_pg) Rank 2] Process group watchdog thread terminated with exception: [Rank 2] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=48, OpType=ALLREDUCE, NumelIn=1, NumelOut=1, Timeout(ms)=1800000) ran for 1800080 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:688 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7f645a0d9eb0 in /opt/conda/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x247 (0x7f63fd6a0147 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::Watchdog::runLoop() + 0x1591 (0x7f63fd6a3b61 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::Watchdog::run() + 0xd2 (0x7f63fd6a4ec2 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0xd3b75 (0x7f63e1083b75 in /opt/conda/bin/../lib/libstdc++.so.6)
+frame #5: <unknown function> + 0x94ac3 (0x7f645c067ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x126850 (0x7f645c0f9850 in /lib/x86_64-linux-gnu/libc.so.6)
+
+terminate called after throwing an instance of 'c10::DistBackendError'
+  what():  [PG ID 0 PG GUID 0(default_pg) Rank 2] Process group watchdog thread terminated with exception: [Rank 2] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=48, OpType=ALLREDUCE, NumelIn=1, NumelOut=1, Timeout(ms)=1800000) ran for 1800080 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:688 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7f645a0d9eb0 in /opt/conda/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x247 (0x7f63fd6a0147 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::Watchdog::runLoop() + 0x1591 (0x7f63fd6a3b61 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::Watchdog::run() + 0xd2 (0x7f63fd6a4ec2 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0xd3b75 (0x7f63e1083b75 in /opt/conda/bin/../lib/libstdc++.so.6)
+frame #5: <unknown function> + 0x94ac3 (0x7f645c067ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x126850 (0x7f645c0f9850 in /lib/x86_64-linux-gnu/libc.so.6)
+
+Exception raised from run at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:2074 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7f645a0d9eb0 in /opt/conda/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0xe1c1a1 (0x7f63fd67c1a1 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: <unknown function> + 0x9468e6 (0x7f63fd1a68e6 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: <unknown function> + 0xd3b75 (0x7f63e1083b75 in /opt/conda/bin/../lib/libstdc++.so.6)
+frame #4: <unknown function> + 0x94ac3 (0x7f645c067ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #5: <unknown function> + 0x126850 (0x7f645c0f9850 in /lib/x86_64-linux-gnu/libc.so.6)
+
+Fatal Python error: Aborted
+
+Thread 0x00007f622dff7640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 324 in wait
+  File "/opt/conda/lib/python3.10/threading.py", line 607 in wait
+  File "/opt/conda/lib/python3.10/site-packages/tqdm/_monitor.py", line 60 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f623ffff640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62468c0640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62470c1640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62478c2640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62480c3640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62488c4640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62490c5640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62498c6640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624a8c8640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624b0c9640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624b8ca640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624c0cb640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624c8cc640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624d0cd640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624d8ce640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624e0cf640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624e8d0640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624f0d1640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624f8d2640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62500d3640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62508d4640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62518d6640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62520d7640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62528d8640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62530d9640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62538da640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62540db640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62548dc640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62460bf640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f62510d5640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f624a0c7640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f623f7fe640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f61de638640 (most recent call first):
+  File "/opt/conda/lib/python3.10/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 61 in _recv_msg
+  File "/opt/conda/lib/python3.10/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 195 in _read_thread
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007f645bfce740 (most recent call first):
+  File "/opt/conda/lib/python3.10/site-packages/torch/distributed/distributed_c10d.py", line 4811 in barrier
+  File "/opt/conda/lib/python3.10/site-packages/torch/distributed/c10d_logger.py", line 81 in wrapper
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/utilities/distributed.py", line 121 in gather_all_tensors
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/apply_func.py", line 72 in <dictcomp>
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/apply_func.py", line 72 in apply_to_collection
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 518 in _sync_dist
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 614 in sync
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 665 in sync_context
+  File "/opt/conda/lib/python3.10/contextlib.py", line 135 in __enter__
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 694 in wrapped_func
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 253 in compute
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 288 in wrapped_func
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 439 in _get_cache
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 475 in metrics
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/logger_connector.py", line 237 in metrics
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/logger_connector.py", line 198 in on_epoch_end
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 381 in _on_evaluation_epoch_end
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 296 in on_run_end
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 153 in run
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/utilities.py", line 179 in _decorator
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1150 in _run_sanity_check
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1121 in _run_stage
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1079 in _run
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 630 in _fit_impl
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105 in launch
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 48 in _call_and_handle_interrupt
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 584 in fit
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 226 in train
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72 in wrap
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283 in main
+  File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186 in run_job
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 119 in run
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458 in <lambda>
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220 in run_and_report
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457 in _run_app
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394 in _run_hydra
+  File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94 in decorated_main
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300 in <module>
+
+Extension modules: yaml._yaml, numpy._core._multiarray_umath, numpy.linalg._umath_linalg, torch._C, torch._C._dynamo.autograd_compiler, torch._C._dynamo.eval_frame, torch._C._dynamo.guards, torch._C._dynamo.utils, torch._C._fft, torch._C._linalg, torch._C._nested, torch._C._nn, torch._C._sparse, torch._C._special, scipy._lib._ccallback_c, scipy.signal._sigtools, scipy.linalg._fblas, scipy.linalg._flapack, scipy.linalg.cython_lapack, scipy.linalg._cythonized_array_utils, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._mt19937, numpy.random.mtrand, numpy.random._philox, numpy.random._pcg64, numpy.random._sfc64, numpy.random._generator, scipy.linalg._solve_toeplitz, scipy.linalg._decomp_lu_cython, scipy.linalg._matfuncs_sqrtm_triu, scipy.linalg.cython_blas, scipy.linalg._matfuncs_expm, scipy.linalg._decomp_update, scipy.sparse._sparsetools, _csparsetools, scipy.sparse._csparsetools, scipy.sparse.linalg._dsolve._superlu, scipy.sparse.linalg._eigen.arpack._arpack, scipy.sparse.linalg._propack._spropack, scipy.sparse.linalg._propack._dpropack, scipy.sparse.linalg._propack._cpropack, scipy.sparse.linalg._propack._zpropack, scipy.sparse.csgraph._tools, scipy.sparse.csgraph._shortest_path, scipy.sparse.csgraph._traversal, scipy.sparse.csgraph._min_spanning_tree, scipy.sparse.csgraph._flow, scipy.sparse.csgraph._matching, scipy.sparse.csgraph._reordering, scipy.special._ufuncs_cxx, scipy.special._cdflib, scipy.special._ufuncs, scipy.special._specfun, scipy.special._comb, scipy.special._ellip_harm_2, scipy._lib._uarray._uarray, scipy.signal._max_len_seq_inner, scipy.signal._upfirdn_apply, scipy.signal._spline, scipy.spatial._ckdtree, scipy._lib.messagestream, scipy.spatial._qhull, scipy.spatial._voronoi, scipy.spatial._distance_wrap, scipy.spatial._hausdorff, scipy.spatial.transform._rotation, scipy.interpolate._fitpack, scipy.interpolate.dfitpack, scipy.optimize._minpack2, scipy.optimize._group_columns, scipy.optimize._trlib._trlib, scipy.optimize._lbfgsb, _moduleTNC, scipy.optimize._moduleTNC, scipy.optimize._cobyla, scipy.optimize._slsqp, scipy.optimize._minpack, scipy.optimize._lsq.givens_elimination, scipy.optimize._zeros, scipy.optimize._highs.cython.src._highs_wrapper, scipy.optimize._highs._highs_wrapper, scipy.optimize._highs.cython.src._highs_constants, scipy.optimize._highs._highs_constants, scipy.linalg._interpolative, scipy.optimize._bglu_dense, scipy.optimize._lsap, scipy.optimize._direct, scipy.interpolate._bspl, scipy.interpolate._ppoly, scipy.interpolate.interpnd, scipy.interpolate._rbfinterp_pythran, scipy.interpolate._rgi_cython, scipy.ndimage._nd_image, _ni_label, scipy.ndimage._ni_label, scipy.signal._sosfilt, scipy.signal._spectral, scipy.integrate._odepack, scipy.integrate._quadpack, scipy.integrate._vode, scipy.integrate._dop, scipy.integrate._lsoda, scipy.special.cython_special, scipy.stats._stats, scipy.stats.beta_ufunc, scipy.stats._boost.beta_ufunc, scipy.stats.binom_ufunc, scipy.stats._boost.binom_ufunc, scipy.stats.nbinom_ufunc, scipy.stats._boost.nbinom_ufunc, scipy.stats.hypergeom_ufunc, scipy.stats._boost.hypergeom_ufunc, scipy.stats.ncf_ufunc, scipy.stats._boost.ncf_ufunc, scipy.stats.ncx2_ufunc, scipy.stats._boost.ncx2_ufunc, scipy.stats.nct_ufunc, scipy.stats._boost.nct_ufunc, scipy.stats.skewnorm_ufunc, scipy.stats._boost.skewnorm_ufunc, scipy.stats.invgauss_ufunc, scipy.stats._boost.invgauss_ufunc, scipy.stats._biasedurn, scipy.stats._levy_stable.levyst, scipy.stats._stats_pythran, scipy.stats._ansari_swilk_statistics, scipy.stats._sobol, scipy.stats._qmc_cy, scipy.stats._mvn, scipy.stats._rcont.rcont, scipy.stats._unuran.unuran_wrapper, scipy.signal._peak_finding_utils, PIL._imaging, kiwisolver._cext, PIL._imagingft, zstandard.backend_c, psutil._psutil_linux, backports._datetime_fromisoformat, markupsafe._speedups, work._ruamel_yaml, _ruamel_yaml, bson._cbson, msgpack._cmsgpack, pymatgen.util.coord_cython, scipy.cluster._vq, scipy.cluster._hierarchy, scipy.cluster._optimal_leaf_ordering, openbabel._openbabel, numba.core.typeconv._typeconv, numba._helperlib, numba._dynfunc, numba._dispatcher, numba.core.runtime._nrt_python, numba.np.ufunc._internal, numba.experimental.jitclass._box, rdkit.rdBase, rdkit.DataStructs.cDataStructs, rdkit.Chem.rdchem, rdkit.Geometry.rdGeometry, rdkit.Chem.rdinchi, rdkit.Chem.rdCIPLabeler, rdkit.Chem.rdmolfiles, rdkit.Chem.rdmolops, rdkit.Chem.rdMolInterchange, rdkit.Chem.rdCoordGen, pandas._libs.tslibs.ccalendar, pandas._libs.tslibs.np_datetime, pandas._libs.tslibs.dtypes, pandas._libs.tslibs.base, pandas._libs.tslibs.nattype, pandas._libs.tslibs.timezones, pandas._libs.tslibs.fields, pandas._libs.tslibs.timedeltas, pandas._libs.tslibs.tzconversion, pandas._libs.tslibs.timestamps, pandas._libs.properties, pandas._libs.tslibs.offsets, pandas._libs.tslibs.strptime, pandas._libs.tslibs.parsing, pandas._libs.tslibs.conversion, pandas._libs.tslibs.period, pandas._libs.tslibs.vectorized, pandas._libs.ops_dispatch, pandas._libs.missing, pandas._libs.hashtable, pandas._libs.algos, pandas._libs.interval, pandas._libs.lib, pandas._libs.ops, pandas._libs.hashing, pandas._libs.arrays, pandas._libs.tslib, pandas._libs.sparse, pandas._libs.internals, pandas._libs.indexing, pandas._libs.index, pandas._libs.writers, pandas._libs.join, pandas._libs.window.aggregations, pandas._libs.window.indexers, pandas._libs.reshape, pandas._libs.groupby, pandas._libs.json, pandas._libs.parsers, pandas._libs.testing, spglib._spglib, _brotli, sqlalchemy.cyextension.collections, sqlalchemy.cyextension.immutabledict, sqlalchemy.cyextension.processors, sqlalchemy.cyextension.resultproxy, sqlalchemy.cyextension.util, greenlet._greenlet, google._upb._message, uvloop.loop, ray._raylet, grpc._cython.cygrpc, cython.cimports.libc.math, pymatgen.optimization.linear_assignment, sklearn.__check_build._check_build, sklearn.utils._isfinite, sklearn.utils.sparsefuncs_fast, sklearn.utils.murmurhash, sklearn.utils._openmp_helpers, sklearn.metrics.cluster._expected_mutual_info_fast, sklearn.preprocessing._csr_polynomial_expansion, sklearn.preprocessing._target_encoder_fast, sklearn.metrics._dist_metrics, sklearn.metrics._pairwise_distances_reduction._datasets_pair, sklearn.utils._cython_blas, sklearn.metrics._pairwise_distances_reduction._base, sklearn.metrics._pairwise_distances_reduction._middle_term_computer, sklearn.utils._heap, sklearn.utils._sorting, sklearn.metrics._pairwise_distances_reduction._argkmin, sklearn.metrics._pairwise_distances_reduction._argkmin_classmode, sklearn.utils._vector_sentinel, sklearn.metrics._pairwise_distances_reduction._radius_neighbors, sklearn.metrics._pairwise_distances_reduction._radius_neighbors_classmode, sklearn.metrics._pairwise_fast, sklearn.neighbors._partition_nodes, sklearn.neighbors._ball_tree, sklearn.neighbors._kd_tree, sklearn.utils.arrayfuncs, sklearn.utils._random, sklearn.utils._seq_dataset, sklearn.linear_model._cd_fast, _loss, sklearn._loss._loss, sklearn.svm._liblinear, sklearn.svm._libsvm, sklearn.svm._libsvm_sparse, sklearn.linear_model._sag_fast, sklearn.utils._weight_vector, sklearn.linear_model._sgd_fast, sklearn.decomposition._online_lda_fast, sklearn.decomposition._cdnmf_fast, rdkit.Chem.rdDistGeom, rdkit.ForceField.rdForceField, rdkit.Chem.rdForceFieldHelpers, rdkit.Chem.MolStandardize.rdMolStandardize, rdkit.Chem.rdChemicalFeatures, rdkit.Chem.rdMolChemicalFeatures, rdkit.Chem.rdChemReactions, rdkit.Chem.rdDepictor, rdkit.Chem.rdFingerprintGenerator, rdkit.Chem.rdMolAlign, rdkit.Chem.rdMolDescriptors, rdkit.Chem.rdMolEnumerator, rdkit.Chem.rdMolTransforms, rdkit.Chem.rdPartialCharges, rdkit.Chem.rdqueries, rdkit.Chem.rdReducedGraphs, rdkit.Chem.rdShapeHelpers, rdkit.Chem.rdSLNParse, rdkit.Chem.Draw.rdMolDraw2D, cuda_utils, pymatgen.optimization.neighbors, _cffi_backend (total: 281)
+[2026-08-07T19:55:32.405] error: *** STEP 56395971.0 ON nid008669 CANCELLED AT 2026-08-07T19:55:32 DUE TO TASK FAILURE ***
+srun: error: nid008669: task 2: Aborted
+srun: error: nid008669: task 0: Terminated
+[rank1]:[E807 19:55:35.950351732 ProcessGroupNCCL.cpp:746] [Rank 1] Some NCCL operations have failed or timed out. Due to the asynchronous nature of CUDA kernels, subsequent GPU operations might run on corrupted/incomplete data.
+[rank1]:[E807 19:55:35.950377231 ProcessGroupNCCL.cpp:760] [Rank 1] To avoid data inconsistency, we are taking the entire process down.
+[rank1]:[E807 19:55:35.951247230 ProcessGroupNCCL.cpp:2068] [PG ID 0 PG GUID 0(default_pg) Rank 1] Process group watchdog thread terminated with exception: [Rank 1] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=48, OpType=ALLREDUCE, NumelIn=1, NumelOut=1, Timeout(ms)=1800000) ran for 1800043 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:688 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7fb83817eeb0 in /opt/conda/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x247 (0x7fb7db6a0147 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::Watchdog::runLoop() + 0x1591 (0x7fb7db6a3b61 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::Watchdog::run() + 0xd2 (0x7fb7db6a4ec2 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0xd3b75 (0x7fb7bf083b75 in /opt/conda/bin/../lib/libstdc++.so.6)
+frame #5: <unknown function> + 0x94ac3 (0x7fb83a147ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x126850 (0x7fb83a1d9850 in /lib/x86_64-linux-gnu/libc.so.6)
+
+terminate called after throwing an instance of 'c10::DistBackendError'
+  what():  [PG ID 0 PG GUID 0(default_pg) Rank 1] Process group watchdog thread terminated with exception: [Rank 1] Watchdog caught collective operation timeout: WorkNCCL(SeqNum=48, OpType=ALLREDUCE, NumelIn=1, NumelOut=1, Timeout(ms)=1800000) ran for 1800043 milliseconds before timing out.
+Exception raised from checkTimeout at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:688 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7fb83817eeb0 in /opt/conda/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: c10d::ProcessGroupNCCL::WorkNCCL::checkTimeout(std::optional<std::chrono::duration<long, std::ratio<1l, 1000l> > >) + 0x247 (0x7fb7db6a0147 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: c10d::ProcessGroupNCCL::Watchdog::runLoop() + 0x1591 (0x7fb7db6a3b61 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: c10d::ProcessGroupNCCL::Watchdog::run() + 0xd2 (0x7fb7db6a4ec2 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #4: <unknown function> + 0xd3b75 (0x7fb7bf083b75 in /opt/conda/bin/../lib/libstdc++.so.6)
+frame #5: <unknown function> + 0x94ac3 (0x7fb83a147ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #6: <unknown function> + 0x126850 (0x7fb83a1d9850 in /lib/x86_64-linux-gnu/libc.so.6)
+
+Exception raised from run at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:2074 (most recent call first):
+frame #0: c10::Error::Error(c10::SourceLocation, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) + 0x80 (0x7fb83817eeb0 in /opt/conda/lib/python3.10/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0xe1c1a1 (0x7fb7db67c1a1 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #2: <unknown function> + 0x9468e6 (0x7fb7db1a68e6 in /opt/conda/lib/python3.10/site-packages/torch/lib/libtorch_cuda.so)
+frame #3: <unknown function> + 0xd3b75 (0x7fb7bf083b75 in /opt/conda/bin/../lib/libstdc++.so.6)
+frame #4: <unknown function> + 0x94ac3 (0x7fb83a147ac3 in /lib/x86_64-linux-gnu/libc.so.6)
+frame #5: <unknown function> + 0x126850 (0x7fb83a1d9850 in /lib/x86_64-linux-gnu/libc.so.6)
+
+Fatal Python error: Aborted
+
+Thread 0x00007fb5fcff1640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 324 in wait
+  File "/opt/conda/lib/python3.10/threading.py", line 607 in wait
+  File "/opt/conda/lib/python3.10/site-packages/tqdm/_monitor.py", line 60 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb61d7fe640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb61dfff640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6240c1640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6248c2640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6250c3640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6258c4640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6268c6640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6270c7640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6278c8640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6280c9640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6288ca640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6290cb640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6298cc640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62a0cd640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62a8ce640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62b0cf640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62b8d0640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62c8d2640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62d0d3640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62d8d4640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62e0d5640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62e8d6640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62f8d8640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6300d9640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6308da640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6310db640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6318dc640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6320dd640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62f0d7640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb62c0d1640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6328de640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb6260c5640 (most recent call first):
+  File "/opt/conda/lib/python3.10/threading.py", line 320 in wait
+  File "/opt/conda/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb5b7fff640 (most recent call first):
+  File "/opt/conda/lib/python3.10/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 61 in _recv_msg
+  File "/opt/conda/lib/python3.10/site-packages/torch/_inductor/compile_worker/subproc_pool.py", line 195 in _read_thread
+  File "/opt/conda/lib/python3.10/threading.py", line 953 in run
+  File "/opt/conda/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/opt/conda/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007fb83a0ae740 (most recent call first):
+  File "/opt/conda/lib/python3.10/site-packages/torch/distributed/distributed_c10d.py", line 4811 in barrier
+  File "/opt/conda/lib/python3.10/site-packages/torch/distributed/c10d_logger.py", line 81 in wrapper
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/utilities/distributed.py", line 121 in gather_all_tensors
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/apply_func.py", line 72 in <dictcomp>
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/apply_func.py", line 72 in apply_to_collection
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 518 in _sync_dist
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 614 in sync
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 665 in sync_context
+  File "/opt/conda/lib/python3.10/contextlib.py", line 135 in __enter__
+  File "/opt/conda/lib/python3.10/site-packages/torchmetrics/metric.py", line 694 in wrapped_func
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 253 in compute
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 288 in wrapped_func
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 439 in _get_cache
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/result.py", line 475 in metrics
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/logger_connector.py", line 237 in metrics
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/logger_connector/logger_connector.py", line 198 in on_epoch_end
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 381 in _on_evaluation_epoch_end
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 296 in on_run_end
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 153 in run
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/utilities.py", line 179 in _decorator
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1150 in _run_sanity_check
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1121 in _run_stage
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1079 in _run
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 630 in _fit_impl
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105 in launch
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 48 in _call_and_handle_interrupt
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 584 in fit
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 226 in train
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72 in wrap
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283 in main
+  File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186 in run_job
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 119 in run
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458 in <lambda>
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220 in run_and_report
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457 in _run_app
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394 in _run_hydra
+  File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94 in decorated_main
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300 in <module>
+
+Extension modules: yaml._yaml, numpy._core._multiarray_umath, numpy.linalg._umath_linalg, torch._C, torch._C._dynamo.autograd_compiler, torch._C._dynamo.eval_frame, torch._C._dynamo.guards, torch._C._dynamo.utils, torch._C._fft, torch._C._linalg, torch._C._nested, torch._C._nn, torch._C._sparse, torch._C._special, scipy._lib._ccallback_c, scipy.signal._sigtools, scipy.linalg._fblas, scipy.linalg._flapack, scipy.linalg.cython_lapack, scipy.linalg._cythonized_array_utils, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._mt19937, numpy.random.mtrand, numpy.random._philox, numpy.random._pcg64, numpy.random._sfc64, numpy.random._generator, scipy.linalg._solve_toeplitz, scipy.linalg._decomp_lu_cython, scipy.linalg._matfuncs_sqrtm_triu, scipy.linalg.cython_blas, scipy.linalg._matfuncs_expm, scipy.linalg._decomp_update, scipy.sparse._sparsetools, _csparsetools, scipy.sparse._csparsetools, scipy.sparse.linalg._dsolve._superlu, scipy.sparse.linalg._eigen.arpack._arpack, scipy.sparse.linalg._propack._spropack, scipy.sparse.linalg._propack._dpropack, scipy.sparse.linalg._propack._cpropack, scipy.sparse.linalg._propack._zpropack, scipy.sparse.csgraph._tools, scipy.sparse.csgraph._shortest_path, scipy.sparse.csgraph._traversal, scipy.sparse.csgraph._min_spanning_tree, scipy.sparse.csgraph._flow, scipy.sparse.csgraph._matching, scipy.sparse.csgraph._reordering, scipy.special._ufuncs_cxx, scipy.special._cdflib, scipy.special._ufuncs, scipy.special._specfun, scipy.special._comb, scipy.special._ellip_harm_2, scipy._lib._uarray._uarray, scipy.signal._max_len_seq_inner, scipy.signal._upfirdn_apply, scipy.signal._spline, scipy.spatial._ckdtree, scipy._lib.messagestream, scipy.spatial._qhull, scipy.spatial._voronoi, scipy.spatial._distance_wrap, scipy.spatial._hausdorff, scipy.spatial.transform._rotation, scipy.interpolate._fitpack, scipy.interpolate.dfitpack, scipy.optimize._minpack2, scipy.optimize._group_columns, scipy.optimize._trlib._trlib, scipy.optimize._lbfgsb, _moduleTNC, scipy.optimize._moduleTNC, scipy.optimize._cobyla, scipy.optimize._slsqp, scipy.optimize._minpack, scipy.optimize._lsq.givens_elimination, scipy.optimize._zeros, scipy.optimize._highs.cython.src._highs_wrapper, scipy.optimize._highs._highs_wrapper, scipy.optimize._highs.cython.src._highs_constants, scipy.optimize._highs._highs_constants, scipy.linalg._interpolative, scipy.optimize._bglu_dense, scipy.optimize._lsap, scipy.optimize._direct, scipy.interpolate._bspl, scipy.interpolate._ppoly, scipy.interpolate.interpnd, scipy.interpolate._rbfinterp_pythran, scipy.interpolate._rgi_cython, scipy.ndimage._nd_image, _ni_label, scipy.ndimage._ni_label, scipy.signal._sosfilt, scipy.signal._spectral, scipy.integrate._odepack, scipy.integrate._quadpack, scipy.integrate._vode, scipy.integrate._dop, scipy.integrate._lsoda, scipy.special.cython_special, scipy.stats._stats, scipy.stats.beta_ufunc, scipy.stats._boost.beta_ufunc, scipy.stats.binom_ufunc, scipy.stats._boost.binom_ufunc, scipy.stats.nbinom_ufunc, scipy.stats._boost.nbinom_ufunc, scipy.stats.hypergeom_ufunc, scipy.stats._boost.hypergeom_ufunc, scipy.stats.ncf_ufunc, scipy.stats._boost.ncf_ufunc, scipy.stats.ncx2_ufunc, scipy.stats._boost.ncx2_ufunc, scipy.stats.nct_ufunc, scipy.stats._boost.nct_ufunc, scipy.stats.skewnorm_ufunc, scipy.stats._boost.skewnorm_ufunc, scipy.stats.invgauss_ufunc, scipy.stats._boost.invgauss_ufunc, scipy.stats._biasedurn, scipy.stats._levy_stable.levyst, scipy.stats._stats_pythran, scipy.stats._ansari_swilk_statistics, scipy.stats._sobol, scipy.stats._qmc_cy, scipy.stats._mvn, scipy.stats._rcont.rcont, scipy.stats._unuran.unuran_wrapper, scipy.signal._peak_finding_utils, PIL._imaging, kiwisolver._cext, PIL._imagingft, zstandard.backend_c, psutil._psutil_linux, backports._datetime_fromisoformat, markupsafe._speedups, work._ruamel_yaml, _ruamel_yaml, bson._cbson, msgpack._cmsgpack, pymatgen.util.coord_cython, scipy.cluster._vq, scipy.cluster._hierarchy, scipy.cluster._optimal_leaf_ordering, openbabel._openbabel, numba.core.typeconv._typeconv, numba._helperlib, numba._dynfunc, numba._dispatcher, numba.core.runtime._nrt_python, numba.np.ufunc._internal, numba.experimental.jitclass._box, rdkit.rdBase, rdkit.DataStructs.cDataStructs, rdkit.Chem.rdchem, rdkit.Geometry.rdGeometry, rdkit.Chem.rdinchi, rdkit.Chem.rdCIPLabeler, rdkit.Chem.rdmolfiles, rdkit.Chem.rdmolops, rdkit.Chem.rdMolInterchange, rdkit.Chem.rdCoordGen, pandas._libs.tslibs.ccalendar, pandas._libs.tslibs.np_datetime, pandas._libs.tslibs.dtypes, pandas._libs.tslibs.base, pandas._libs.tslibs.nattype, pandas._libs.tslibs.timezones, pandas._libs.tslibs.fields, pandas._libs.tslibs.timedeltas, pandas._libs.tslibs.tzconversion, pandas._libs.tslibs.timestamps, pandas._libs.properties, pandas._libs.tslibs.offsets, pandas._libs.tslibs.strptime, pandas._libs.tslibs.parsing, pandas._libs.tslibs.conversion, pandas._libs.tslibs.period, pandas._libs.tslibs.vectorized, pandas._libs.ops_dispatch, pandas._libs.missing, pandas._libs.hashtable, pandas._libs.algos, pandas._libs.interval, pandas._libs.lib, pandas._libs.ops, pandas._libs.hashing, pandas._libs.arrays, pandas._libs.tslib, pandas._libs.sparse, pandas._libs.internals, pandas._libs.indexing, pandas._libs.index, pandas._libs.writers, pandas._libs.join, pandas._libs.window.aggregations, pandas._libs.window.indexers, pandas._libs.reshape, pandas._libs.groupby, pandas._libs.json, pandas._libs.parsers, pandas._libs.testing, spglib._spglib, _brotli, sqlalchemy.cyextension.collections, sqlalchemy.cyextension.immutabledict, sqlalchemy.cyextension.processors, sqlalchemy.cyextension.resultproxy, sqlalchemy.cyextension.util, greenlet._greenlet, google._upb._message, uvloop.loop, ray._raylet, grpc._cython.cygrpc, cython.cimports.libc.math, pymatgen.optimization.linear_assignment, sklearn.__check_build._check_build, sklearn.utils._isfinite, sklearn.utils.sparsefuncs_fast, sklearn.utils.murmurhash, sklearn.utils._openmp_helpers, sklearn.metrics.cluster._expected_mutual_info_fast, sklearn.preprocessing._csr_polynomial_expansion, sklearn.preprocessing._target_encoder_fast, sklearn.metrics._dist_metrics, sklearn.metrics._pairwise_distances_reduction._datasets_pair, sklearn.utils._cython_blas, sklearn.metrics._pairwise_distances_reduction._base, sklearn.metrics._pairwise_distances_reduction._middle_term_computer, sklearn.utils._heap, sklearn.utils._sorting, sklearn.metrics._pairwise_distances_reduction._argkmin, sklearn.metrics._pairwise_distances_reduction._argkmin_classmode, sklearn.utils._vector_sentinel, sklearn.metrics._pairwise_distances_reduction._radius_neighbors, sklearn.metrics._pairwise_distances_reduction._radius_neighbors_classmode, sklearn.metrics._pairwise_fast, sklearn.neighbors._partition_nodes, sklearn.neighbors._ball_tree, sklearn.neighbors._kd_tree, sklearn.utils.arrayfuncs, sklearn.utils._random, sklearn.utils._seq_dataset, sklearn.linear_model._cd_fast, _loss, sklearn._loss._loss, sklearn.svm._liblinear, sklearn.svm._libsvm, sklearn.svm._libsvm_sparse, sklearn.linear_model._sag_fast, sklearn.utils._weight_vector, sklearn.linear_model._sgd_fast, sklearn.decomposition._online_lda_fast, sklearn.decomposition._cdnmf_fast, rdkit.Chem.rdDistGeom, rdkit.ForceField.rdForceField, rdkit.Chem.rdForceFieldHelpers, rdkit.Chem.MolStandardize.rdMolStandardize, rdkit.Chem.rdChemicalFeatures, rdkit.Chem.rdMolChemicalFeatures, rdkit.Chem.rdChemReactions, rdkit.Chem.rdDepictor, rdkit.Chem.rdFingerprintGenerator, rdkit.Chem.rdMolAlign, rdkit.Chem.rdMolDescriptors, rdkit.Chem.rdMolEnumerator, rdkit.Chem.rdMolTransforms, rdkit.Chem.rdPartialCharges, rdkit.Chem.rdqueries, rdkit.Chem.rdReducedGraphs, rdkit.Chem.rdShapeHelpers, rdkit.Chem.rdSLNParse, rdkit.Chem.Draw.rdMolDraw2D, cuda_utils, pymatgen.optimization.neighbors, _cffi_backend (total: 281)
+srun: error: nid008669: task 1: Aborted
+srun: Force Terminated StepId=56395971.0

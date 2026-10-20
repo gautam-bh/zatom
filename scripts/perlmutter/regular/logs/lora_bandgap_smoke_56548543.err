@@ -1,0 +1,615 @@
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[rank: 3] Seed set to 52931706
+[rank: 2] Seed set to 98542498
+[rank: 1] Seed set to 30682886
+[rank: 0] Seed set to 13298049
+Trainer already configured with model summary callbacks: [<class 'lightning.pytorch.callbacks.rich_model_summary.RichModelSummary'>]. Skipping setting a default `ModelSummary` callback.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+`Trainer(val_check_interval=1.0)` was configured so validation will run at the end of the training epoch..
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: gautamb (gautamb-nersc). Use `wandb login --relogin` to force relogin
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/4
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/4
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/4
+wandb: Tracking run with wandb version 0.18.7
+wandb: Run data is saved locally in /global/u1/g/gautama/projects/zatom/logs/finetune_fm/runs/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/wandb/run-20260810_021229-smokedf1dyq
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03
+wandb: ⭐️ View project at https://wandb.ai/gautamb-nersc/zatom
+wandb: 🚀 View run at https://wandb.ai/gautamb-nersc/zatom/runs/smokedf1dyq
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/4
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+Restoring states from the checkpoint path at checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+Restored all states from the checkpoint at checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt
+SLURM auto-requeueing enabled. Setting signal handlers.
+SLURM auto-requeueing enabled. Setting signal handlers.
+SLURM auto-requeueing enabled. Setting signal handlers.
+SLURM auto-requeueing enabled. Setting signal handlers.
+    Sampling:   0%|          | 0/1 [00:00<?, ?it/s]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.36s/it]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.36s/it]
+    Sampling:   0%|          | 0/1 [00:00<?, ?it/s]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.36s/it]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.36s/it]
+    Sampling:   0%|          | 0/1 [00:00<?, ?it/s]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.36s/it]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.36s/it]
+    Sampling:   0%|          | 0/1 [00:00<?, ?it/s]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.36s/it]    Sampling: 100%|██████████| 1/1 [00:09<00:00,  9.36s/it]
+Error executing job with overrides: ['experiment=lora_bandgap', 'data.datamodule.batch_size.train=32', 'data.datamodule.batch_size.val=32', 'data.datamodule.batch_size.test=32', 'trainer.accumulate_grad_batches=4', 'pretrained_ckpt_path=checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt', 'ckpt_path=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.model_checkpoint.dirpath=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.last_model_checkpoint.dirpath=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.last_model_checkpoint.every_n_train_steps=2', 'model/architecture=tft_160M', 'date=2026-08-09_19-12-03', 'name=lora_bandgap_smoke_arch-tft_160M', 'task_name=finetune_fm', 'logger.wandb.mode=online', 'trainer.num_nodes=1', 'trainer.devices=4', 'trainer.max_epochs=1', 'trainer.max_time=00:00:18:00', '++trainer.limit_train_batches=16', '++trainer.limit_val_batches=2', '++trainer.limit_test_batches=2']
+Error executing job with overrides: ['experiment=lora_bandgap', 'data.datamodule.batch_size.train=32', 'data.datamodule.batch_size.val=32', 'data.datamodule.batch_size.test=32', 'trainer.accumulate_grad_batches=4', 'pretrained_ckpt_path=checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt', 'ckpt_path=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.model_checkpoint.dirpath=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.last_model_checkpoint.dirpath=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.last_model_checkpoint.every_n_train_steps=2', 'model/architecture=tft_160M', 'date=2026-08-09_19-12-03', 'name=lora_bandgap_smoke_arch-tft_160M', 'task_name=finetune_fm', 'logger.wandb.mode=online', 'trainer.num_nodes=1', 'trainer.devices=4', 'trainer.max_epochs=1', 'trainer.max_time=00:00:18:00', '++trainer.limit_train_batches=16', '++trainer.limit_val_batches=2', '++trainer.limit_test_batches=2']
+Error executing job with overrides: ['experiment=lora_bandgap', 'data.datamodule.batch_size.train=32', 'data.datamodule.batch_size.val=32', 'data.datamodule.batch_size.test=32', 'trainer.accumulate_grad_batches=4', 'pretrained_ckpt_path=checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt', 'ckpt_path=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.model_checkpoint.dirpath=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.last_model_checkpoint.dirpath=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.last_model_checkpoint.every_n_train_steps=2', 'model/architecture=tft_160M', 'date=2026-08-09_19-12-03', 'name=lora_bandgap_smoke_arch-tft_160M', 'task_name=finetune_fm', 'logger.wandb.mode=online', 'trainer.num_nodes=1', 'trainer.devices=4', 'trainer.max_epochs=1', 'trainer.max_time=00:00:18:00', '++trainer.limit_train_batches=16', '++trainer.limit_val_batches=2', '++trainer.limit_test_batches=2']
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300, in <module>
+[rank3]:     main()
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+[rank3]:     _run_hydra(
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+[rank3]:     _run_app(
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+[rank3]:     run_and_report(
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+[rank3]:     raise ex
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+[rank3]:     return func()
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+[rank3]:     lambda: hydra.run(
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+[rank3]:     _ = ret.return_value
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+[rank3]:     raise self._return_value
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+[rank3]:     ret.return_value = task_function(task_cfg)
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283, in main
+[rank3]:     metric_dict, _ = train(cfg)
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 82, in wrap
+[rank3]:     raise ex
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72, in wrap
+[rank3]:     metric_dict, object_dict = task_func(cfg=cfg)
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 226, in train
+[rank3]:     trainer.fit(model=model, datamodule=datamodule, ckpt_path=ckpt_path, weights_only=False)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 584, in fit
+[rank3]:     call._call_and_handle_interrupt(
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 48, in _call_and_handle_interrupt
+[rank3]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+[rank3]:     return function(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 630, in _fit_impl
+[rank3]:     self._run(model, ckpt_path=ckpt_path, weights_only=weights_only)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1079, in _run
+[rank3]:     results = self._run_stage()
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1123, in _run_stage
+[rank3]:     self.fit_loop.run()
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 217, in run
+[rank3]:     self.advance()
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 465, in advance
+[rank3]:     self.epoch_loop.run(self._data_fetcher)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 153, in run
+[rank3]:     self.advance(data_fetcher)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 352, in advance
+[rank3]:     batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 185, in run
+[rank3]:     closure()
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 146, in __call__
+[rank3]:     self._result = self.closure(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+[rank3]:     return func(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 131, in closure
+[rank3]:     step_output = self._step_fn()
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 319, in _training_step
+[rank3]:     training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 329, in _call_strategy_hook
+[rank3]:     output = fn(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 390, in training_step
+[rank3]:     return self._forward_redirection(self.model, self.lightning_module, "training_step", *args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 641, in __call__
+[rank3]:     wrapper_output = wrapper_module(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1648, in forward
+[rank3]:     else self._run_ddp_forward(*inputs, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1474, in _run_ddp_forward
+[rank3]:     return self.module(*inputs, **kwargs)  # type: ignore[index]
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 634, in wrapped_forward
+[rank3]:     out = method(*_args, **_kwargs)
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 833, in training_step
+[rank3]:     loss_dict = self.forward(batch)
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 565, in forward
+[rank3]:     loss_dict, _ = self.model.forward(dense_batch, compute_stats=False)
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/tft.py", line 736, in forward
+[rank3]:     pred = self._call_model(path.x_t, path.x_1, path.t)
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/tft.py", line 394, in _call_model
+[rank3]:     ), aux_task_preds = model_fn(
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer_module.py", line 508, in forward
+[rank3]:     h_out, h_aux = self.transformer(h_in, padding_mask=padding_mask, **attention_kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer.py", line 461, in forward
+[rank3]:     h = layer(h, pos_ids=pos_ids, attn_mask=attn_mask, **attention_kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer.py", line 152, in forward
+[rank3]:     h = x + self.attention(
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank3]:     return self._call_impl(*args, **kwargs)
+[rank3]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank3]:     return forward_call(*args, **kwargs)
+[rank3]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/attention.py", line 226, in forward
+[rank3]:     output = F.scaled_dot_product_attention(q, k, v, attn_mask=final_mask)
+[rank3]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.52 GiB. GPU 3 has a total capacity of 79.25 GiB of which 937.56 MiB is free. Including non-PyTorch memory, this process has 78.32 GiB memory in use. Of the allocated memory 77.00 GiB is allocated by PyTorch, and 245.04 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300, in <module>
+[rank2]:     main()
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+[rank2]:     _run_hydra(
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+[rank2]:     _run_app(
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+[rank2]:     run_and_report(
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+[rank2]:     raise ex
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+[rank2]:     return func()
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+[rank2]:     lambda: hydra.run(
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+[rank2]:     _ = ret.return_value
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+[rank2]:     raise self._return_value
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+[rank2]:     ret.return_value = task_function(task_cfg)
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283, in main
+[rank2]:     metric_dict, _ = train(cfg)
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 82, in wrap
+[rank2]:     raise ex
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72, in wrap
+[rank2]:     metric_dict, object_dict = task_func(cfg=cfg)
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 226, in train
+[rank2]:     trainer.fit(model=model, datamodule=datamodule, ckpt_path=ckpt_path, weights_only=False)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 584, in fit
+[rank2]:     call._call_and_handle_interrupt(
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 48, in _call_and_handle_interrupt
+[rank2]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+[rank2]:     return function(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 630, in _fit_impl
+[rank2]:     self._run(model, ckpt_path=ckpt_path, weights_only=weights_only)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1079, in _run
+[rank2]:     results = self._run_stage()
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1123, in _run_stage
+[rank2]:     self.fit_loop.run()
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 217, in run
+[rank2]:     self.advance()
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 465, in advance
+[rank2]:     self.epoch_loop.run(self._data_fetcher)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 153, in run
+[rank2]:     self.advance(data_fetcher)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 352, in advance
+[rank2]:     batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 185, in run
+[rank2]:     closure()
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 146, in __call__
+[rank2]:     self._result = self.closure(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+[rank2]:     return func(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 131, in closure
+[rank2]:     step_output = self._step_fn()
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 319, in _training_step
+[rank2]:     training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 329, in _call_strategy_hook
+[rank2]:     output = fn(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 390, in training_step
+[rank2]:     return self._forward_redirection(self.model, self.lightning_module, "training_step", *args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 641, in __call__
+[rank2]:     wrapper_output = wrapper_module(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1648, in forward
+[rank2]:     else self._run_ddp_forward(*inputs, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1474, in _run_ddp_forward
+[rank2]:     return self.module(*inputs, **kwargs)  # type: ignore[index]
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 634, in wrapped_forward
+[rank2]:     out = method(*_args, **_kwargs)
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 833, in training_step
+[rank2]:     loss_dict = self.forward(batch)
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 565, in forward
+[rank2]:     loss_dict, _ = self.model.forward(dense_batch, compute_stats=False)
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/tft.py", line 736, in forward
+[rank2]:     pred = self._call_model(path.x_t, path.x_1, path.t)
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/tft.py", line 394, in _call_model
+[rank2]:     ), aux_task_preds = model_fn(
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer_module.py", line 508, in forward
+[rank2]:     h_out, h_aux = self.transformer(h_in, padding_mask=padding_mask, **attention_kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer.py", line 461, in forward
+[rank2]:     h = layer(h, pos_ids=pos_ids, attn_mask=attn_mask, **attention_kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer.py", line 152, in forward
+[rank2]:     h = x + self.attention(
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank2]:     return self._call_impl(*args, **kwargs)
+[rank2]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank2]:     return forward_call(*args, **kwargs)
+[rank2]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/attention.py", line 226, in forward
+[rank2]:     output = F.scaled_dot_product_attention(q, k, v, attn_mask=final_mask)
+[rank2]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.52 GiB. GPU 2 has a total capacity of 79.25 GiB of which 937.56 MiB is free. Including non-PyTorch memory, this process has 78.32 GiB memory in use. Of the allocated memory 77.00 GiB is allocated by PyTorch, and 244.96 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300, in <module>
+[rank1]:     main()
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+[rank1]:     _run_hydra(
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+[rank1]:     _run_app(
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+[rank1]:     run_and_report(
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+[rank1]:     raise ex
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+[rank1]:     return func()
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+[rank1]:     lambda: hydra.run(
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+[rank1]:     _ = ret.return_value
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+[rank1]:     raise self._return_value
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+[rank1]:     ret.return_value = task_function(task_cfg)
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283, in main
+[rank1]:     metric_dict, _ = train(cfg)
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 82, in wrap
+[rank1]:     raise ex
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72, in wrap
+[rank1]:     metric_dict, object_dict = task_func(cfg=cfg)
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 226, in train
+[rank1]:     trainer.fit(model=model, datamodule=datamodule, ckpt_path=ckpt_path, weights_only=False)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 584, in fit
+[rank1]:     call._call_and_handle_interrupt(
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 48, in _call_and_handle_interrupt
+[rank1]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+[rank1]:     return function(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 630, in _fit_impl
+[rank1]:     self._run(model, ckpt_path=ckpt_path, weights_only=weights_only)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1079, in _run
+[rank1]:     results = self._run_stage()
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1123, in _run_stage
+[rank1]:     self.fit_loop.run()
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 217, in run
+[rank1]:     self.advance()
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 465, in advance
+[rank1]:     self.epoch_loop.run(self._data_fetcher)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 153, in run
+[rank1]:     self.advance(data_fetcher)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 352, in advance
+[rank1]:     batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 185, in run
+[rank1]:     closure()
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 146, in __call__
+[rank1]:     self._result = self.closure(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+[rank1]:     return func(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 131, in closure
+[rank1]:     step_output = self._step_fn()
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 319, in _training_step
+[rank1]:     training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 329, in _call_strategy_hook
+[rank1]:     output = fn(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 390, in training_step
+[rank1]:     return self._forward_redirection(self.model, self.lightning_module, "training_step", *args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 641, in __call__
+[rank1]:     wrapper_output = wrapper_module(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1648, in forward
+[rank1]:     else self._run_ddp_forward(*inputs, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1474, in _run_ddp_forward
+[rank1]:     return self.module(*inputs, **kwargs)  # type: ignore[index]
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 634, in wrapped_forward
+[rank1]:     out = method(*_args, **_kwargs)
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 833, in training_step
+[rank1]:     loss_dict = self.forward(batch)
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 565, in forward
+[rank1]:     loss_dict, _ = self.model.forward(dense_batch, compute_stats=False)
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/tft.py", line 736, in forward
+[rank1]:     pred = self._call_model(path.x_t, path.x_1, path.t)
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/tft.py", line 394, in _call_model
+[rank1]:     ), aux_task_preds = model_fn(
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer_module.py", line 508, in forward
+[rank1]:     h_out, h_aux = self.transformer(h_in, padding_mask=padding_mask, **attention_kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer.py", line 461, in forward
+[rank1]:     h = layer(h, pos_ids=pos_ids, attn_mask=attn_mask, **attention_kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer.py", line 152, in forward
+[rank1]:     h = x + self.attention(
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank1]:     return self._call_impl(*args, **kwargs)
+[rank1]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank1]:     return forward_call(*args, **kwargs)
+[rank1]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/attention.py", line 226, in forward
+[rank1]:     output = F.scaled_dot_product_attention(q, k, v, attn_mask=final_mask)
+[rank1]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.52 GiB. GPU 1 has a total capacity of 79.25 GiB of which 937.56 MiB is free. Including non-PyTorch memory, this process has 78.32 GiB memory in use. Of the allocated memory 77.00 GiB is allocated by PyTorch, and 245.00 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+wandb: - 0.126 MB of 0.126 MB uploadedwandb: \ 0.126 MB of 0.126 MB uploadedwandb:                                                                                
+wandb: 
+wandb: Run history:
+wandb:              lr-AdamW ▁
+wandb:     lr-AdamW-momentum ▁
+wandb: lr-AdamW-weight_decay ▁
+wandb:   trainer/global_step ▁▁
+wandb: 
+wandb: Run summary:
+wandb:              lr-AdamW 0.0005
+wandb:     lr-AdamW-momentum 0.9
+wandb: lr-AdamW-weight_decay 0
+wandb:   trainer/global_step 0
+wandb: 
+wandb: 🚀 View run lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03 at: https://wandb.ai/gautamb-nersc/zatom/runs/smokedf1dyq
+wandb: ⭐️ View project at: https://wandb.ai/gautamb-nersc/zatom
+wandb: Synced 5 W&B file(s), 0 media file(s), 4 artifact file(s) and 1 other file(s)
+wandb: Find logs at: ./logs/finetune_fm/runs/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/wandb/run-20260810_021229-smokedf1dyq/logs
+Error executing job with overrides: ['experiment=lora_bandgap', 'data.datamodule.batch_size.train=32', 'data.datamodule.batch_size.val=32', 'data.datamodule.batch_size.test=32', 'trainer.accumulate_grad_batches=4', 'pretrained_ckpt_path=checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt', 'ckpt_path=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.model_checkpoint.dirpath=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.last_model_checkpoint.dirpath=/pscratch/sd/g/gautama/zatom_checkpoints/finetune_fm/lora_bandgap_smoke_arch-tft_160M_2026-08-09_19-12-03/checkpoints', 'callbacks.last_model_checkpoint.every_n_train_steps=2', 'model/architecture=tft_160M', 'date=2026-08-09_19-12-03', 'name=lora_bandgap_smoke_arch-tft_160M', 'task_name=finetune_fm', 'logger.wandb.mode=online', 'trainer.num_nodes=1', 'trainer.devices=4', 'trainer.max_epochs=1', 'trainer.max_time=00:00:18:00', '++trainer.limit_train_batches=16', '++trainer.limit_val_batches=2', '++trainer.limit_test_batches=2']
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300, in <module>
+[rank0]:     main()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+[rank0]:     _run_hydra(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+[rank0]:     _run_app(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+[rank0]:     run_and_report(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+[rank0]:     raise ex
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+[rank0]:     return func()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+[rank0]:     lambda: hydra.run(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+[rank0]:     _ = ret.return_value
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+[rank0]:     raise self._return_value
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+[rank0]:     ret.return_value = task_function(task_cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283, in main
+[rank0]:     metric_dict, _ = train(cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 82, in wrap
+[rank0]:     raise ex
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72, in wrap
+[rank0]:     metric_dict, object_dict = task_func(cfg=cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 226, in train
+[rank0]:     trainer.fit(model=model, datamodule=datamodule, ckpt_path=ckpt_path, weights_only=False)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 584, in fit
+[rank0]:     call._call_and_handle_interrupt(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 48, in _call_and_handle_interrupt
+[rank0]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+[rank0]:     return function(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 630, in _fit_impl
+[rank0]:     self._run(model, ckpt_path=ckpt_path, weights_only=weights_only)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1079, in _run
+[rank0]:     results = self._run_stage()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1123, in _run_stage
+[rank0]:     self.fit_loop.run()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 217, in run
+[rank0]:     self.advance()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 465, in advance
+[rank0]:     self.epoch_loop.run(self._data_fetcher)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 153, in run
+[rank0]:     self.advance(data_fetcher)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 352, in advance
+[rank0]:     batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 185, in run
+[rank0]:     closure()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 146, in __call__
+[rank0]:     self._result = self.closure(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 131, in closure
+[rank0]:     step_output = self._step_fn()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 319, in _training_step
+[rank0]:     training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 329, in _call_strategy_hook
+[rank0]:     output = fn(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 390, in training_step
+[rank0]:     return self._forward_redirection(self.model, self.lightning_module, "training_step", *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 641, in __call__
+[rank0]:     wrapper_output = wrapper_module(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1648, in forward
+[rank0]:     else self._run_ddp_forward(*inputs, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1474, in _run_ddp_forward
+[rank0]:     return self.module(*inputs, **kwargs)  # type: ignore[index]
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 634, in wrapped_forward
+[rank0]:     out = method(*_args, **_kwargs)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 833, in training_step
+[rank0]:     loss_dict = self.forward(batch)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 565, in forward
+[rank0]:     loss_dict, _ = self.model.forward(dense_batch, compute_stats=False)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/tft.py", line 736, in forward
+[rank0]:     pred = self._call_model(path.x_t, path.x_1, path.t)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/tft.py", line 394, in _call_model
+[rank0]:     ), aux_task_preds = model_fn(
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer_module.py", line 508, in forward
+[rank0]:     h_out, h_aux = self.transformer(h_in, padding_mask=padding_mask, **attention_kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer.py", line 461, in forward
+[rank0]:     h = layer(h, pos_ids=pos_ids, attn_mask=attn_mask, **attention_kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer.py", line 152, in forward
+[rank0]:     h = x + self.attention(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/attention.py", line 226, in forward
+[rank0]:     output = F.scaled_dot_product_attention(q, k, v, attn_mask=final_mask)
+[rank0]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.52 GiB. GPU 0 has a total capacity of 79.25 GiB of which 937.56 MiB is free. Including non-PyTorch memory, this process has 78.32 GiB memory in use. Of the allocated memory 77.00 GiB is allocated by PyTorch, and 245.07 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300, in <module>
+[rank0]:     main()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+[rank0]:     _run_hydra(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+[rank0]:     _run_app(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+[rank0]:     run_and_report(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+[rank0]:     raise ex
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+[rank0]:     return func()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+[rank0]:     lambda: hydra.run(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+[rank0]:     _ = ret.return_value
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+[rank0]:     raise self._return_value
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+[rank0]:     ret.return_value = task_function(task_cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283, in main
+[rank0]:     metric_dict, _ = train(cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 82, in wrap
+[rank0]:     raise ex
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72, in wrap
+[rank0]:     metric_dict, object_dict = task_func(cfg=cfg)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 226, in train
+[rank0]:     trainer.fit(model=model, datamodule=datamodule, ckpt_path=ckpt_path, weights_only=False)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 584, in fit
+[rank0]:     call._call_and_handle_interrupt(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 48, in _call_and_handle_interrupt
+[rank0]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+[rank0]:     return function(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 630, in _fit_impl
+[rank0]:     self._run(model, ckpt_path=ckpt_path, weights_only=weights_only)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1079, in _run
+[rank0]:     results = self._run_stage()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1123, in _run_stage
+[rank0]:     self.fit_loop.run()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 217, in run
+[rank0]:     self.advance()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 465, in advance
+[rank0]:     self.epoch_loop.run(self._data_fetcher)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 153, in run
+[rank0]:     self.advance(data_fetcher)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 352, in advance
+[rank0]:     batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 185, in run
+[rank0]:     closure()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 146, in __call__
+[rank0]:     self._result = self.closure(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+[rank0]:     return func(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 131, in closure
+[rank0]:     step_output = self._step_fn()
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 319, in _training_step
+[rank0]:     training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 329, in _call_strategy_hook
+[rank0]:     output = fn(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 390, in training_step
+[rank0]:     return self._forward_redirection(self.model, self.lightning_module, "training_step", *args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 641, in __call__
+[rank0]:     wrapper_output = wrapper_module(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1648, in forward
+[rank0]:     else self._run_ddp_forward(*inputs, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/parallel/distributed.py", line 1474, in _run_ddp_forward
+[rank0]:     return self.module(*inputs, **kwargs)  # type: ignore[index]
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 634, in wrapped_forward
+[rank0]:     out = method(*_args, **_kwargs)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 833, in training_step
+[rank0]:     loss_dict = self.forward(batch)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/zatom.py", line 565, in forward
+[rank0]:     loss_dict, _ = self.model.forward(dense_batch, compute_stats=False)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/tft.py", line 736, in forward
+[rank0]:     pred = self._call_model(path.x_t, path.x_1, path.t)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/tft.py", line 394, in _call_model
+[rank0]:     ), aux_task_preds = model_fn(
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer_module.py", line 508, in forward
+[rank0]:     h_out, h_aux = self.transformer(h_in, padding_mask=padding_mask, **attention_kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer.py", line 461, in forward
+[rank0]:     h = layer(h, pos_ids=pos_ids, attn_mask=attn_mask, **attention_kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/transformer.py", line 152, in forward
+[rank0]:     h = x + self.attention(
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:   File "/opt/conda/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:   File "/global/u1/g/gautama/projects/zatom/zatom/models/architectures/transformer/attention.py", line 226, in forward
+[rank0]:     output = F.scaled_dot_product_attention(q, k, v, attn_mask=final_mask)
+[rank0]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.52 GiB. GPU 0 has a total capacity of 79.25 GiB of which 937.56 MiB is free. Including non-PyTorch memory, this process has 78.32 GiB memory in use. Of the allocated memory 77.00 GiB is allocated by PyTorch, and 245.07 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+srun: error: nid008685: task 1: Exited with exit code 1
+srun: Terminating StepId=56548543.0
+[2026-08-10T02:14:19.489] error: *** STEP 56548543.0 ON nid008685 CANCELLED AT 2026-08-10T02:14:19 DUE TO TASK FAILURE ***
+srun: error: nid008685: task 2: Exited with exit code 1
+srun: error: nid008685: task 3: Exited with exit code 1
+srun: error: nid008685: task 0: Exited with exit code 1

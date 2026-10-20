@@ -1,0 +1,136 @@
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[rank: 2] Seed set to 42349471
+[rank: 3] Seed set to 80570614
+[rank: 1] Seed set to 11576239
+[rank: 0] Seed set to 7344423
+Trainer already configured with model summary callbacks: [<class 'lightning.pytorch.callbacks.rich_model_summary.RichModelSummary'>]. Skipping setting a default `ModelSummary` callback.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+`Trainer(val_check_interval=1.0)` was configured so validation will run at the end of the training epoch..
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+Error executing job with overrides: ['experiment=lora_bandgap', 'pretrained_ckpt_path=checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt', 'ckpt_path=logs/finetune_fm/runs/lora_bandgap_arch-tft_160M_2026-07-12_14-27-59/checkpoints/', 'model/architecture=tft_160M', 'date=2026-07-12_14-27-59', 'name=lora_bandgap_arch-tft_160M_2026-07-12_14-27-59', 'task_name=finetune_fm', 'trainer.num_nodes=1', 'trainer.devices=4', 'trainer.max_time=00:11:00:00']
+wandb: ERROR api_key not configured (no-tty). call wandb.login(key=[your_api_key])
+Traceback (most recent call last):
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300, in <module>
+    main()
+  File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+    raise ex
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+    _ = ret.return_value
+  File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+    raise self._return_value
+  File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283, in main
+    metric_dict, _ = train(cfg)
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 82, in wrap
+    raise ex
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 151, in train
+    log_hyperparameters(object_dict)
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/logging_utils.py", line 67, in log_hyperparameters
+    logger.log_hyperparams(hparams)
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loggers/wandb.py", line 435, in log_hyperparams
+    self.experiment.config.update(params, allow_val_change=True)
+  File "/opt/conda/lib/python3.10/site-packages/lightning/fabric/loggers/logger.py", line 118, in experiment
+    return fn(self)
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loggers/wandb.py", line 410, in experiment
+    self._experiment = wandb.init(**self._wandb_init)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 1270, in init
+    wandb._sentry.reraise(e)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/analytics/sentry.py", line 161, in reraise
+    raise exc.with_traceback(sys.exc_info()[2])
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 1255, in init
+    wi.setup(kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 304, in setup
+    wandb_login._login(
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_login.py", line 347, in _login
+    wlogin.prompt_api_key()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_login.py", line 281, in prompt_api_key
+    raise UsageError("api_key not configured (no-tty). call " + directive)
+wandb.errors.errors.UsageError: api_key not configured (no-tty). call wandb.login(key=[your_api_key])
+Traceback (most recent call last):
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 300, in <module>
+    main()
+  File "/opt/conda/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 223, in run_and_report
+    raise ex
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "/opt/conda/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 132, in run
+    _ = ret.return_value
+  File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 260, in return_value
+    raise self._return_value
+  File "/opt/conda/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 283, in main
+    metric_dict, _ = train(cfg)
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 82, in wrap
+    raise ex
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/utils.py", line 72, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+  File "/global/u1/g/gautama/projects/zatom/zatom/train_fm.py", line 151, in train
+    log_hyperparameters(object_dict)
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/global/u1/g/gautama/projects/zatom/zatom/utils/logging_utils.py", line 67, in log_hyperparameters
+    logger.log_hyperparams(hparams)
+  File "/opt/conda/lib/python3.10/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loggers/wandb.py", line 435, in log_hyperparams
+    self.experiment.config.update(params, allow_val_change=True)
+  File "/opt/conda/lib/python3.10/site-packages/lightning/fabric/loggers/logger.py", line 118, in experiment
+    return fn(self)
+  File "/opt/conda/lib/python3.10/site-packages/lightning/pytorch/loggers/wandb.py", line 410, in experiment
+    self._experiment = wandb.init(**self._wandb_init)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 1270, in init
+    wandb._sentry.reraise(e)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/analytics/sentry.py", line 161, in reraise
+    raise exc.with_traceback(sys.exc_info()[2])
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 1255, in init
+    wi.setup(kwargs)
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_init.py", line 304, in setup
+    wandb_login._login(
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_login.py", line 347, in _login
+    wlogin.prompt_api_key()
+  File "/opt/conda/lib/python3.10/site-packages/wandb/sdk/wandb_login.py", line 281, in prompt_api_key
+    raise UsageError("api_key not configured (no-tty). call " + directive)
+wandb.errors.errors.UsageError: api_key not configured (no-tty). call wandb.login(key=[your_api_key])
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/4
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/4
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/4
+srun: error: nid008628: task 0: Exited with exit code 1
+srun: Terminating StepId=55777952.0
+[2026-07-12T21:28:32.746] error: *** STEP 55777952.0 ON nid008628 CANCELLED AT 2026-07-12T21:28:32 DUE TO TASK FAILURE ***
+srun: error: nid008628: tasks 1,3: Terminated
+srun: error: nid008628: task 2: Terminated
+srun: Force Terminated StepId=55777952.0

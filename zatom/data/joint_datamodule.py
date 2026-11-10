@@ -121,6 +121,22 @@ def global_property_custom_transform(data: Data, num_properties: int) -> Data:
     return data
 
 
+def holdout_split(num_samples: int, fraction: float, seed: int = 0) -> tuple:
+    """Split `range(num_samples)` into (train, val) index tensors with a fixed seed.
+
+    Args:
+        num_samples: Number of samples in the split being divided.
+        fraction: Fraction of samples to hold out for validation.
+        seed: Seed for the permutation, so every rank and every resume holds out the same set.
+
+    Returns:
+        A tuple of (train_indices, val_indices), each a sorted LongTensor.
+    """
+    perm = torch.randperm(num_samples, generator=torch.Generator().manual_seed(seed))
+    num_val = int(num_samples * fraction)
+    return perm[num_val:].sort().values, perm[:num_val].sort().values
+
+
 class JointDataModule(LightningDataModule):
     """`LightningDataModule` for jointly training on 3D atomic datasets:
 
@@ -674,22 +690,40 @@ class JointDataModule(LightningDataModule):
         self.matbench_val_dataset.scale = matbench_train_dataset_stats["scale"]
         self.matbench_test_dataset.shift = matbench_train_dataset_stats["shift"]
         self.matbench_test_dataset.scale = matbench_train_dataset_stats["scale"]
+        # Optionally hold out a fixed slice of the train split as a real validation set
+        # (otherwise val duplicates train, so val metrics cannot detect overfitting)
+        matbench_val_holdout_fraction = self.hparams.datasets.matbench.get(
+            "val_holdout_fraction", 0.0
+        )
+        if matbench_val_holdout_fraction > 0.0:
+            train_idx, val_idx = holdout_split(
+                len(self.matbench_train_dataset), matbench_val_holdout_fraction
+            )
+            self.matbench_val_dataset = self.matbench_train_dataset[val_idx]
+            self.matbench_train_dataset = self.matbench_train_dataset[train_idx]
         # Retain subset of dataset; can be used to train on only one dataset, too
         matbench_train_subset_size = int(
             len(self.matbench_train_dataset) * self.hparams.datasets.matbench.proportion
         )
         self.matbench_train_dataset = self.matbench_train_dataset[:matbench_train_subset_size]
-        self.matbench_val_dataset = self.matbench_val_dataset[
-            : max(
-                matbench_train_subset_size,
-                # NOTE: Using smaller proportion for val (i.e., duplicate train) set to mitigate overfitting
-                int(
-                    len(self.matbench_val_dataset)
-                    * self.hparams.datasets.matbench.proportion
-                    * 0.1
-                ),
-            )
-        ]
+        if matbench_val_holdout_fraction > 0.0:
+            self.matbench_val_dataset = self.matbench_val_dataset[
+                : int(
+                    len(self.matbench_val_dataset) * self.hparams.datasets.matbench.proportion
+                )
+            ]
+        else:
+            self.matbench_val_dataset = self.matbench_val_dataset[
+                : max(
+                    matbench_train_subset_size,
+                    # NOTE: Using smaller proportion for val (i.e., duplicate train) set to mitigate overfitting
+                    int(
+                        len(self.matbench_val_dataset)
+                        * self.hparams.datasets.matbench.proportion
+                        * 0.1
+                    ),
+                )
+            ]
         self.matbench_test_dataset = self.matbench_test_dataset[
             : max(
                 matbench_train_subset_size,

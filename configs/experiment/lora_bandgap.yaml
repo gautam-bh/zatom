@@ -42,6 +42,11 @@ data:
       matbench:
         proportion: 1.0
         global_property: matbench_mp_gap
+        # Hold out 5% of the train split (~4.2k structures) so `val_matbench/loss`, the
+        # checkpoint monitor, is measured on data the model never trains on. Without it val is
+        # the full train split: it cannot see overfitting, and it costs a forward pass over all
+        # ~85k training structures every epoch.
+        val_holdout_fraction: 0.05
 
 model:
   # Train the band gap *conditioned generator*: optimize the flow-matching losses. With the

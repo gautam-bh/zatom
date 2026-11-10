@@ -60,6 +60,9 @@ datamodule:
       root: ${paths.data_dir}/matbench
       proportion: 0.0
       global_property: matbench_mp_gap # NOTE: if provided, must be one of the properties listed in https://huggingface.co/datasets/Ty-Perez/matbench_properties#available-tasks-splits
+      # Matbench has no val split. 0.0 validates on (a copy of) the train split; > 0.0 holds out
+      # this fraction of the train split, chosen by a fixed seed, as a real validation set
+      val_holdout_fraction: 0.0
       # registry metadata
       id: 6
       type_label: 0 # periodic

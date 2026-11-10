@@ -157,3 +157,47 @@ User approved implementing the whole plan (§4 order), running what can run loca
   3. T2-2: `sbatch scripts/perlmutter/regular/smoke_lora_bandgap.sh <base.ckpt>`.
   4. T2-3: `bash tests/predeploy/gpu/t2_3_resume_smoke.sh <base.ckpt> <smoke job id>`.
   5. Only then the 18 h job. Decide I-13 (val = train split) before relying on best-ckpt selection.
+
+## Perlmutter results (session 4, 2026-11-08, login34/login12)
+- `m5008_g` GPU allocation exhausted (40000/40000 node-h), so sbatch is refused. With supervisor
+  approval, T2 ran on login12's single shared A100-PCIE-40GB (~29 GiB free; another user's process held 11 GiB).
+- Predeploy (`PRETRAINED_CKPT_PATH=checkpoints/zatom_1_l_joint_pretraining_paper_weights.ckpt`):
+  36 passed, 0 skipped, 7m13s; `.predeploy_ok` = 54598ec.
+- T2-1: bs=8 OOMs on 29 GiB, as expected. Measured with a `--batch-size` copy of the script
+  (multiplicity 8, pad 444, generative loss): bs1 6.1, bs2 11.5, bs4 22.3 GiB peak, linear at
+  0.7 + 5.4*bs. Extrapolated bs=8 is ~44 GiB, under the 70 GiB budget (80 GB A100). Not measured directly.
+  Logs: scripts/perlmutter/regular/logs/login12_t2_1_bs{1,2,4,8}.log.
+- T2-2 (1-GPU variant: no srun/DDP, bs=4, accum=4, 16 batches = 4 optimizer steps, same
+  overrides otherwise): PASS. W&B online run smokeyp9m83; `val_matbench/loss` logged; wrote 0-2, 0-4,
+  last and lora-bandgap-epoch@0-step@4.ckpt; trainer.test() loaded the lora-bandgap best ckpt. 393 s.
+- T2-3 (same run id/date): PASS. Restored all states from `0-4.ckpt`. Caveat: run 1 had finished its
+  only epoch, so the resumed run restored and ran val/test but trained no new steps.
+- NOT covered: 4-rank DDP/NCCL on GPU (T1-8 covers gloo on CPU), and direct peak memory at bs=8.
+- Observation: train/lengths_scaled_loss = 263 at step 4 (val 1.09), and T2-1 single-batch losses
+  ranged 85-1816. Large spikes in the lengths term; worth checking before the 18 h run.
+- T2-2 on GPU nodes (job 61064951, overrun QOS on m5008_g, 4x A100-80GB, bs=8, accum=16): PASS.
+  Waited 1.5 h in the queue, ran 4m49s. 4-rank DDP/NCCL trained 64 batches (4 optimizer steps) with no
+  unused-param error. Peak 47853 MiB/GPU (nvidia-smi, includes the CUDA context), matching the ~44 GiB
+  extrapolated allocation. trainer.test() used lora-bandgap-epoch@0-step@4.ckpt. W&B run smokekgxh8v.
+  4-GPU T2-3 not yet run; t2_3_resume_smoke.sh needs `-q overrun -A m5008_g --time-min` while m5008_g is empty.
+
+## Session 5 (2026-11-10, login10): lengths loss spikes and I-13
+- **Lengths loss spikes: investigated, not a bug, no code change.** Diagnostics are in docs/plans/diag/lengths_loss*.
+  - Data: matbench's scaled lengths have a heavier tail than MP20 (max per cell p99 14.6 vs 10.3,
+    max 47.7 vs 22.2; matbench up to 444 atoms vs MP20's 20).
+  - Pretrained model, before any LoRA update, 40 batches at bs=4: total loss 2.8-38.5. The x_1 length
+    error falls with t but stays heavy-tailed (median err2 0.014 at t>0.95, mean 0.12), and predictions
+    are less anisotropic than the true cells. Cells with max scaled length >10 have 9x the mean err2.
+    InverseTimeFactor (1/(1-t)^2, clamped to 100) multiplies these errors near t=1, so the top 1% of
+    samples carry ~33% of the weighted lengths loss.
+  - Ruled out: the randomly initialized BandGapEmbedder (it adds into the time conditioning). Zeroing
+    its output layer barely changes the error (mean err2 0.266 -> 0.261; t>0.86: 0.155 -> 0.139).
+  - Training, 40 optimizer steps (bs=2, accum=8): median loss flat (5.3/6.7/6.1/5.1 by quarter), spikes
+    up to 42 that come and go. No drift or instability. Gradient clipping (norm 0.5) bounds each spike.
+  - The smoke runs' 263 / 14.1 values are single micro-batches (train metrics log on_step only, and
+    log_every_n_steps=100 kept only the last). Consistent with one large cell drawn at high t.
+  - Ruling: leave the objective alone (it matches pretraining). Expect noisy per-step train/loss in W&B
+    and judge progress on val_matbench/loss.
+- **I-13 fixed:** `datasets.matbench.val_holdout_fraction` (default 0.0 = old behavior). lora_bandgap sets 0.05:
+  train 80646 / val 4244, zero overlap; previously 84890 / 84890 identical. Seeded with `holdout_split(seed=0)`,
+  so every rank and every resume sees the same split. Test: tests/predeploy/test_t1_splits.py.

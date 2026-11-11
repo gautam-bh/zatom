@@ -239,3 +239,7 @@ User approved implementing the whole plan (§4 order), running what can run loca
   (to within 0.1%) agree for all 106113 (train 84890, test 21223): 0 mismatches.
 - T2-4 rerun on f924c51 (login13): PASS. Preempted at step 23, resumed 0-23.ckpt, finished at step 300,
   timer 1741 s (cumulative).
+- T2-2 on GPU nodes, final code (job 61123395, 7a3801a, overrun on m5008_g, 4x A100-80GB, bs=8, accum=16,
+  Niggli data + held-out val + timed ckpts): PASS. Waited 43 min, ran 4m52s; peak 47853 MiB/GPU (unchanged).
+  Compared with job 61064951 (raw cells, val = train): val_matbench/loss 7.95 -> 4.99, val lengths
+  4.22 -> 1.38, test lengths 14.10 -> 1.90. W&B run smoke6orxh9.

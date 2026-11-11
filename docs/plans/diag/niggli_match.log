@@ -1,0 +1,19 @@
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/opt/conda/lib/python3.10/site-packages/pyxtal/molecule.py:5: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import resource_filename
+Type checking is disabled.
+Debugging is disabled.
+train: 10000/84890 checked, 0 mismatches
+train: 20000/84890 checked, 0 mismatches
+train: 30000/84890 checked, 0 mismatches
+train: 40000/84890 checked, 0 mismatches
+train: 50000/84890 checked, 0 mismatches
+train: 60000/84890 checked, 0 mismatches
+train: 70000/84890 checked, 0 mismatches
+train: 80000/84890 checked, 0 mismatches
+train: 84890 structures, 0 mismatches
+test: 10000/21223 checked, 0 mismatches
+test: 20000/21223 checked, 0 mismatches
+test: 21223 structures, 0 mismatches
+TOTAL: 106113 structures, 0 mismatches (listed in docs/plans/diag/niggli_match_mismatches.csv)

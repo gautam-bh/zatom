@@ -233,3 +233,9 @@ User approved implementing the whole plan (§4 order), running what can run loca
     (the restored file isn't in its own top-k list); resume still picks the newest.
   - The smoke script nulls train_time_interval, since its every_n_train_steps=2 override can't coexist
     with it. t2_3 takes T2_SBATCH_ARGS.
+- Niggli equivalence, exhaustive (docs/plans/diag/niggli_match.py): every matbench structure, rebuilt
+  from the `*_niggli.pt` processed data, matches its raw original under a strict StructureMatcher
+  (primitive_cell=False, attempt_supercell=False, scale=False). Atom count, composition and volume
+  (to within 0.1%) agree for all 106113 (train 84890, test 21223): 0 mismatches.
+- T2-4 rerun on f924c51 (login13): PASS. Preempted at step 23, resumed 0-23.ckpt, finished at step 300,
+  timer 1741 s (cumulative).

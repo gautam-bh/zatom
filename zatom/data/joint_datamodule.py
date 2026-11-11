@@ -633,18 +633,21 @@ class JointDataModule(LightningDataModule):
             load=self.hparams.datasets.matbench.proportion > 0.0,
             task_name=self.hparams.datasets.matbench.global_property,
             split="train",
+            niggli=self.hparams.datasets.matbench.get("niggli", False),
         )  # .shuffle()
         self.matbench_val_dataset = Matbench(
             root=self.hparams.datasets.matbench.root,
             load=self.hparams.datasets.matbench.proportion > 0.0,
             task_name=self.hparams.datasets.matbench.global_property,
             split="train",  # NOTE: Matbench does not have a val split, so use train split instead
+            niggli=self.hparams.datasets.matbench.get("niggli", False),
         )
         self.matbench_test_dataset = Matbench(
             root=self.hparams.datasets.matbench.root,
             load=self.hparams.datasets.matbench.proportion > 0.0,
             task_name=self.hparams.datasets.matbench.global_property,
             split="test",
+            niggli=self.hparams.datasets.matbench.get("niggli", False),
         )
         # # Save num_nodes histogram for sampling from generative models
         # num_nodes = torch.tensor(

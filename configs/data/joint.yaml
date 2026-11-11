@@ -63,6 +63,8 @@ datamodule:
       # Matbench has no val split. 0.0 validates on (a copy of) the train split; > 0.0 holds out
       # this fraction of the train split, chosen by a fixed seed, as a real validation set
       val_holdout_fraction: 0.0
+      # Niggli-reduce structures (as MP20 does). Off by default to keep existing processed files
+      niggli: false
       # registry metadata
       id: 6
       type_label: 0 # periodic

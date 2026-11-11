@@ -212,7 +212,22 @@ def build_crystal(crystal_str: str, niggli: bool = True, primitive: bool = False
         The constructed crystal structure.
     """
     crystal = Structure.from_str(crystal_str, fmt="cif")
+    return canonicalize_crystal(crystal, niggli=niggli, primitive=primitive)
 
+
+def canonicalize_crystal(
+    crystal: Structure, niggli: bool = True, primitive: bool = False
+) -> Structure:
+    """Optionally reduce a crystal, then rebuild it from its lattice params & frac coords.
+
+    Args:
+        crystal: The crystal structure.
+        niggli: Whether to apply Niggli reduction.
+        primitive: Whether to convert to primitive cell.
+
+    Returns:
+        The canonical crystal structure.
+    """
     if primitive:
         crystal = crystal.get_primitive_structure()
 

@@ -47,6 +47,11 @@ data:
         # the full train split: it cannot see overfitting, and it costs a forward pass over all
         # ~85k training structures every epoch.
         val_holdout_fraction: 0.05
+        # Niggli-reduce matbench cells, as MP20 (the pretraining data) is. Raw matbench cells
+        # break the a <= b <= c convention in ~25% of structures; those carried ~74% of the
+        # weighted lengths loss, and reducing them cut the mean batch loss 11.5 -> 6.7 on the
+        # pretrained model (docs/plans/diag/lengths_loss*).
+        niggli: true
 
 model:
   # Train the band gap *conditioned generator*: optimize the flow-matching losses. With the

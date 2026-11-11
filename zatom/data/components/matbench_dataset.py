@@ -9,6 +9,7 @@ from torch_geometric.data import Data, InMemoryDataset
 from tqdm import tqdm
 
 from zatom.data.components.preprocessing_utils import (
+    canonicalize_crystal,
     cart_to_frac_coords,
     lattice_matrix_to_params,
 )
@@ -108,6 +109,8 @@ class Matbench(InMemoryDataset):
         task_name: Name of the Matbench task to load.
         split: Data split to use ("train" or "test").
         fold_idx: Index of the training fold to use.
+        niggli: Whether to Niggli-reduce each structure (as MP20 does), so lattice lengths
+            follow the a <= b <= c convention the pretrained model was trained on.
         shift: Optional tensor by which to shift the target properties.
         scale: Optional tensor by which to scale the target properties.
         dataset_dir: Directory where the Matbench dataset is stored. If None, will download the dataset.
@@ -153,6 +156,7 @@ class Matbench(InMemoryDataset):
         shift: Optional[torch.Tensor] = None,
         scale: Optional[torch.Tensor] = None,
         dataset_dir: Optional[str] = None,
+        niggli: bool = False,
     ):
         assert (
             task_name in self.avail_tasks and "?" not in task_name
@@ -204,6 +208,7 @@ class Matbench(InMemoryDataset):
 
         self.split = split
         self.fold_idx = fold_idx
+        self.niggli = niggli
         self.shift = shift
         self.scale = scale
         self.data = self.all_folds[fold_idx][split]
@@ -225,7 +230,8 @@ class Matbench(InMemoryDataset):
     @property
     def processed_file_names(self) -> List[str]:
         """Return the list of processed file names."""
-        return [f"{self.mb_task}_{self.split}_{self.fold_idx}.pt"]
+        suffix = "_niggli" if self.niggli else ""
+        return [f"{self.mb_task}_{self.split}_{self.fold_idx}{suffix}.pt"]
 
     def download(self) -> None:
         """Download the dataset."""
@@ -284,6 +290,8 @@ class Matbench(InMemoryDataset):
             sample_name = self.data[idx]
 
             structure, target = self.load_sample(sample_name)
+            if self.niggli:
+                structure = canonicalize_crystal(structure, niggli=True)
             num_atoms = len(structure)
 
             # Prepare target values (properties)
@@ -356,12 +364,7 @@ class Matbench(InMemoryDataset):
 
             data_list.append(data)
 
-        self.save(
-            data_list,
-            os.path.join(
-                self.root, "processed", f"{self.mb_task}_{self.split}_{self.fold_idx}.pt"
-            ),
-        )
+        self.save(data_list, self.processed_paths[0])
 
     @typecheck
     def get(self, idx: int) -> Data:

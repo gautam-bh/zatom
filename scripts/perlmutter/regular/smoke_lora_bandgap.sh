@@ -148,6 +148,7 @@ bash -c "
     callbacks.model_checkpoint.dirpath=$CKPT_PATH \
     callbacks.last_model_checkpoint.dirpath=$CKPT_PATH \
     callbacks.last_model_checkpoint.every_n_train_steps=2 \
+    callbacks.last_model_checkpoint.train_time_interval=null \
     model/architecture=$ARCHITECTURE \
     date=$RUN_DATE \
     name=$RUN_NAME \

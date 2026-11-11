@@ -7,6 +7,9 @@
 #
 # Usage (repo root, Perlmutter login node):
 #   bash tests/predeploy/gpu/t2_3_resume_smoke.sh <pretrained_ckpt> <first_smoke_job_id>
+#
+# Extra sbatch flags go in T2_SBATCH_ARGS, e.g. while m5008_g has no hours:
+#   T2_SBATCH_ARGS="-q overrun -A m5008_g --time-min=00:30:00" bash tests/predeploy/gpu/t2_3_resume_smoke.sh ...
 set -euo pipefail
 
 PRETRAINED_CKPT_PATH=${1:?Usage: $0 <pretrained_ckpt> <first_smoke_job_id>}
@@ -19,7 +22,8 @@ RUN_DATE=$(grep -m1 '^Run date: ' "$FIRST_OUT" | cut -d' ' -f3)
 [ -n "$RUN_ID" ] && [ -n "$RUN_DATE" ] || { echo "Could not read run id/date from $FIRST_OUT"; exit 1; }
 echo "Resubmitting smoke run $RUN_ID ($RUN_DATE)"
 
-SECOND_JOB=$(sbatch --parsable --wait scripts/perlmutter/regular/smoke_lora_bandgap.sh \
+# shellcheck disable=SC2086
+SECOND_JOB=$(sbatch --parsable --wait ${T2_SBATCH_ARGS:-} scripts/perlmutter/regular/smoke_lora_bandgap.sh \
     "$PRETRAINED_CKPT_PATH" "$RUN_ID" "$RUN_DATE") || true
 SECOND_ERR="$LOG_DIR/lora_bandgap_smoke_${SECOND_JOB}.err"
 SECOND_OUT="$LOG_DIR/lora_bandgap_smoke_${SECOND_JOB}.out"

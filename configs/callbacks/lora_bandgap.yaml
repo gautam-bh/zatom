@@ -14,7 +14,16 @@ epoch_progress:
 last_model_checkpoint:
   dirpath: ${paths.output_dir}/checkpoints
   verbose: True
-  every_n_train_steps: 5000
+  # These `{epoch}-{step}.ckpt` files are what `train_fm.py` resumes a requeued (preempted
+  # or timed-out) job from, so they are written by wall time: a step count can't bound the
+  # training lost. 5000 steps never fired at all -- an epoch is only ~157 optimizer steps
+  # (~37 min on 4 A100s), so the whole 11-hour run is ~2700 steps. Keep the 2 newest
+  # (`monitor: global_step`, mode max); each is ~680 MB.
+  every_n_train_steps: null
+  train_time_interval:
+    _target_: datetime.timedelta
+    minutes: 20
+  save_top_k: 2
   # A crash checkpoint is named like a periodic one (`{epoch}-{step}.ckpt`), so `train_fm.py`
   # would resume the next submission from the crash state (job 56923536 wrote `0-1.ckpt`).
   # Preemption is handled by SLURM requeue, not by exception checkpoints.

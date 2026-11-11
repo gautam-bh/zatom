@@ -2,14 +2,18 @@
 
 ######################### Batch Headers #########################
 #SBATCH -C gpu&hbm80g                                          # request higher-memory (80G) GPU nodes
-#SBATCH --qos=regular                                          # standard (non-shared) full-node batch queue
+#SBATCH --qos=overrun                                          # free, lowest priority, preemptible after 2 h; for when m5008_g has no hours left (use `regular` otherwise)
 #SBATCH --image=registry.nersc.gov/dasrepo/acmwhb/zatom:0.0.1  # use specified container image
 #SBATCH --module=gpu,nccl-plugin                               # load GPU and optimized NCCL plugin modules
-#SBATCH --account=m5008                                        # use specified account for billing (e.g., `m5008_g` for AI4Science proposal, `dasrepo` for all else)
+#SBATCH --account=m5008_g                                      # GPU allocation; overrun is only open to a project whose balance is <= 0
 #SBATCH --nodes=1                                              # NOTE: this needs to match Lightning's `Trainer(num_nodes=...)`
 #SBATCH --gpus-per-node=4                                      # use all 4 A100 GPUs on the node
 #SBATCH --ntasks-per-node=4                                    # NOTE: this needs to match Lightning's `Trainer(devices=...)`
 #SBATCH --time=18:00:00                                        # wall-clock ceiling with slack; actual usage is capped at ~11 node-hours via `trainer.max_time` below
+#SBATCH --time-min=02:00:00                                    # required by overrun; SLURM may grant anything from this up to --time
+#SBATCH --requeue                                              # requeue (same job id) after preemption; see lora_bandgap_requeue.sh
+#SBATCH --signal=B:USR1@180                                    # warn the batch shell 3 min before the time limit, so it requeues itself
+#SBATCH --open-mode=append                                     # a requeued job reuses the job id; append instead of truncating its logs
 #SBATCH --job-name=lora-bandgap-tft160M
 #SBATCH --output=scripts/perlmutter/regular/logs/lora_bandgap_tft160M_%j.out
 #SBATCH --error=scripts/perlmutter/regular/logs/lora_bandgap_tft160M_%j.err
@@ -88,6 +92,14 @@ RUN_ID=${2:-$DEFAULT_RUN_ID}
 RUN_DATE=${3:-$DEFAULT_RUN_DATE}
 ARCHITECTURE=${4:-$DEFAULT_ARCHITECTURE}
 
+# A requeued job reruns this script from the top with fresh defaults above; restore the
+# first start's id and date so it resumes the same run (see lora_bandgap_requeue.sh).
+# NOTE: don't change the checkout while a run is queued or requeued: the pre-deploy gate
+# above refuses a different commit, which ends the run.
+source scripts/perlmutter/regular/lora_bandgap_requeue.sh
+RUN_STATE_FILE="/pscratch/sd/${USER:0:1}/$USER/zatom_run_state/lora_bandgap_${SLURM_JOB_ID}.env"
+load_or_save_run_identity "$RUN_STATE_FILE"
+
 TASK_NAME="finetune_fm"
 # NOTE: do NOT append $RUN_DATE here. Hydra's run dir is `${name}_${date}` (see
 # configs/hydra/default.yaml), so a dated `name` produced `..._<date>_<date>` run dirs
@@ -136,6 +148,8 @@ echo -e "\nExecuting script train_fm.py:\n======================================
 # Run script
 # NOTE: `trainer.max_time` is set to ~11 hours (well under the `#SBATCH --time` ceiling above)
 # so Lightning stops gracefully (saves a final checkpoint) instead of being hard-killed by SLURM.
+# It bounds the run's *total* training time across requeues: the `Timer` callback's elapsed
+# time is saved in every checkpoint and restored on resume (T2-4 checks this).
 #
 # NOTE: the batch size / grad-accumulation overrides below are required, not cosmetic.
 # `configs/experiment/lora_bandgap.yaml` overrides `/data: joint` but never overrides the
@@ -151,7 +165,7 @@ echo -e "\nExecuting script train_fm.py:\n======================================
 # 8 x 16 keeps the same effective batch of 4096 and the same 8 rotations per structure,
 # while cutting what any single forward pass has to hold to 64 graphs. Verified by
 # smoke_lora_bandgap.sh before this script is worth 18 hours.
-bash -c "
+run_with_timeout_requeue bash -c "
     unset NCCL_CROSS_NIC \
     && HYDRA_FULL_ERROR=1 WANDB_RESUME=allow WANDB_RUN_ID=$RUN_ID WANDB_MODE=$WANDB_MODE PYTHONUNBUFFERED=1 TORCH_HOME=$TORCH_HOME HF_HOME=$HF_HOME WANDB_CACHE_DIR=$WANDB_CACHE_DIR WANDB_ARTIFACT_DIR=$WANDB_ARTIFACT_DIR \
     srun --kill-on-bad-exit=1 shifter python zatom/train_fm.py \
@@ -173,7 +187,6 @@ bash -c "
     trainer.devices=$SLURM_NTASKS_PER_NODE \
     trainer.max_time='00:11:00:00'
 "
-TRAIN_STATUS=$?
 
 # pscratch has an 8-week purge policy. Copy the checkpoints worth keeping (model_checkpoint's
 # top-k + last.ckpt, not every periodic step checkpoint) to CFS. Non-fatal: the run's

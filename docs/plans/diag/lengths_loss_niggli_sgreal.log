@@ -1,0 +1,62 @@
+/opt/conda/lib/python3.10/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+Type checking is disabled.
+Debugging is disabled.
+batch   0 loss=   15.723  max tf*err2=     7.87
+batch   1 loss=    1.346  max tf*err2=     2.01
+batch   2 loss=    1.399  max tf*err2=     5.16
+batch   3 loss=    3.669  max tf*err2=    12.68
+batch   4 loss=    6.387  max tf*err2=     1.03
+batch   5 loss=   13.742  max tf*err2=    12.97
+batch   6 loss=   11.028  max tf*err2=     1.50
+batch   7 loss=   19.081  max tf*err2=    10.08
+batch   8 loss=    8.545  max tf*err2=     6.56
+batch   9 loss=   13.676  max tf*err2=     4.73
+batch  10 loss=    3.732  max tf*err2=     3.79
+batch  11 loss=    2.087  max tf*err2=     1.20
+batch  12 loss=    2.947  max tf*err2=     3.20
+batch  13 loss=    2.465  max tf*err2=     2.91
+batch  14 loss=    2.440  max tf*err2=     0.66
+batch  15 loss=    6.291  max tf*err2=    11.07
+batch  16 loss=   10.525  max tf*err2=     3.59
+batch  17 loss=    7.104  max tf*err2=     2.64
+batch  18 loss=    1.058  max tf*err2=     1.35
+batch  19 loss=    2.296  max tf*err2=     1.78
+batch  20 loss=    5.326  max tf*err2=     8.28
+batch  21 loss=    8.386  max tf*err2=     6.97
+batch  22 loss=   13.213  max tf*err2=     2.66
+batch  23 loss=    7.928  max tf*err2=    45.82
+batch  24 loss=   12.610  max tf*err2=     7.85
+batch  25 loss=    1.123  max tf*err2=     0.54
+batch  26 loss=    0.834  max tf*err2=     1.22
+batch  27 loss=    2.439  max tf*err2=     3.28
+batch  28 loss=    4.725  max tf*err2=     1.48
+batch  29 loss=    4.154  max tf*err2=     1.66
+batch  30 loss=    1.844  max tf*err2=     1.06
+batch  31 loss=    3.674  max tf*err2=     2.43
+batch  32 loss=   12.237  max tf*err2=     7.43
+batch  33 loss=   10.718  max tf*err2=    24.93
+batch  34 loss=   13.100  max tf*err2=    17.76
+batch  35 loss=   13.163  max tf*err2=     6.74
+batch  36 loss=    4.086  max tf*err2=     5.03
+batch  37 loss=    7.573  max tf*err2=    14.36
+batch  38 loss=    2.825  max tf*err2=     2.20
+batch  39 loss=    2.945  max tf*err2=     3.70
+
+640 samples (incl. multiplicity copies). Sum tf*err2 = 895.1
+top 1% of samples carry 15.2% of the weighted lengths loss
+top 10 by tf*err2:
+  t=0.101 tf=   1.2 err2=  37.038 true=[1.48, 1.48, 16.77] pred=[1.91, 2.27, 6.27]
+  t=0.900 tf=  99.8 err2=   0.250 true=[1.06, 2.07, 7.15] pred=[1.5, 1.75, 6.48]
+  t=0.992 tf= 100.0 err2=   0.178 true=[2.33, 2.33, 3.28] pred=[2.06, 2.14, 2.63]
+  t=0.983 tf= 100.0 err2=   0.167 true=[2.33, 2.33, 3.28] pred=[2.06, 2.13, 2.65]
+  t=0.442 tf=   3.2 err2=   5.097 true=[1.06, 2.07, 7.15] pred=[2.02, 2.13, 3.36]
+  t=0.906 tf= 100.0 err2=   0.144 true=[1.8, 2.05, 3.67] pred=[1.84, 2.06, 3.01]
+  t=0.973 tf= 100.0 err2=   0.130 true=[1.95, 1.95, 4.02] pred=[1.82, 1.88, 3.42]
+  t=0.783 tf=  21.2 err2=   0.597 true=[1.39, 1.97, 4.94] pred=[2.05, 2.06, 3.77]
+  t=0.346 tf=   2.3 err2=   5.308 true=[1.06, 2.07, 7.15] pred=[2.06, 2.18, 3.29]
+  t=0.940 tf= 100.0 err2=   0.121 true=[1.06, 2.07, 7.15] pred=[1.47, 1.68, 6.92]
+true max len > 10: n=8 mean err2=4.638 mean weighted=6.07
+true max len <=10: n=632 mean err2=0.172 mean weighted=1.34
+tf>=50 (t>~0.86): n=144 mean err2=0.032 mean weighted=2.82
+wrote docs/plans/diag/lengths_loss_niggli_sgreal.csv

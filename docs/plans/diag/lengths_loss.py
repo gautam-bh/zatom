@@ -9,6 +9,13 @@ Usage (repo root, GPU):
     shifter --image=registry.nersc.gov/dasrepo/acmwhb/zatom:0.0.1 --env=PROJECT_ROOT=$PWD \
         python docs/plans/diag/lengths_loss.py <pretrained.ckpt> [n_batches] [batch_size]
 
+Extra Hydra overrides can be passed space-separated in DIAG_OVERRIDES (e.g.
+`data.datamodule.datasets.matbench.niggli=true`); DIAG_TAG names the output CSV.
+
+SPACEGROUP=null relabels every structure with the space group embedder's null class (0);
+SPACEGROUP=real computes each structure's space group with spglib (symprec 0.1), as MP20
+carries. Matbench's processed data hard-codes 1 (P1).
+
 Set ZERO_BG_EMBED=1 to zero the band gap embedder's output layer (the model is then exactly
 the pretrained one). Both variants use seed 0, so they see the same batches and t draws.
 """
@@ -56,6 +63,25 @@ def recording_compute_loss(self, path, pred, *args, **kwargs):
 interpolants.SDEMetricInterpolant.compute_loss = recording_compute_loss
 
 
+def relabel_spacegroups(batch, mode):
+    """Replace matbench's dummy space group (1) per `mode`: "null" (0) or "real" (spglib)."""
+    if mode == "null":
+        batch.spacegroup = torch.zeros_like(batch.spacegroup)
+    elif mode == "real":
+        from pymatgen.core import Lattice, Structure
+        from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
+
+        labels = []
+        for i in range(batch.num_graphs):
+            g = batch.get_example(i)
+            structure = Structure(
+                Lattice(g.cell.reshape(3, 3).numpy()), g.atom_types.tolist(), g.frac_coords.numpy()
+            )
+            labels.append(SpacegroupAnalyzer(structure, symprec=0.1).get_space_group_number())
+        batch.spacegroup = torch.tensor(labels, dtype=batch.spacegroup.dtype)
+    return batch
+
+
 def main():
     import hydra
 
@@ -70,7 +96,8 @@ def main():
     ]
     cfg = compose_cfg(
         [*overrides, "~logger", "data.datamodule.num_workers.train=0", "model.compile=false",
-         f"data.datamodule.batch_size.train={BS}"],
+         f"data.datamodule.batch_size.train={BS}",
+         *os.environ.get("DIAG_OVERRIDES", "").split()],
         tiny=False, cpu=False,
     )
     datamodule = hydra.utils.instantiate(cfg.data.datamodule, _recursive_=False)
@@ -98,13 +125,14 @@ def main():
     with torch.no_grad():
         for b in range(N_BATCHES):
             n0 = len(ROWS)
-            batch = next(it).cuda()
+            batch = relabel_spacegroups(next(it), os.environ.get("SPACEGROUP", "")).cuda()
             loss = model.training_step(batch, b)
             rows = ROWS[n0:]
             batch_losses.append((loss.item(), max(r["weighted"] for r in rows)))
             print(f"batch {b:3d} loss={loss.item():9.3f}  max tf*err2={batch_losses[-1][1]:9.2f}", flush=True)
 
-    out = "docs/plans/diag/lengths_loss" + ("_zero_embed" if zero_embed else "") + ".csv"
+    tag = os.environ.get("DIAG_TAG", "zero_embed" if zero_embed else "")
+    out = "docs/plans/diag/lengths_loss" + (f"_{tag}" if tag else "") + ".csv"
     with open(out, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(ROWS[0]))
         w.writeheader()

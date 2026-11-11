@@ -201,3 +201,35 @@ User approved implementing the whole plan (§4 order), running what can run loca
 - **I-13 fixed:** `datasets.matbench.val_holdout_fraction` (default 0.0 = old behavior). lora_bandgap sets 0.05:
   train 80646 / val 4244, zero overlap; previously 84890 / 84890 identical. Seeded with `holdout_split(seed=0)`,
   so every rank and every resume sees the same split. Test: tests/predeploy/test_t1_splits.py.
+
+## Session 5b (2026-11-10): ROOT CAUSE of the lengths loss blowup, plus preemption safety
+- **Supersedes the "not a bug, no code change" ruling above.** Root cause: MP20 (the pretraining data)
+  is Niggli-reduced (`build_crystal(niggli=True)`), but matbench structures went in raw. Cells with
+  a <= b <= c: MP20 99.9%, matbench 74.6%. The model learned the convention: on unsorted cells it predicts
+  sorted, near-isotropic lengths even at t~0.95. Diagnostic (pretrained model, same seed/batches):
+  unsorted cells are ~27% of samples but ~74% of the weighted lengths loss (7.5x per sample, and 11.5x
+  err2 at t>0.9).
+- Fix: `canonicalize_crystal` (factored out of MP20's `build_crystal`) plus `Matbench(niggli=...)`,
+  `datasets.matbench.niggli` (default false; processed file `*_niggli.pt`); lora_bandgap sets true.
+  Same-seed forward diag: mean batch loss 11.5 -> 6.7, max 61 -> 19; lengths err2 at t>0.9 0.134 -> 0.029.
+  40-step training (bs2, accum8): max train loss 58.8 -> 13.3, lengths max 50.8 -> 3.8, held-out val loss
+  10.8 -> 3.4 (lengths 6.8 -> 1.0, angles 1.12 -> 0.30). Tests: tests/predeploy/test_t1_niggli.py.
+- Ruled out (diag): random BandGapEmbedder init (zeroing it barely changes the error); the dummy
+  matbench spacegroup=1 (`conditioning.spacegroup: false` in the checkpoint and here, so the label is
+  zeroed before the embedder; null and spglib labels gave identical losses). The dataset embedder is
+  keyed by periodic/non-periodic, same row as MP20.
+- Residual: cells with max scaled length >10 (~1% of samples) still have high err2 (4.6). This is the
+  heavy tail matbench has and MP20 lacks; left alone.
+- **Preemption safety for overrun** (tests/predeploy/test_t0_preempt.py, gpu/t2_4_preempt_resume.py):
+  - last_model_checkpoint is now time-based (20 min, keep 2 newest). The old every_n_train_steps=5000
+    never fired: an epoch is ~157 optimizer steps (~37 min), so the whole run is ~2700 steps.
+  - Launcher: overrun on m5008_g, --time-min=02:00:00, --requeue, --signal=B:USR1@180 (self-requeue
+    before the time limit, which SLURM never requeues), --open-mode=append. The run id and date persist
+    in /pscratch/.../zatom_run_state/lora_bandgap_<jobid>.env, so a requeued job resumes the same run.
+    Helpers live in scripts/perlmutter/regular/lora_bandgap_requeue.sh.
+  - T2-4 (login GPU, emulated SIGTERM preemption): PASS. Resumed 0-48.ckpt and trained to step 300.
+    The Timer is cumulative (Lightning restores `_offset`; 777 s vs 635 s for run 2 alone), so max_time
+    bounds total training across requeues. Known, harmless: each preemption leaves one extra step ckpt
+    (the restored file isn't in its own top-k list); resume still picks the newest.
+  - The smoke script nulls train_time_interval, since its every_n_train_steps=2 override can't coexist
+    with it. t2_3 takes T2_SBATCH_ARGS.
